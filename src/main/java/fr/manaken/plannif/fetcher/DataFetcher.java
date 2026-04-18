@@ -2,9 +2,11 @@ package fr.manaken.plannif.fetcher;
 
 import fr.manaken.plannif.model.Eleve;
 import fr.manaken.plannif.model.Professeur;
+import fr.manaken.plannif.model.Salle;
 import fr.manaken.plannif.model.Seance;
 import fr.manaken.plannif.repository.EleveRepository;
 import fr.manaken.plannif.repository.ProfesseurRepository;
+import fr.manaken.plannif.repository.SalleRepository;
 import fr.manaken.plannif.repository.SeanceRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +18,14 @@ public class DataFetcher {
     private final ProfesseurRepository professeurRepository;
     private final SeanceRepository seanceRepository;
     private final EleveRepository eleveRepository;
+    private final SalleRepository salleRepository;
 
     public DataFetcher(ProfesseurRepository professeurRepository, SeanceRepository seanceRepository,
-            EleveRepository eleveRepository) {
+            EleveRepository eleveRepository, SalleRepository salleRepository) {
         this.professeurRepository = professeurRepository;
         this.seanceRepository = seanceRepository;
         this.eleveRepository = eleveRepository;
+        this.salleRepository = salleRepository;
     }
 
     public List<Professeur> getProfesseurs() {
@@ -39,5 +43,14 @@ public class DataFetcher {
     @SuppressWarnings("null")
     public Professeur getProfesseur(Integer id) {
         return professeurRepository.getReferenceById(id);
+    }
+
+    public List<Salle> getSalles() {
+        return salleRepository.findAll();
+    }
+
+    @SuppressWarnings("null")
+    public Salle getSalle(Integer id) {
+        return salleRepository.getReferenceById(id);
     }
 }
