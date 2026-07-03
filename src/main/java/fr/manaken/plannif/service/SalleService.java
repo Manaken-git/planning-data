@@ -37,4 +37,8 @@ public class SalleService {
         mapper.mergeWDTO(sBDD, s);
         return mapper.toDto(dataPusher.saveSalle(sBDD));
     }
+
+    public void deleteSalle(Long id) {
+        dataPusher.deleteSalle(Math.toIntExact(id));
+    }
 }

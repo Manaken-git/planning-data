@@ -2,6 +2,7 @@ package fr.manaken.plannif.controller;
 
 import fr.manaken.plannif.dto.SalleDTO;
 import fr.manaken.plannif.service.SalleService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,5 +24,16 @@ public class SalleController {
     @PostMapping("/create")
     public SalleDTO createSalle(@RequestBody SalleDTO s) {
         return salleService.saveSalle(s);
+    }
+
+    @PutMapping("/update")
+    public SalleDTO updateSalle(@RequestBody SalleDTO s) {
+        return salleService.saveSalle(s);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteSalle(@PathVariable Long id) {
+        salleService.deleteSalle(id);
     }
 }

@@ -31,8 +31,14 @@ public class ProfesseurService {
         Professeur pBDD = null;
         if (p.id() != null) {
             pBDD = dataFetcher.getProfesseur(Math.toIntExact(p.id()));
+        } else {
+            pBDD = new Professeur();
         }
         mapper.mergeWDTO(pBDD, p);
         return mapper.toDto(dataPusher.saveProfesseur(pBDD));
+    }
+
+    public void deleteProfesseur(Long id) {
+        dataPusher.deleteProfesseur(Math.toIntExact(id));
     }
 }

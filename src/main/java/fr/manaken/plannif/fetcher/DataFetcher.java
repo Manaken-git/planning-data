@@ -1,10 +1,14 @@
 package fr.manaken.plannif.fetcher;
 
+import fr.manaken.plannif.model.Classe;
 import fr.manaken.plannif.model.Eleve;
+import fr.manaken.plannif.model.Matiere;
 import fr.manaken.plannif.model.Professeur;
 import fr.manaken.plannif.model.Salle;
 import fr.manaken.plannif.model.Seance;
+import fr.manaken.plannif.repository.ClasseRepository;
 import fr.manaken.plannif.repository.EleveRepository;
+import fr.manaken.plannif.repository.MatiereRepository;
 import fr.manaken.plannif.repository.ProfesseurRepository;
 import fr.manaken.plannif.repository.SalleRepository;
 import fr.manaken.plannif.repository.SeanceRepository;
@@ -19,25 +23,23 @@ public class DataFetcher {
     private final SeanceRepository seanceRepository;
     private final EleveRepository eleveRepository;
     private final SalleRepository salleRepository;
+    private final ClasseRepository classeRepository;
+    private final MatiereRepository matiereRepository;
 
     public DataFetcher(ProfesseurRepository professeurRepository, SeanceRepository seanceRepository,
-            EleveRepository eleveRepository, SalleRepository salleRepository) {
+            EleveRepository eleveRepository, SalleRepository salleRepository,
+            ClasseRepository classeRepository, MatiereRepository matiereRepository) {
         this.professeurRepository = professeurRepository;
         this.seanceRepository = seanceRepository;
         this.eleveRepository = eleveRepository;
         this.salleRepository = salleRepository;
+        this.classeRepository = classeRepository;
+        this.matiereRepository = matiereRepository;
     }
 
+    // --- Professeur ---
     public List<Professeur> getProfesseurs() {
         return professeurRepository.findAll();
-    }
-
-    public List<Seance> getSeances() {
-        return seanceRepository.findAll();
-    }
-
-    public List<Eleve> getElevesByClasse(Long idClasse) {
-        return eleveRepository.findByClasseId(idClasse);
     }
 
     @SuppressWarnings("null")
@@ -45,6 +47,7 @@ public class DataFetcher {
         return professeurRepository.getReferenceById(id);
     }
 
+    // --- Salle ---
     public List<Salle> getSalles() {
         return salleRepository.findAll();
     }
@@ -53,4 +56,49 @@ public class DataFetcher {
     public Salle getSalle(Integer id) {
         return salleRepository.getReferenceById(id);
     }
+
+    // --- Classe ---
+    public List<Classe> getClasses() {
+        return classeRepository.findAll();
+    }
+
+    @SuppressWarnings("null")
+    public Classe getClasse(Integer id) {
+        return classeRepository.getReferenceById(id);
+    }
+
+    // --- Matiere ---
+    public List<Matiere> getMatieres() {
+        return matiereRepository.findAll();
+    }
+
+    @SuppressWarnings("null")
+    public Matiere getMatiere(Integer id) {
+        return matiereRepository.getReferenceById(id);
+    }
+
+    // --- Eleve ---
+    public List<Eleve> getElevesByClasse(Long idClasse) {
+        return eleveRepository.findByClasseId(idClasse);
+    }
+
+    public List<Eleve> getAllEleves() {
+        return eleveRepository.findAll();
+    }
+
+    @SuppressWarnings("null")
+    public Eleve getEleve(Integer id) {
+        return eleveRepository.getReferenceById(id);
+    }
+
+    // --- Seance ---
+    public List<Seance> getSeances() {
+        return seanceRepository.findAll();
+    }
+
+    @SuppressWarnings("null")
+    public Seance getSeance(Integer id) {
+        return seanceRepository.getReferenceById(id);
+    }
 }
+
