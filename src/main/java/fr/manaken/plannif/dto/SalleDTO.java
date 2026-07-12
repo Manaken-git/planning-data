@@ -1,3 +1,7 @@
 package fr.manaken.plannif.dto;
 
-public record SalleDTO(Long id, String code, Integer capacite, String type) {}
+import fr.manaken.plannif.model.Seance;
+
+import java.util.Set;
+
+public record SalleDTO(Long id, String code, Integer capacite, String type, Set<Seance> seances) {}

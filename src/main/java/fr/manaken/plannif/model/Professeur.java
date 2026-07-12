@@ -6,7 +6,9 @@ import lombok.Setter;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,7 +30,7 @@ public class Professeur {
     private BigDecimal maxHeuresParSemaine;
     private BigDecimal maxHeuresParSeance;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "plage_horaire_preferee_id", referencedColumnName = "id")
     private PlageHoraire plageHorairePreferee; // Nouveau champ
 
@@ -36,7 +38,7 @@ public class Professeur {
     private Set<Seance> seances = new HashSet<>();
 
     @OneToMany(mappedBy = "professeur", fetch = FetchType.EAGER)
-    private java.util.List<ProfesseurDayOff> daysOff = new java.util.ArrayList<>();
+    private List<ProfesseurDayOff> daysOff = new ArrayList<>();
 
     @ManyToMany
     @JoinTable(

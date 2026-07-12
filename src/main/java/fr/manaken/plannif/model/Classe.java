@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.EqualsAndHashCode;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -28,5 +29,5 @@ public class Classe {
     private Set<Eleve> eleves = new HashSet<>();
 
     @OneToMany(mappedBy = "classe")
-    private java.util.List<ClassePresence> presences = new java.util.ArrayList<>();
+    private List<ClassePresence> presences = new java.util.ArrayList<>();
 }

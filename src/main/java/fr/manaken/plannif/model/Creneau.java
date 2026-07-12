@@ -1,9 +1,6 @@
 package fr.manaken.plannif.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
@@ -12,6 +9,7 @@ import java.time.LocalDateTime;
 
 @Getter
 @Setter
+@Table(name = "t_creneau")
 @Entity
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Creneau {
