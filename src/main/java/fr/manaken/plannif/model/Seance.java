@@ -22,7 +22,6 @@ public class Seance {
 
     @ManyToOne
     @JoinColumn(name = "professeur_id")
-    
     private Professeur professeur;
 
     @ManyToOne
@@ -38,9 +37,8 @@ public class Seance {
     
     private Salle salle;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "creneau_id")
-    
     private Creneau creneau;
 
     @Enumerated(EnumType.STRING)

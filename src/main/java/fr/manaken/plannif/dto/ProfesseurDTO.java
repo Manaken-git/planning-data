@@ -1,8 +1,5 @@
 package fr.manaken.plannif.dto;
 
-import fr.manaken.plannif.model.Matiere;
-import fr.manaken.plannif.model.ProfesseurDayOff;
-
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Set;
@@ -18,5 +15,5 @@ public record ProfesseurDTO(
     BigDecimal maxHeuresParSeance,
     PlageHoraireDTO plageHorairePreferee,
     Set<SeanceDTO> seances,
-    List<ProfesseurDayOff> daysOff,
-    Set<Matiere> matieres) {}
+    List<ProfesseurDayOffDTO> daysOff,
+    Set<MatiereDTO> matieres) {}
