@@ -43,7 +43,7 @@ class ProfesseurServiceTest {
         professeur.setNom("Doe");
         professeur.setPrenom("John");
 
-        professeurDTO = new ProfesseurDTO(1L, "Doe", "John", "john.doe@example.com", null, null, null);
+        professeurDTO = new ProfesseurDTO(1L, "Doe", "John", "john.doe@example.com", null, null, null, null, null, null, null, null);
     }
 
     @Test
@@ -65,14 +65,14 @@ class ProfesseurServiceTest {
     @Test
     void shouldSaveNewProfesseur() {
         // Given
-        ProfesseurDTO newProfDTO = new ProfesseurDTO(null, "Smith", "Jane", "jane.smith@example.com", null, null, null);
+        ProfesseurDTO newProfDTO = new ProfesseurDTO(null, "Smith", "Jane", "jane.smith@example.com", null, null, null, null, null, null, null, null);
         Professeur savedProf = new Professeur();
         savedProf.setId(2L);
         savedProf.setNom("Smith");
 
         when(dataPusher.saveProfesseur(any())).thenReturn(savedProf);
         when(mapper.toDto(savedProf))
-                .thenReturn(new ProfesseurDTO(2L, "Smith", "Jane", "jane.smith@example.com", null, null, null));
+                .thenReturn(new ProfesseurDTO(2L, "Smith", "Jane", "jane.smith@example.com", null, null, null, null, null, null, null, null));
 
         // When
         ProfesseurDTO result = professeurService.saveProfesseur(newProfDTO);
@@ -80,7 +80,7 @@ class ProfesseurServiceTest {
         // Then
         assertThat(result.id()).isEqualTo(2L);
         verify(dataPusher).saveProfesseur(any());
-        verify(mapper).mergeWDTO(eq(null), eq(newProfDTO));
+        verify(mapper).mergeWDTO(any(), eq(newProfDTO));
     }
 
     @Test

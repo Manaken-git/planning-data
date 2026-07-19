@@ -23,6 +23,20 @@ spring:
     change-log: classpath:db/changelog/db.changelog-master.yaml
 server:
   port: 8081
+  servlet:
+    context-path: /planning-data
 
 logging:
   liquibase.ui: TRACE
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: method
+    tags-sorter: alpha
+    doc-expansion: list
+    filter: true
+    try-it-out-enabled: true
+    display-request-duration: true
+  api-docs:
+    path: /v3/api-docs
