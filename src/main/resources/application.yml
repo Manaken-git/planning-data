@@ -27,7 +27,10 @@ server:
     context-path: /planning-data
 
 logging:
-  liquibase.ui: TRACE
+  level:
+    root: INFO
+    liquibase: DEBUG
+    org.liquibase: DEBUG
 
 springdoc:
   swagger-ui:

@@ -1,12 +1,14 @@
 package fr.manaken.plannif.fetcher;
 
 import fr.manaken.plannif.model.Classe;
+import fr.manaken.plannif.model.Creneau;
 import fr.manaken.plannif.model.Eleve;
 import fr.manaken.plannif.model.Matiere;
 import fr.manaken.plannif.model.Professeur;
 import fr.manaken.plannif.model.Salle;
 import fr.manaken.plannif.model.Seance;
 import fr.manaken.plannif.repository.ClasseRepository;
+import fr.manaken.plannif.repository.CreneauRepository;
 import fr.manaken.plannif.repository.EleveRepository;
 import fr.manaken.plannif.repository.MatiereRepository;
 import fr.manaken.plannif.repository.ProfesseurRepository;
@@ -25,16 +27,19 @@ public class DataFetcher {
     private final SalleRepository salleRepository;
     private final ClasseRepository classeRepository;
     private final MatiereRepository matiereRepository;
+    private final CreneauRepository creneauRepository;
 
     public DataFetcher(ProfesseurRepository professeurRepository, SeanceRepository seanceRepository,
             EleveRepository eleveRepository, SalleRepository salleRepository,
-            ClasseRepository classeRepository, MatiereRepository matiereRepository) {
+            ClasseRepository classeRepository, MatiereRepository matiereRepository,
+            CreneauRepository creneauRepository) {
         this.professeurRepository = professeurRepository;
         this.seanceRepository = seanceRepository;
         this.eleveRepository = eleveRepository;
         this.salleRepository = salleRepository;
         this.classeRepository = classeRepository;
         this.matiereRepository = matiereRepository;
+        this.creneauRepository = creneauRepository;
     }
 
     // --- Professeur ---
@@ -99,6 +104,16 @@ public class DataFetcher {
     @SuppressWarnings("null")
     public Seance getSeance(Integer id) {
         return seanceRepository.getReferenceById(id);
+    }
+
+    // --- Creneau ---
+    public List<Creneau> getCreneaux() {
+        return creneauRepository.findAll();
+    }
+
+    @SuppressWarnings("null")
+    public Creneau getCreneau(Integer id) {
+        return creneauRepository.getReferenceById(id);
     }
 }
 

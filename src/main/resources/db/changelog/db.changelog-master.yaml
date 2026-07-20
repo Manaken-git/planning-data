@@ -504,3 +504,28 @@ databaseChangeLog:
               - column:
                   name: date_fin
                   type: DATE
+  - changeSet:
+      id: 24
+      author: manaken
+      changes:
+        - modifyDataType:
+            tableName: t_creneau
+            columnName: debut
+            newDataType: TIME
+        - modifyDataType:
+            tableName: t_creneau
+            columnName: fin
+            newDataType: TIME
+  - changeSet:
+      id: 25
+      author: manaken
+      changes:
+        - addColumn:
+            tableName: seance
+            columns:
+              - column:
+                  name: debut
+                  type: DATETIME
+              - column:
+                  name: fin
+                  type: DATETIME

@@ -2,6 +2,7 @@ package fr.manaken.plannif.model;
 
 
 
+import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,9 @@ public class Seance {
     
     @EqualsAndHashCode.Include
     private Long id;
+
+    private LocalDateTime debut;
+    private LocalDateTime fin;
 
     @ManyToOne
     @JoinColumn(name = "professeur_id")

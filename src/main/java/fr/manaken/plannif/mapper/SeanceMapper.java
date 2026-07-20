@@ -12,8 +12,8 @@ public interface SeanceMapper {
     @Mapping(target = "classeNom", source = "classe.nom")
     @Mapping(target = "matiereNom", source = "matiere.nom")
     @Mapping(target = "salleCode", source = "salle.code")
-    @Mapping(target = "debut", source = "creneau.debut")
-    @Mapping(target = "fin", source = "creneau.fin")
+    @Mapping(target = "debut", source = "debut")
+    @Mapping(target = "fin", source = "fin")
     SeanceDTO toDto(Seance seance);
 
     @Mapping(target = "professeur", ignore = true)
@@ -21,8 +21,9 @@ public interface SeanceMapper {
     @Mapping(target = "matiere", ignore = true)
     @Mapping(target = "salle", ignore = true)
     @Mapping(target = "type", ignore = true)
-    @Mapping(target = "creneau.debut", source = "debut")
-    @Mapping(target = "creneau.fin", source = "fin")
+    @Mapping(target = "creneau", ignore = true)
+    @Mapping(target = "debut", source = "debut")
+    @Mapping(target = "fin", source = "fin")
     Seance toEntity(SeanceDTO seanceDTO);
 
 }

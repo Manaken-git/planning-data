@@ -40,15 +40,9 @@ public class SeanceService {
         } else {
             entity = new Seance();
         }
-        mapper.toEntity(dto); // remplit creneau.debut / creneau.fin
-        // On réutilise toEntity pour le mapping de base puis on ré-affecte les relations
         Seance mapped = mapper.toEntity(dto);
-        if (entity.getCreneau() == null) {
-            entity.setCreneau(mapped.getCreneau());
-        } else {
-            entity.getCreneau().setDebut(mapped.getCreneau().getDebut());
-            entity.getCreneau().setFin(mapped.getCreneau().getFin());
-        }
+        entity.setDebut(mapped.getDebut());
+        entity.setFin(mapped.getFin());
         if (professeurId != null) entity.setProfesseur(dataFetcher.getProfesseur(Math.toIntExact(professeurId)));
         if (classeId != null)     entity.setClasse(dataFetcher.getClasse(Math.toIntExact(classeId)));
         if (matiereId != null)    entity.setMatiere(dataFetcher.getMatiere(Math.toIntExact(matiereId)));
