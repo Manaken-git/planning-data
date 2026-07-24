@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,7 +18,7 @@ public class Creneau {
     @EqualsAndHashCode.Include
     private Long id;
 
-    private LocalTime debut;
-    private LocalTime fin;
+    private LocalDateTime debut;
+    private LocalDateTime fin;
 
 }

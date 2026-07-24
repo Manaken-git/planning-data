@@ -7,7 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring", uses = { SeanceMapper.class })
+@Mapper(componentModel = "spring", uses = { SeanceMapper.class, PlageHoraireMapper.class, MatiereMapper.class })
 public interface ProfesseurMapper {
 
     ProfesseurDTO toDto(Professeur professeur);

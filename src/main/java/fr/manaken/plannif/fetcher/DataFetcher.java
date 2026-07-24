@@ -14,6 +14,8 @@ import fr.manaken.plannif.repository.MatiereRepository;
 import fr.manaken.plannif.repository.ProfesseurRepository;
 import fr.manaken.plannif.repository.SalleRepository;
 import fr.manaken.plannif.repository.SeanceRepository;
+import fr.manaken.plannif.repository.MatiereClasseConfigRepository;
+import fr.manaken.plannif.model.MatiereClasseConfig;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,11 +30,13 @@ public class DataFetcher {
     private final ClasseRepository classeRepository;
     private final MatiereRepository matiereRepository;
     private final CreneauRepository creneauRepository;
+    private final MatiereClasseConfigRepository matiereClasseConfigRepository;
 
     public DataFetcher(ProfesseurRepository professeurRepository, SeanceRepository seanceRepository,
             EleveRepository eleveRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
-            CreneauRepository creneauRepository) {
+            CreneauRepository creneauRepository,
+            MatiereClasseConfigRepository matiereClasseConfigRepository) {
         this.professeurRepository = professeurRepository;
         this.seanceRepository = seanceRepository;
         this.eleveRepository = eleveRepository;
@@ -40,6 +44,7 @@ public class DataFetcher {
         this.classeRepository = classeRepository;
         this.matiereRepository = matiereRepository;
         this.creneauRepository = creneauRepository;
+        this.matiereClasseConfigRepository = matiereClasseConfigRepository;
     }
 
     // --- Professeur ---
@@ -114,6 +119,16 @@ public class DataFetcher {
     @SuppressWarnings("null")
     public Creneau getCreneau(Integer id) {
         return creneauRepository.getReferenceById(id);
+    }
+
+    // --- MatiereClasseConfig ---
+    public List<MatiereClasseConfig> getMatiereClasseConfigs() {
+        return matiereClasseConfigRepository.findAll();
+    }
+
+    @SuppressWarnings("null")
+    public MatiereClasseConfig getMatiereClasseConfig(Integer id) {
+        return matiereClasseConfigRepository.getReferenceById(id);
     }
 }
 

@@ -529,3 +529,16 @@ databaseChangeLog:
               - column:
                   name: fin
                   type: DATETIME
+
+  - changeSet:
+      id: 26
+      author: manaken
+      changes:
+        - modifyDataType:
+            tableName: t_creneau
+            columnName: debut
+            newDataType: DATETIME
+        - modifyDataType:
+            tableName: t_creneau
+            columnName: fin
+            newDataType: DATETIME

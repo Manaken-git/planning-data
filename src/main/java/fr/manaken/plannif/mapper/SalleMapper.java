@@ -4,7 +4,7 @@ import fr.manaken.plannif.dto.SalleDTO;
 import fr.manaken.plannif.model.Salle;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { SeanceMapper.class })
 public interface SalleMapper {
     SalleDTO toDto(Salle entity);
 

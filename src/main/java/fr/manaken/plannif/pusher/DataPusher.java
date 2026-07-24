@@ -14,6 +14,8 @@ import fr.manaken.plannif.repository.MatiereRepository;
 import fr.manaken.plannif.repository.ProfesseurRepository;
 import fr.manaken.plannif.repository.SalleRepository;
 import fr.manaken.plannif.repository.SeanceRepository;
+import fr.manaken.plannif.repository.MatiereClasseConfigRepository;
+import fr.manaken.plannif.model.MatiereClasseConfig;
 import lombok.NonNull;
 
 import org.springframework.stereotype.Service;
@@ -27,11 +29,13 @@ public class DataPusher {
     private final EleveRepository eleveRepository;
     private final SeanceRepository seanceRepository;
     private final CreneauRepository creneauRepository;
+    private final MatiereClasseConfigRepository matiereClasseConfigRepository;
 
     public DataPusher(ProfesseurRepository professeurRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
             EleveRepository eleveRepository, SeanceRepository seanceRepository,
-            CreneauRepository creneauRepository) {
+            CreneauRepository creneauRepository,
+            MatiereClasseConfigRepository matiereClasseConfigRepository) {
         this.professeurRepository = professeurRepository;
         this.salleRepository = salleRepository;
         this.classeRepository = classeRepository;
@@ -39,6 +43,7 @@ public class DataPusher {
         this.eleveRepository = eleveRepository;
         this.seanceRepository = seanceRepository;
         this.creneauRepository = creneauRepository;
+        this.matiereClasseConfigRepository = matiereClasseConfigRepository;
     }
 
     // --- Professeur ---
@@ -102,5 +107,14 @@ public class DataPusher {
 
     public void deleteCreneau(@NonNull Integer id) {
         creneauRepository.deleteById(id);
+    }
+
+    // --- MatiereClasseConfig ---
+    public MatiereClasseConfig saveMatiereClasseConfig(@NonNull MatiereClasseConfig c) {
+        return matiereClasseConfigRepository.save(c);
+    }
+
+    public void deleteMatiereClasseConfig(@NonNull Integer id) {
+        matiereClasseConfigRepository.deleteById(id);
     }
 }

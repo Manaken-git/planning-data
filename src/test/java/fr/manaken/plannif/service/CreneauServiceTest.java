@@ -10,7 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.time.LocalTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -33,7 +33,7 @@ class CreneauServiceTest {
         // Given
         Creneau creneau = new Creneau();
         creneau.setId(1L);
-        CreneauDTO creneauDTO = new CreneauDTO(1L, LocalTime.of(8, 0), LocalTime.of(10, 0));
+        CreneauDTO creneauDTO = new CreneauDTO(1L, LocalDateTime.of(2026, 7, 24, 8, 0), LocalDateTime.of(2026, 7, 24, 10, 0));
 
         when(dataFetcher.getCreneaux()).thenReturn(List.of(creneau));
         when(mapper.toDto(creneau)).thenReturn(creneauDTO);
@@ -44,7 +44,7 @@ class CreneauServiceTest {
         // Then
         assertThat(result).hasSize(1);
         assertThat(result.getFirst().id()).isEqualTo(1L);
-        assertThat(result.getFirst().debut()).isEqualTo(LocalTime.of(8, 0));
+        assertThat(result.getFirst().debut()).isEqualTo(LocalDateTime.of(2026, 7, 24, 8, 0));
         verify(dataFetcher).getCreneaux();
         verify(mapper).toDto(creneau);
     }
