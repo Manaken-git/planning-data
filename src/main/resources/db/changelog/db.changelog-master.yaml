@@ -542,3 +542,19 @@ databaseChangeLog:
             tableName: t_creneau
             columnName: fin
             newDataType: DATETIME
+
+  - changeSet:
+      id: 27
+      author: manaken
+      changes:
+        - dropColumn:
+            tableName: matiere
+            columns:
+              - column:
+                  name: volume_horaire_annuel
+        - addColumn:
+            tableName: t_matiere_classe_config
+            columns:
+              - column:
+                  name: volume_horaire_periode
+                  type: BIGINT

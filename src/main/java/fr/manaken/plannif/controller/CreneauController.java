@@ -37,4 +37,14 @@ public class CreneauController {
     public void deleteCreneau(@PathVariable Long id) {
         creneauService.deleteCreneau(id);
     }
+
+    @PostMapping(value = "/import", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+    public org.springframework.http.ResponseEntity<String> importCsv(@RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        try {
+            int count = creneauService.importCsv(file);
+            return org.springframework.http.ResponseEntity.ok(count + " créneaux importés avec succès.");
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.badRequest().body("Erreur lors de l'import : " + e.getMessage());
+        }
+    }
 }

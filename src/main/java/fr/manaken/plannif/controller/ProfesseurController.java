@@ -44,4 +44,15 @@ public class ProfesseurController {
     public void deleteProf(@PathVariable Long id) {
         professeurService.deleteProfesseur(id);
     }
+
+    @PostMapping(value = "/import", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Importer des professeurs via CSV", description = "Importe des professeurs en masse à partir d'un fichier CSV.")
+    public org.springframework.http.ResponseEntity<String> importCsv(@RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        try {
+            int count = professeurService.importCsv(file);
+            return org.springframework.http.ResponseEntity.ok(count + " professeurs importés avec succès.");
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.badRequest().body("Erreur lors de l'import : " + e.getMessage());
+        }
+    }
 }

@@ -45,4 +45,15 @@ public class ClasseController {
     public void deleteClasse(@PathVariable Long id) {
         classeService.deleteClasse(id);
     }
+
+    @PostMapping(value = "/import", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+    @Operation(summary = "Importer des classes via CSV", description = "Importe des classes en masse à partir d'un fichier CSV.")
+    public org.springframework.http.ResponseEntity<String> importCsv(@RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        try {
+            int count = classeService.importCsv(file);
+            return org.springframework.http.ResponseEntity.ok(count + " classes importées avec succès.");
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.badRequest().body("Erreur lors de l'import : " + e.getMessage());
+        }
+    }
 }

@@ -49,4 +49,14 @@ public class SeanceController {
     public void deleteSeance(@PathVariable Long id) {
         seanceService.deleteSeance(id);
     }
+
+    @PostMapping(value = "/import", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+    public org.springframework.http.ResponseEntity<String> importCsv(@RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        try {
+            int count = seanceService.importCsv(file);
+            return org.springframework.http.ResponseEntity.ok(count + " séances importées avec succès.");
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.badRequest().body("Erreur lors de l'import : " + e.getMessage());
+        }
+    }
 }

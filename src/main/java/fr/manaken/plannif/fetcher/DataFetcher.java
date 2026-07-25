@@ -130,5 +130,38 @@ public class DataFetcher {
     public MatiereClasseConfig getMatiereClasseConfig(Integer id) {
         return matiereClasseConfigRepository.getReferenceById(id);
     }
+
+    // --- Existence checks for CSV import ---
+    public boolean existsProfesseur(Integer id) {
+        return professeurRepository.existsById(id);
+    }
+
+    public boolean existsSalle(Integer id) {
+        return salleRepository.existsById(id);
+    }
+
+    public boolean existsClasse(Integer id) {
+        return classeRepository.existsById(id);
+    }
+
+    public boolean existsMatiere(Integer id) {
+        return matiereRepository.existsById(id);
+    }
+
+    public boolean existsEleve(Integer id) {
+        return eleveRepository.existsById(id);
+    }
+
+    public boolean existsSeance(Integer id) {
+        return seanceRepository.existsById(id);
+    }
+
+    public boolean existsCreneau(Integer id) {
+        return creneauRepository.existsById(id);
+    }
+
+    public boolean existsMatiereClasseConfig(Integer id) {
+        return matiereClasseConfigRepository.existsById(id);
+    }
 }
 

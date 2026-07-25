@@ -36,4 +36,14 @@ public class SalleController {
     public void deleteSalle(@PathVariable Long id) {
         salleService.deleteSalle(id);
     }
+
+    @PostMapping(value = "/import", consumes = org.springframework.http.MediaType.MULTIPART_FORM_DATA_VALUE)
+    public org.springframework.http.ResponseEntity<String> importCsv(@RequestParam("file") org.springframework.web.multipart.MultipartFile file) {
+        try {
+            int count = salleService.importCsv(file);
+            return org.springframework.http.ResponseEntity.ok(count + " salles importées avec succès.");
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.badRequest().body("Erreur lors de l'import : " + e.getMessage());
+        }
+    }
 }

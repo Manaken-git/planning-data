@@ -52,4 +52,109 @@ public class MatiereClasseConfigService {
     public void deleteMatiereClasseConfig(Long id) {
         dataPusher.deleteMatiereClasseConfig(Math.toIntExact(id));
     }
+
+    @org.springframework.transaction.annotation.Transactional(rollbackFor = Exception.class)
+    public int importCsv(org.springframework.web.multipart.MultipartFile file) throws Exception {
+        try (java.io.Reader reader = new java.io.InputStreamReader(file.getInputStream(), java.nio.charset.StandardCharsets.UTF_8)) {
+            com.opencsv.CSVReader csvReader = new com.opencsv.CSVReaderBuilder(reader)
+                    .withCSVParser(new com.opencsv.RFC4180ParserBuilder().build())
+                    .build();
+
+            String[] header = csvReader.readNext();
+            if (header == null) {
+                throw new IllegalArgumentException("Le fichier CSV est vide.");
+            }
+
+            int idIndex = -1, classeIdIndex = -1, matiereIdIndex = -1;
+            int dateDebutIndex = -1, dateFinIndex = -1, volumeIndex = -1;
+
+            for (int i = 0; i < header.length; i++) {
+                String h = header[i].trim().toLowerCase();
+                switch (h) {
+                    case "\uFEFFid", "id" -> idIndex = i;
+                    case "\uFEFFclasseid", "classeid",  "classe_id" -> classeIdIndex = i;
+                    case "\uFEFFmatiereid","matiereid", "matiere_id", "matièreid", "matière_id" -> matiereIdIndex = i;
+                    case "\uFEFFdatedebut","datedebut", "date_debut" -> dateDebutIndex = i;
+                    case "\uFEFFdatefin", "datefin",   "date_fin" -> dateFinIndex = i;
+                    case "\uFEFFvolumehoraireperiode", "volumehoraireperiode",    "volume_horaire_periode" -> volumeIndex = i;
+                }
+            }
+
+            if (classeIdIndex == -1 || matiereIdIndex == -1) {
+                throw new IllegalArgumentException("Les colonnes 'classeId' et 'matiereId' sont requises.");
+            }
+
+            int count = 0;
+            String[] line;
+            while ((line = csvReader.readNext()) != null) {
+                if (line.length == 0 || (line.length == 1 && line[0].trim().isEmpty())) {
+                    continue;
+                }
+
+                Long id = null;
+                if (idIndex != -1 && idIndex < line.length && !line[idIndex].trim().isEmpty()) {
+                    id = Long.parseLong(line[idIndex].trim());
+                    if (dataFetcher.existsMatiereClasseConfig(Math.toIntExact(id))) {
+                        throw new IllegalArgumentException("Une configuration avec l'ID " + id + " existe déjà en base.");
+                    }
+                }
+
+                if (line.length <= Math.max(classeIdIndex, matiereIdIndex)) {
+                    continue;
+                }
+                String classeIdStr = line[classeIdIndex].trim();
+                String matiereIdStr = line[matiereIdIndex].trim();
+
+                if (classeIdStr.isEmpty() || matiereIdStr.isEmpty()) {
+                    continue;
+                }
+
+                Long classeId = Long.parseLong(classeIdStr);
+                Long matiereId = Long.parseLong(matiereIdStr);
+
+                if (!dataFetcher.existsClasse(Math.toIntExact(classeId))) {
+                    throw new IllegalArgumentException("La classe avec l'ID " + classeId + " est introuvable en base.");
+                }
+                if (!dataFetcher.existsMatiere(Math.toIntExact(matiereId))) {
+                    throw new IllegalArgumentException("La matière avec l'ID " + matiereId + " est introuvable en base.");
+                }
+
+                fr.manaken.plannif.model.Classe classe = dataFetcher.getClasse(Math.toIntExact(classeId));
+                fr.manaken.plannif.model.Matiere matiere = dataFetcher.getMatiere(Math.toIntExact(matiereId));
+
+                MatiereClasseConfig config = new MatiereClasseConfig();
+                if (id != null) {
+                    config.setId(id);
+                }
+                config.setClasse(classe);
+                config.setMatiere(matiere);
+
+                if (dateDebutIndex != -1 && dateDebutIndex < line.length && !line[dateDebutIndex].trim().isEmpty()) {
+                    config.setDateDebut(parseDate(line[dateDebutIndex].trim()));
+                }
+                if (dateFinIndex != -1 && dateFinIndex < line.length && !line[dateFinIndex].trim().isEmpty()) {
+                    config.setDateFin(parseDate(line[dateFinIndex].trim()));
+                }
+                if (volumeIndex != -1 && volumeIndex < line.length && !line[volumeIndex].trim().isEmpty()) {
+                    config.setVolumeHorairePeriode(Long.parseLong(line[volumeIndex].trim()));
+                }
+
+                dataPusher.saveMatiereClasseConfig(config);
+                count++;
+            }
+            return count;
+        }
+    }
+
+    private java.time.LocalDate parseDate(String value) {
+        String val = value.trim();
+        try {
+            // Essayer d'abord le format dd/MM/yyyy (ou d/M/yyyy pour être plus tolérant)
+            java.time.format.DateTimeFormatter formatter = java.time.format.DateTimeFormatter.ofPattern("d/M/yyyy");
+            return java.time.LocalDate.parse(val, formatter);
+        } catch (java.time.format.DateTimeParseException e) {
+            // Fallback sur le format standard yyyy-MM-dd
+            return java.time.LocalDate.parse(val);
+        }
+    }
 }
