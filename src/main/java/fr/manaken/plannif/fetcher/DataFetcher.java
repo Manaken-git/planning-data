@@ -16,6 +16,8 @@ import fr.manaken.plannif.repository.SalleRepository;
 import fr.manaken.plannif.repository.SeanceRepository;
 import fr.manaken.plannif.repository.MatiereClasseConfigRepository;
 import fr.manaken.plannif.model.MatiereClasseConfig;
+import fr.manaken.plannif.model.Vacances;
+import fr.manaken.plannif.repository.VacancesRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,12 +33,14 @@ public class DataFetcher {
     private final MatiereRepository matiereRepository;
     private final CreneauRepository creneauRepository;
     private final MatiereClasseConfigRepository matiereClasseConfigRepository;
+    private final VacancesRepository vacancesRepository;
 
     public DataFetcher(ProfesseurRepository professeurRepository, SeanceRepository seanceRepository,
             EleveRepository eleveRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
             CreneauRepository creneauRepository,
-            MatiereClasseConfigRepository matiereClasseConfigRepository) {
+            MatiereClasseConfigRepository matiereClasseConfigRepository,
+            VacancesRepository vacancesRepository) {
         this.professeurRepository = professeurRepository;
         this.seanceRepository = seanceRepository;
         this.eleveRepository = eleveRepository;
@@ -45,6 +49,7 @@ public class DataFetcher {
         this.matiereRepository = matiereRepository;
         this.creneauRepository = creneauRepository;
         this.matiereClasseConfigRepository = matiereClasseConfigRepository;
+        this.vacancesRepository = vacancesRepository;
     }
 
     // --- Professeur ---
@@ -162,6 +167,20 @@ public class DataFetcher {
 
     public boolean existsMatiereClasseConfig(Integer id) {
         return matiereClasseConfigRepository.existsById(id);
+    }
+
+    // --- Vacances ---
+    public List<Vacances> getVacances() {
+        return vacancesRepository.findAll();
+    }
+
+    @SuppressWarnings("null")
+    public Vacances getVacances(Integer id) {
+        return vacancesRepository.getReferenceById((long) id);
+    }
+
+    public boolean existsVacances(Integer id) {
+        return vacancesRepository.existsById((long) id);
     }
 }
 
