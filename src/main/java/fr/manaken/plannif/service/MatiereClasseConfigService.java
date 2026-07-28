@@ -45,6 +45,8 @@ public class MatiereClasseConfigService {
         if (dto.matiereId() != null) {
             entity.setMatiere(dataFetcher.getMatiere(Math.toIntExact(dto.matiereId())));
         }
+
+        validateConfigDatesAgainstPresences(entity);
         
         return mapper.toDto(dataPusher.saveMatiereClasseConfig(entity));
     }
@@ -139,10 +141,51 @@ public class MatiereClasseConfigService {
                     config.setVolumeHorairePeriode(Long.parseLong(line[volumeIndex].trim()));
                 }
 
+                validateConfigDatesAgainstPresences(config);
+
                 dataPusher.saveMatiereClasseConfig(config);
                 count++;
             }
             return count;
+        }
+    }
+
+    private void validateConfigDatesAgainstPresences(MatiereClasseConfig entity) {
+        if (entity.getClasse() == null || entity.getClasse().getId() == null || entity.getDateDebut() == null || entity.getDateFin() == null) {
+            return;
+        }
+
+        if (entity.getDateFin().isBefore(entity.getDateDebut())) {
+            throw new IllegalArgumentException("La date de fin ne peut pas être antérieure à la date de début.");
+        }
+
+        fr.manaken.plannif.model.Classe classe = dataFetcher.getClasse(Math.toIntExact(entity.getClasse().getId()));
+        java.util.List<fr.manaken.plannif.model.ClassePresence> presences = classe.getPresences();
+        if (presences == null || presences.isEmpty()) {
+            return;
+        }
+
+        boolean hasOverlappingPresence = false;
+        for (fr.manaken.plannif.model.ClassePresence presence : presences) {
+            if (presence.getDateDebut() == null || presence.getDateFin() == null) {
+                continue;
+            }
+            boolean overlaps = !presence.getDateFin().isBefore(entity.getDateDebut()) 
+                    && !presence.getDateDebut().isAfter(entity.getDateFin());
+            if (overlaps) {
+                hasOverlappingPresence = true;
+                boolean isContained = !presence.getDateDebut().isBefore(entity.getDateDebut()) 
+                        && !presence.getDateFin().isAfter(entity.getDateFin());
+                if (!isContained) {
+                    throw new IllegalArgumentException("La période de la configuration de matière doit englober entièrement les périodes de présence de la classe. La période de présence (" 
+                            + presence.getDateDebut() + " à " + presence.getDateFin() + ") n'est pas entièrement englobée dans la période de la configuration ("
+                            + entity.getDateDebut() + " à " + entity.getDateFin() + ").");
+                }
+            }
+        }
+
+        if (!hasOverlappingPresence) {
+            throw new IllegalArgumentException("La période de la configuration de matière ne contient aucune période de présence de la classe.");
         }
     }
 

@@ -59,10 +59,9 @@ public class MatiereService {
 
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
-                if ("id".equals(h)) {
-                    idIndex = i;
-                } else if ("nom".equals(h)) {
-                    nomIndex = i;
+                switch (h) {
+                    case "\uFEFFid", "id" -> idIndex = i;
+                    case "\uFEFFnom", "nom" -> nomIndex = i;
                 }
             }
 

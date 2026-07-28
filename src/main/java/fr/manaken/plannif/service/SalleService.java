@@ -59,10 +59,10 @@ public class SalleService {
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
                 switch (h) {
-                    case "id" -> idIndex = i;
-                    case "code" -> codeIndex = i;
-                    case "capacite", "capacité" -> capaciteIndex = i;
-                    case "type" -> typeIndex = i;
+                    case "\uFEFFid", "id" -> idIndex = i;
+                    case "\uFEFFcode", "code" -> codeIndex = i;
+                    case "\uFEFFcapacite", "\uFEFFcapacité", "capacite", "capacité" -> capaciteIndex = i;
+                    case "\uFEFFtype", "type" -> typeIndex = i;
                 }
             }
 

@@ -59,9 +59,9 @@ public class CreneauService {
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
                 switch (h) {
-                    case "id" -> idIndex = i;
-                    case "debut", "début" -> debutIndex = i;
-                    case "fin" -> finIndex = i;
+                    case "\uFEFFid", "id" -> idIndex = i;
+                    case "\uFEFFdebut", "\uFEFFdébut", "debut", "début" -> debutIndex = i;
+                    case "\uFEFFfin", "fin" -> finIndex = i;
                 }
             }
 

@@ -5,6 +5,7 @@ import fr.manaken.plannif.fetcher.DataFetcher;
 import fr.manaken.plannif.mapper.ClasseMapper;
 import fr.manaken.plannif.model.Classe;
 import fr.manaken.plannif.pusher.DataPusher;
+import fr.manaken.plannif.model.ClassePresence;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +36,32 @@ public class ClasseService {
             entity = new Classe();
         }
         mapper.mergeWDTO(entity, dto);
+        
+        if (entity.getPresences() != null) {
+            validatePresences(entity.getPresences());
+            entity.getPresences().forEach(p -> p.setClasse(entity));
+        }
+        
         return mapper.toDto(dataPusher.saveClasse(entity));
+    }
+
+    private void validatePresences(List<ClassePresence> presences) {
+        if (presences == null) {
+            return;
+        }
+        for (ClassePresence p : presences) {
+            if (p.getDateDebut() == null || p.getDateFin() == null) {
+                throw new IllegalArgumentException("Les dates de début et de fin sont requises pour chaque période de présence.");
+            }
+            if (p.getDateFin().isBefore(p.getDateDebut())) {
+                throw new IllegalArgumentException("La date de fin ne peut pas être antérieure à la date de début.");
+            }
+            long days = java.time.temporal.ChronoUnit.DAYS.between(p.getDateDebut(), p.getDateFin()) + 1;
+            boolean isValid = (days >= 5 && days <= 7) || (days >= 12 && days <= 14) || (days >= 19 && days <= 21);
+            if (!isValid) {
+                throw new IllegalArgumentException("Chaque période de présence doit être de 1, 2 ou 3 semaines (entre 5 et 7 jours, 12 et 14 jours, ou 19 et 21 jours).");
+            }
+        }
     }
 
     public void deleteClasse(Long id) {
@@ -59,10 +85,9 @@ public class ClasseService {
 
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
-                if ("id".equals(h)) {
-                    idIndex = i;
-                } else if ("nom".equals(h)) {
-                    nomIndex = i;
+                switch (h) {
+                    case "\uFEFFid", "id" -> idIndex = i;
+                    case "\uFEFFnom", "nom" -> nomIndex = i;
                 }
             }
 

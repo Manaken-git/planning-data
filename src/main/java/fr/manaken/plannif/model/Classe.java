@@ -28,6 +28,6 @@ public class Classe {
     @OneToMany(mappedBy = "classe")
     private Set<Eleve> eleves = new HashSet<>();
 
-    @OneToMany(mappedBy = "classe")
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClassePresence> presences = new java.util.ArrayList<>();
 }

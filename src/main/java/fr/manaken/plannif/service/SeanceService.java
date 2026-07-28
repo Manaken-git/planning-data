@@ -73,15 +73,15 @@ public class SeanceService {
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
                 switch (h) {
-                    case "id" -> idIndex = i;
-                    case "debut", "début" -> debutIndex = i;
-                    case "fin" -> finIndex = i;
-                    case "professeurid", "professeur_id", "prof_id" -> profIdIndex = i;
-                    case "classeid", "classe_id" -> classeIdIndex = i;
-                    case "matiereid", "matiere_id", "matièreid", "matière_id" -> matiereIdIndex = i;
-                    case "salleid", "salle_id" -> salleIdIndex = i;
-                    case "creneauid", "creneau_id", "créneauid", "créneau_id" -> creneauIdIndex = i;
-                    case "type" -> typeIndex = i;
+                    case "\uFEFFid", "id" -> idIndex = i;
+                    case "\uFEFFdebut", "\uFEFFdébut", "debut", "début" -> debutIndex = i;
+                    case "\uFEFFfin", "fin" -> finIndex = i;
+                    case "\uFEFFprofesseurid", "\uFEFFprofesseur_id", "\uFEFFprof_id", "professeurid", "professeur_id", "prof_id" -> profIdIndex = i;
+                    case "\uFEFFclasseid", "\uFEFFclasse_id", "classeid", "classe_id" -> classeIdIndex = i;
+                    case "\uFEFFmatiereid", "\uFEFFmatiere_id", "\uFEFFmatièreid", "\uFEFFmatière_id", "matiereid", "matiere_id", "matièreid", "matière_id" -> matiereIdIndex = i;
+                    case "\uFEFFsalleid", "\uFEFFsalle_id", "salleid", "salle_id" -> salleIdIndex = i;
+                    case "\uFEFFcreneauid", "\uFEFFcreneau_id", "\uFEFFcréneauid", "\uFEFFcréneau_id", "creneauid", "creneau_id", "créneauid", "créneau_id" -> creneauIdIndex = i;
+                    case "\uFEFFtype", "type" -> typeIndex = i;
                 }
             }
 

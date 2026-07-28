@@ -66,10 +66,10 @@ public class EleveService {
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
                 switch (h) {
-                    case "id" -> idIndex = i;
-                    case "nom" -> nomIndex = i;
-                    case "prenom", "prénom" -> prenomIndex = i;
-                    case "classeid", "classe_id" -> classeIdIndex = i;
+                    case "\uFEFFid", "id" -> idIndex = i;
+                    case "\uFEFFnom", "nom" -> nomIndex = i;
+                    case "\uFEFFprenom", "\uFEFFprénom", "prenom", "prénom" -> prenomIndex = i;
+                    case "\uFEFFclasseid", "\uFEFFclasse_id", "classeid", "classe_id" -> classeIdIndex = i;
                 }
             }
 

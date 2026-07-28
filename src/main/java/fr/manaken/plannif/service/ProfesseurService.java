@@ -60,14 +60,14 @@ public class ProfesseurService {
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
                 switch (h) {
-                    case "id" -> idIndex = i;
-                    case "nom" -> nomIndex = i;
-                    case "prenom", "prénom" -> prenomIndex = i;
-                    case "email" -> emailIndex = i;
-                    case "nb_heures", "nbheures" -> nbHeuresIndex = i;
-                    case "maxheuresparjour", "max_heures_par_jour" -> maxHJourIndex = i;
-                    case "maxheuresparsemaine", "max_heures_par_semaine" -> maxHSemaineIndex = i;
-                    case "maxheuresparseance", "max_heures_par_seance" -> maxHSeanceIndex = i;
+                    case "\uFEFFid", "id" -> idIndex = i;
+                    case "\uFEFFnom", "nom" -> nomIndex = i;
+                    case "\uFEFFprenom", "\uFEFFprénom", "prenom", "prénom" -> prenomIndex = i;
+                    case "\uFEFFemail", "email" -> emailIndex = i;
+                    case "\uFEFFnb_heures", "\uFEFFnbheures", "nb_heures", "nbheures" -> nbHeuresIndex = i;
+                    case "\uFEFFmaxheuresparjour", "\uFEFFmax_heures_par_jour", "maxheuresparjour", "max_heures_par_jour" -> maxHJourIndex = i;
+                    case "\uFEFFmaxheuresparsemaine", "\uFEFFmax_heures_par_semaine", "maxheuresparsemaine", "max_heures_par_semaine" -> maxHSemaineIndex = i;
+                    case "\uFEFFmaxheuresparseance", "\uFEFFmax_heures_par_seance", "maxheuresparseance", "max_heures_par_seance" -> maxHSeanceIndex = i;
                 }
             }
 
