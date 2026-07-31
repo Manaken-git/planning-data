@@ -178,4 +178,32 @@ class MatiereClasseConfigServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("La période de la configuration de matière ne contient aucune période de présence");
     }
+
+    @Test
+    void shouldExportCsv() throws Exception {
+        // Given
+        Classe classe = new Classe();
+        classe.setId(10L);
+        Matiere matiere = new Matiere();
+        matiere.setId(20L);
+
+        MatiereClasseConfig config = new MatiereClasseConfig();
+        config.setId(5L);
+        config.setClasse(classe);
+        config.setMatiere(matiere);
+        config.setDateDebut(LocalDate.of(2026, 9, 7));
+        config.setDateFin(LocalDate.of(2026, 9, 25));
+        config.setVolumeHorairePeriode(30L);
+
+        when(dataFetcher.getMatiereClasseConfigs()).thenReturn(List.of(config));
+
+        // When
+        byte[] csvBytes = configService.exportCsv();
+
+        // Then
+        String csvContent = new String(csvBytes, java.nio.charset.StandardCharsets.UTF_8);
+        assertThat(csvContent).contains("id", "classeId", "matiereId", "dateDebut", "dateFin", "volumeHorairePeriode");
+        assertThat(csvContent).contains("5", "10", "20", "2026-09-07", "2026-09-25", "30");
+    }
 }
+

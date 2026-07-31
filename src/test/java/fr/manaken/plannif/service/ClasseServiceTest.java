@@ -170,4 +170,99 @@ class ClasseServiceTest {
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessageContaining("Les dates de début et de fin sont requises");
     }
+
+    @Test
+    void shouldExportCsvWithPresences() throws Exception {
+        // Given
+        Classe c1 = new Classe();
+        c1.setId(1L);
+        c1.setNom("Classe A");
+        
+        ClassePresence p1 = new ClassePresence();
+        p1.setDateDebut(LocalDate.of(2026, 9, 7));
+        p1.setDateFin(LocalDate.of(2026, 9, 11));
+        p1.setClasse(c1);
+        
+        ClassePresence p2 = new ClassePresence();
+        p2.setDateDebut(LocalDate.of(2026, 9, 14));
+        p2.setDateFin(LocalDate.of(2026, 9, 18));
+        p2.setClasse(c1);
+        
+        c1.setPresences(List.of(p1, p2));
+        
+        when(dataFetcher.getClasses()).thenReturn(List.of(c1));
+
+        // When
+        byte[] csvBytes = classeService.exportCsv();
+
+        // Then
+        String csvContent = new String(csvBytes, java.nio.charset.StandardCharsets.UTF_8);
+        assertThat(csvContent).contains("id", "nom", "presences");
+        assertThat(csvContent).contains("1", "Classe A", "2026-09-07:2026-09-11;2026-09-14:2026-09-18");
+    }
+
+    @Test
+    void shouldImportCsvWithPresences() throws Exception {
+        // Given
+        String csvData = "id,nom,presences\n" +
+                "1,Classe A,2026-09-07:2026-09-11;2026-09-14:2026-09-18\n";
+        
+        org.springframework.web.multipart.MultipartFile mockFile = mock(org.springframework.web.multipart.MultipartFile.class);
+        when(mockFile.getInputStream()).thenReturn(new java.io.ByteArrayInputStream(csvData.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        when(dataFetcher.existsClasse(1)).thenReturn(false);
+
+        // When
+        int count = classeService.importCsv(mockFile);
+
+        // Then
+        assertThat(count).isEqualTo(1);
+        verify(dataPusher).saveClasse(argThat(c -> {
+            assertThat(c.getId()).isEqualTo(1L);
+            assertThat(c.getNom()).isEqualTo("Classe A");
+            assertThat(c.getPresences()).hasSize(2);
+            assertThat(c.getPresences().get(0).getDateDebut()).isEqualTo(LocalDate.of(2026, 9, 7));
+            assertThat(c.getPresences().get(0).getDateFin()).isEqualTo(LocalDate.of(2026, 9, 11));
+            assertThat(c.getPresences().get(1).getDateDebut()).isEqualTo(LocalDate.of(2026, 9, 14));
+            assertThat(c.getPresences().get(1).getDateFin()).isEqualTo(LocalDate.of(2026, 9, 18));
+            return true;
+        }));
+    }
+
+    @Test
+    void shouldUpdateCsvWithPresences() throws Exception {
+        // Given
+        String csvData = "id,nom,presences\n" +
+                "1,Classe A Modifiee,2026-09-07:2026-09-11\n";
+        
+        Classe existingClasse = new Classe();
+        existingClasse.setId(1L);
+        existingClasse.setNom("Classe A Originale");
+        
+        ClassePresence existingPresence = new ClassePresence();
+        existingPresence.setId(99L);
+        existingPresence.setDateDebut(LocalDate.of(2026, 9, 14));
+        existingPresence.setDateFin(LocalDate.of(2026, 9, 18));
+        existingPresence.setClasse(existingClasse);
+        existingClasse.setPresences(new java.util.ArrayList<>(List.of(existingPresence)));
+
+        org.springframework.web.multipart.MultipartFile mockFile = mock(org.springframework.web.multipart.MultipartFile.class);
+        when(mockFile.getInputStream()).thenReturn(new java.io.ByteArrayInputStream(csvData.getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+        when(dataFetcher.existsClasse(1)).thenReturn(true);
+        when(dataFetcher.getClasse(1)).thenReturn(existingClasse);
+
+        // When
+        int count = classeService.importCsv(mockFile);
+
+        // Then
+        assertThat(count).isEqualTo(1);
+        verify(dataPusher).saveClasse(argThat(c -> {
+            assertThat(c.getId()).isEqualTo(1L);
+            assertThat(c.getNom()).isEqualTo("Classe A Modifiee");
+            assertThat(c.getPresences()).hasSize(1);
+            assertThat(c.getPresences().get(0).getDateDebut()).isEqualTo(LocalDate.of(2026, 9, 7));
+            assertThat(c.getPresences().get(0).getDateFin()).isEqualTo(LocalDate.of(2026, 9, 11));
+            return true;
+        }));
+    }
 }
+

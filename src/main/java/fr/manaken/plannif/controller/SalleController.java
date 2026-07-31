@@ -46,4 +46,18 @@ public class SalleController {
             return org.springframework.http.ResponseEntity.badRequest().body("Erreur lors de l'import : " + e.getMessage());
         }
     }
+
+    @GetMapping("/export")
+    public org.springframework.http.ResponseEntity<byte[]> exportCsv() {
+        try {
+            byte[] csvBytes = salleService.exportCsv();
+            org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+            headers.setContentType(org.springframework.http.MediaType.parseMediaType("text/csv; charset=UTF-8"));
+            headers.setContentDisposition(org.springframework.http.ContentDisposition.attachment().filename("salles.csv").build());
+            return new org.springframework.http.ResponseEntity<>(csvBytes, headers, org.springframework.http.HttpStatus.OK);
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.internalServerError().build();
+        }
+    }
 }
+

@@ -123,5 +123,27 @@ public class EleveService {
             return count;
         }
     }
+
+    public byte[] exportCsv() throws Exception {
+        try (java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+             java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
+             com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
+
+            writer.writeNext(new String[]{"id", "nom", "prenom", "classeId"});
+
+            for (fr.manaken.plannif.model.Eleve e : dataFetcher.getAllEleves()) {
+                writer.writeNext(new String[]{
+                        e.getId() != null ? e.getId().toString() : "",
+                        e.getNom() != null ? e.getNom() : "",
+                        e.getPrenom() != null ? e.getPrenom() : "",
+                        e.getClasse() != null && e.getClasse().getId() != null ? e.getClasse().getId().toString() : ""
+                });
+            }
+            writer.flush();
+            osw.flush();
+            return out.toByteArray();
+        }
+    }
 }
+
 

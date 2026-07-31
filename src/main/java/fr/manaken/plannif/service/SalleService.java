@@ -112,4 +112,26 @@ public class SalleService {
             return count;
         }
     }
+
+    public byte[] exportCsv() throws Exception {
+        try (java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+             java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
+             com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
+
+            writer.writeNext(new String[]{"id", "code", "capacite", "type"});
+
+            for (fr.manaken.plannif.model.Salle s : dataFetcher.getSalles()) {
+                writer.writeNext(new String[]{
+                        s.getId() != null ? s.getId().toString() : "",
+                        s.getCode() != null ? s.getCode() : "",
+                        s.getCapacite() != null ? s.getCapacite().toString() : "",
+                        s.getType() != null ? s.getType() : ""
+                });
+            }
+            writer.flush();
+            osw.flush();
+            return out.toByteArray();
+        }
+    }
 }
+

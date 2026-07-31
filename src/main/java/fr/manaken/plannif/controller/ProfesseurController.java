@@ -55,4 +55,19 @@ public class ProfesseurController {
             return org.springframework.http.ResponseEntity.badRequest().body("Erreur lors de l'import : " + e.getMessage());
         }
     }
+
+    @GetMapping("/export")
+    @Operation(summary = "Exporter les professeurs en CSV", description = "Génère un fichier CSV contenant tous les professeurs.")
+    public org.springframework.http.ResponseEntity<byte[]> exportCsv() {
+        try {
+            byte[] csvBytes = professeurService.exportCsv();
+            org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+            headers.setContentType(org.springframework.http.MediaType.parseMediaType("text/csv; charset=UTF-8"));
+            headers.setContentDisposition(org.springframework.http.ContentDisposition.attachment().filename("professeurs.csv").build());
+            return new org.springframework.http.ResponseEntity<>(csvBytes, headers, org.springframework.http.HttpStatus.OK);
+        } catch (Exception e) {
+            return org.springframework.http.ResponseEntity.internalServerError().build();
+        }
+    }
 }
+

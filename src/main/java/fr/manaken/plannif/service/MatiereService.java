@@ -103,4 +103,24 @@ public class MatiereService {
             return count;
         }
     }
+
+    public byte[] exportCsv() throws Exception {
+        try (java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+             java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
+             com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
+
+            writer.writeNext(new String[]{"id", "nom"});
+
+            for (fr.manaken.plannif.model.Matiere m : dataFetcher.getMatieres()) {
+                writer.writeNext(new String[]{
+                        m.getId() != null ? m.getId().toString() : "",
+                        m.getNom() != null ? m.getNom() : ""
+                });
+            }
+            writer.flush();
+            osw.flush();
+            return out.toByteArray();
+        }
+    }
 }
+

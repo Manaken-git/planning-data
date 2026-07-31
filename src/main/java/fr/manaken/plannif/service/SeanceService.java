@@ -171,6 +171,33 @@ public class SeanceService {
         }
     }
 
+    public byte[] exportCsv() throws Exception {
+        try (java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+             java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
+             com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
+
+            writer.writeNext(new String[]{"id", "professeurId", "classeId", "matiereId", "salleId", "debut", "fin", "creneauId", "type"});
+
+            for (fr.manaken.plannif.model.Seance s : dataFetcher.getSeances()) {
+                writer.writeNext(new String[]{
+                        s.getId() != null ? s.getId().toString() : "",
+                        s.getProfesseur() != null && s.getProfesseur().getId() != null ? s.getProfesseur().getId().toString() : "",
+                        s.getClasse() != null && s.getClasse().getId() != null ? s.getClasse().getId().toString() : "",
+                        s.getMatiere() != null && s.getMatiere().getId() != null ? s.getMatiere().getId().toString() : "",
+                        s.getSalle() != null && s.getSalle().getId() != null ? s.getSalle().getId().toString() : "",
+                        s.getDebut() != null ? s.getDebut().toString() : "",
+                        s.getFin() != null ? s.getFin().toString() : "",
+                        s.getCreneau() != null && s.getCreneau().getId() != null ? s.getCreneau().getId().toString() : "",
+                        s.getType() != null ? s.getType().name() : ""
+                });
+            }
+            writer.flush();
+            osw.flush();
+            return out.toByteArray();
+        }
+    }
+
+
     private java.time.LocalDateTime parseDateTime(String value) {
         String val = value.trim();
         if (val.contains(" ")) {

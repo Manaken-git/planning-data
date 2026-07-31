@@ -111,6 +111,26 @@ public class CreneauService {
         }
     }
 
+    public byte[] exportCsv() throws Exception {
+        try (java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+             java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
+             com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
+
+            writer.writeNext(new String[]{"id", "debut", "fin"});
+
+            for (fr.manaken.plannif.model.Creneau c : dataFetcher.getCreneaux()) {
+                writer.writeNext(new String[]{
+                        c.getId() != null ? c.getId().toString() : "",
+                        c.getDebut() != null ? c.getDebut().toString() : "",
+                        c.getFin() != null ? c.getFin().toString() : ""
+                });
+            }
+            writer.flush();
+            osw.flush();
+            return out.toByteArray();
+        }
+    }
+
     private java.time.LocalDateTime parseDateTime(String value) {
         String val = value.trim();
         if (val.contains(" ")) {

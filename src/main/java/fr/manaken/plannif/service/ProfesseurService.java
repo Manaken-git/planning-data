@@ -128,4 +128,30 @@ public class ProfesseurService {
             return count;
         }
     }
+
+    public byte[] exportCsv() throws Exception {
+        try (java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+             java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
+             com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
+
+            writer.writeNext(new String[]{"id", "nom", "prenom", "email", "nb_heures", "maxheuresparjour", "maxheuresparsemaine", "maxheuresparseance"});
+
+            for (fr.manaken.plannif.model.Professeur p : dataFetcher.getProfesseurs()) {
+                writer.writeNext(new String[]{
+                        p.getId() != null ? p.getId().toString() : "",
+                        p.getNom() != null ? p.getNom() : "",
+                        p.getPrenom() != null ? p.getPrenom() : "",
+                        p.getEmail() != null ? p.getEmail() : "",
+                        p.getNb_heures() != null ? p.getNb_heures().toString() : "",
+                        p.getMaxHeuresParJour() != null ? p.getMaxHeuresParJour().toString() : "",
+                        p.getMaxHeuresParSemaine() != null ? p.getMaxHeuresParSemaine().toString() : "",
+                        p.getMaxHeuresParSeance() != null ? p.getMaxHeuresParSeance().toString() : ""
+                });
+            }
+            writer.flush();
+            osw.flush();
+            return out.toByteArray();
+        }
+    }
 }
+

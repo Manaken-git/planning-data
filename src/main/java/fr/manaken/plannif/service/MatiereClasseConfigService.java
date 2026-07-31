@@ -150,6 +150,30 @@ public class MatiereClasseConfigService {
         }
     }
 
+    public byte[] exportCsv() throws Exception {
+        try (java.io.ByteArrayOutputStream out = new java.io.ByteArrayOutputStream();
+             java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
+             com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
+
+            writer.writeNext(new String[]{"id", "classeId", "matiereId", "dateDebut", "dateFin", "volumeHorairePeriode"});
+
+            for (fr.manaken.plannif.model.MatiereClasseConfig config : dataFetcher.getMatiereClasseConfigs()) {
+                writer.writeNext(new String[]{
+                        config.getId() != null ? config.getId().toString() : "",
+                        config.getClasse() != null && config.getClasse().getId() != null ? config.getClasse().getId().toString() : "",
+                        config.getMatiere() != null && config.getMatiere().getId() != null ? config.getMatiere().getId().toString() : "",
+                        config.getDateDebut() != null ? config.getDateDebut().toString() : "",
+                        config.getDateFin() != null ? config.getDateFin().toString() : "",
+                        config.getVolumeHorairePeriode() != null ? config.getVolumeHorairePeriode().toString() : ""
+                });
+            }
+            writer.flush();
+            osw.flush();
+            return out.toByteArray();
+        }
+    }
+
+
     private void validateConfigDatesAgainstPresences(MatiereClasseConfig entity) {
         if (entity.getClasse() == null || entity.getClasse().getId() == null || entity.getDateDebut() == null || entity.getDateFin() == null) {
             return;
