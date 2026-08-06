@@ -1,7 +1,6 @@
 package fr.manaken.plannif.service;
 
 import fr.manaken.plannif.dto.ClasseDTO;
-import fr.manaken.plannif.dto.ClassePresenceDTO;
 import fr.manaken.plannif.fetcher.DataFetcher;
 import fr.manaken.plannif.mapper.ClasseMapper;
 import fr.manaken.plannif.model.Classe;
