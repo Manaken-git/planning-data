@@ -1,5 +1,6 @@
 package fr.manaken.plannif.dto;
 
+import fr.manaken.plannif.model.SemaineType;
 import java.time.LocalDateTime;
 
-public record CreneauDTO(Long id, LocalDateTime debut, LocalDateTime fin) {}
+public record CreneauDTO(Long id, LocalDateTime debut, LocalDateTime fin, SemaineType semaineType) {}

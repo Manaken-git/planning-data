@@ -21,4 +21,8 @@ public class Creneau {
     private LocalDateTime debut;
     private LocalDateTime fin;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "semaine_type")
+    private SemaineType semaineType;
+
 }

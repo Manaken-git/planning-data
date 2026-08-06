@@ -49,7 +49,7 @@ public class Seance {
     private TypeSeance type;
 
     public enum TypeSeance {
-        COURS, TP, EXAMEN
+        COURS, TP, EXAMEN, VIE_DE_CLASSE
     }
 
 }
