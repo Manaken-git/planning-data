@@ -45,6 +45,10 @@ public class Seance {
     @JoinColumn(name = "creneau_id")
     private Creneau creneau;
 
+    @ManyToOne
+    @JoinColumn(name = "planning_id")
+    private Planning planning;
+
     @Enumerated(EnumType.STRING)
     private TypeSeance type;
 

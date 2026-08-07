@@ -18,6 +18,8 @@ import fr.manaken.plannif.repository.MatiereClasseConfigRepository;
 import fr.manaken.plannif.model.MatiereClasseConfig;
 import fr.manaken.plannif.model.Vacances;
 import fr.manaken.plannif.repository.VacancesRepository;
+import fr.manaken.plannif.repository.PlanningRepository;
+import fr.manaken.plannif.model.Planning;
 import lombok.NonNull;
 
 import org.springframework.stereotype.Service;
@@ -33,13 +35,15 @@ public class DataPusher {
     private final CreneauRepository creneauRepository;
     private final MatiereClasseConfigRepository matiereClasseConfigRepository;
     private final VacancesRepository vacancesRepository;
+    private final PlanningRepository planningRepository;
 
     public DataPusher(ProfesseurRepository professeurRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
             EleveRepository eleveRepository, SeanceRepository seanceRepository,
             CreneauRepository creneauRepository,
             MatiereClasseConfigRepository matiereClasseConfigRepository,
-            VacancesRepository vacancesRepository) {
+            VacancesRepository vacancesRepository,
+            PlanningRepository planningRepository) {
         this.professeurRepository = professeurRepository;
         this.salleRepository = salleRepository;
         this.classeRepository = classeRepository;
@@ -49,6 +53,7 @@ public class DataPusher {
         this.creneauRepository = creneauRepository;
         this.matiereClasseConfigRepository = matiereClasseConfigRepository;
         this.vacancesRepository = vacancesRepository;
+        this.planningRepository = planningRepository;
     }
 
     // --- Professeur ---
@@ -130,5 +135,14 @@ public class DataPusher {
 
     public void deleteVacances(@NonNull Integer id) {
         vacancesRepository.deleteById((long) id);
+    }
+
+    // --- Planning ---
+    public Planning savePlanning(@NonNull Planning p) {
+        return planningRepository.save(p);
+    }
+
+    public void deletePlanning(@NonNull Integer id) {
+        planningRepository.deleteById((long) id);
     }
 }

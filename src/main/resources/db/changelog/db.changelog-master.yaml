@@ -597,3 +597,36 @@ databaseChangeLog:
               - column:
                   name: semaine_type
                   type: VARCHAR(50)
+
+  - changeSet:
+      id: 30
+      author: manaken
+      changes:
+        - createTable:
+            tableName: t_planning
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT AUTO_INCREMENT
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: nom
+                  type: VARCHAR(150)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date_creation
+                  type: DATETIME
+                  constraints:
+                    nullable: false
+        - addColumn:
+            tableName: seance
+            columns:
+              - column:
+                  name: planning_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_seance_planning
+                    referencedTableName: t_planning
+                    referencedColumnNames: id

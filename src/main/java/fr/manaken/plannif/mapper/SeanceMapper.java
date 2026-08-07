@@ -22,6 +22,7 @@ public interface SeanceMapper {
     @Mapping(target = "salle", ignore = true)
     @Mapping(target = "type", ignore = true)
     @Mapping(target = "creneau", ignore = true)
+    @Mapping(target = "planning", ignore = true)
     @Mapping(target = "debut", source = "debut")
     @Mapping(target = "fin", source = "fin")
     Seance toEntity(SeanceDTO seanceDTO);

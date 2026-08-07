@@ -18,6 +18,8 @@ import fr.manaken.plannif.repository.MatiereClasseConfigRepository;
 import fr.manaken.plannif.model.MatiereClasseConfig;
 import fr.manaken.plannif.model.Vacances;
 import fr.manaken.plannif.repository.VacancesRepository;
+import fr.manaken.plannif.repository.PlanningRepository;
+import fr.manaken.plannif.model.Planning;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,13 +36,15 @@ public class DataFetcher {
     private final CreneauRepository creneauRepository;
     private final MatiereClasseConfigRepository matiereClasseConfigRepository;
     private final VacancesRepository vacancesRepository;
+    private final PlanningRepository planningRepository;
 
     public DataFetcher(ProfesseurRepository professeurRepository, SeanceRepository seanceRepository,
             EleveRepository eleveRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
             CreneauRepository creneauRepository,
             MatiereClasseConfigRepository matiereClasseConfigRepository,
-            VacancesRepository vacancesRepository) {
+            VacancesRepository vacancesRepository,
+            PlanningRepository planningRepository) {
         this.professeurRepository = professeurRepository;
         this.seanceRepository = seanceRepository;
         this.eleveRepository = eleveRepository;
@@ -50,6 +54,7 @@ public class DataFetcher {
         this.creneauRepository = creneauRepository;
         this.matiereClasseConfigRepository = matiereClasseConfigRepository;
         this.vacancesRepository = vacancesRepository;
+        this.planningRepository = planningRepository;
     }
 
     // --- Professeur ---
@@ -108,7 +113,7 @@ public class DataFetcher {
 
     // --- Seance ---
     public List<Seance> getSeances() {
-        return seanceRepository.findAll();
+        return seanceRepository.findByPlanningIsNull();
     }
 
     @SuppressWarnings("null")
@@ -181,6 +186,20 @@ public class DataFetcher {
 
     public boolean existsVacances(Integer id) {
         return vacancesRepository.existsById((long) id);
+    }
+
+    // --- Planning ---
+    public List<Planning> getPlannings() {
+        return planningRepository.findAll();
+    }
+
+    @SuppressWarnings("null")
+    public Planning getPlanning(Integer id) {
+        return planningRepository.getReferenceById((long) id);
+    }
+
+    public boolean existsPlanning(Integer id) {
+        return planningRepository.existsById((long) id);
     }
 }
 
