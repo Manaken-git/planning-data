@@ -34,7 +34,7 @@ class CreneauServiceTest {
         // Given
         Creneau creneau = new Creneau();
         creneau.setId(1L);
-        CreneauDTO creneauDTO = new CreneauDTO(1L, LocalDateTime.of(2026, 7, 24, 8, 0), LocalDateTime.of(2026, 7, 24, 10, 0), SemaineType.SEMAINE_1);
+        CreneauDTO creneauDTO = new CreneauDTO(1L, LocalDateTime.of(2026, 7, 24, 8, 0), LocalDateTime.of(2026, 7, 24, 10, 0), SemaineType.SEMAINE_1, "Cours");
 
         when(dataFetcher.getCreneaux()).thenReturn(List.of(creneau));
         when(mapper.toDto(creneau)).thenReturn(creneauDTO);

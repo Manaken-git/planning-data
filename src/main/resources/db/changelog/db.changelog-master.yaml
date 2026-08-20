@@ -630,3 +630,14 @@ databaseChangeLog:
                     foreignKeyName: fk_seance_planning
                     referencedTableName: t_planning
                     referencedColumnNames: id
+
+  - changeSet:
+      id: 31
+      author: manaken
+      changes:
+        - addColumn:
+            tableName: t_creneau
+            columns:
+              - column:
+                  name: type_classe
+                  type: VARCHAR(50)

@@ -8,4 +8,5 @@ import java.util.Optional;
 
 public interface CreneauRepository extends JpaRepository<Creneau, Integer> {
     Optional<Creneau> findByDebutAndFinAndSemaineType(LocalDateTime debut, LocalDateTime fin, SemaineType semaineType);
+    Optional<Creneau> findByDebutAndFinAndSemaineTypeAndTypeClasse(LocalDateTime debut, LocalDateTime fin, SemaineType semaineType, String typeClasse);
 }

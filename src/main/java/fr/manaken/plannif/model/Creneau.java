@@ -25,4 +25,7 @@ public class Creneau {
     @Column(name = "semaine_type")
     private SemaineType semaineType;
 
+    @Column(name = "type_classe")
+    private String typeClasse;
+
 }

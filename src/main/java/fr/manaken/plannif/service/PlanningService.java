@@ -63,8 +63,8 @@ public class PlanningService {
         java.util.Map<Long, Creneau> tempIdToDbCreneauMap = new java.util.HashMap<>();
         if (dto.creneaux() != null) {
             for (CreneauDTO cDto : dto.creneaux()) {
-                Optional<Creneau> existingOpt = creneauRepository.findByDebutAndFinAndSemaineType(
-                        cDto.debut(), cDto.fin(), cDto.semaineType()
+                Optional<Creneau> existingOpt = creneauRepository.findByDebutAndFinAndSemaineTypeAndTypeClasse(
+                        cDto.debut(), cDto.fin(), cDto.semaineType(), cDto.typeClasse()
                 );
                 Creneau creneau;
                 if (existingOpt.isPresent()) {
@@ -74,6 +74,7 @@ public class PlanningService {
                     creneau.setDebut(cDto.debut());
                     creneau.setFin(cDto.fin());
                     creneau.setSemaineType(cDto.semaineType());
+                    creneau.setTypeClasse(cDto.typeClasse());
                     creneau = dataPusher.saveCreneau(creneau);
                 }
                 tempIdToDbCreneauMap.put(cDto.id(), creneau);

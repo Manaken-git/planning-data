@@ -54,7 +54,7 @@ public class CreneauService {
                 throw new IllegalArgumentException("Le fichier CSV est vide.");
             }
 
-            int idIndex = -1, debutIndex = -1, finIndex = -1, semaineTypeIndex = -1;
+            int idIndex = -1, debutIndex = -1, finIndex = -1, semaineTypeIndex = -1, typeClasseIndex = -1;
 
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
@@ -63,6 +63,7 @@ public class CreneauService {
                     case "\uFEFFdebut", "\uFEFFdébut", "debut", "début" -> debutIndex = i;
                     case "\uFEFFfin", "fin" -> finIndex = i;
                     case "\uFEFFsemaine_type", "semaine_type" -> semaineTypeIndex = i;
+                    case "\uFEFFtype_classe", "type_classe", "type-classe", "typeclasse" -> typeClasseIndex = i;
                 }
             }
 
@@ -109,6 +110,10 @@ public class CreneauService {
                     c.setSemaineType(fr.manaken.plannif.model.SemaineType.valueOf(line[semaineTypeIndex].trim().toUpperCase()));
                 }
 
+                if (typeClasseIndex != -1 && typeClasseIndex < line.length && !line[typeClasseIndex].trim().isEmpty()) {
+                    c.setTypeClasse(line[typeClasseIndex].trim());
+                }
+
                 dataPusher.saveCreneau(c);
                 count++;
             }
@@ -121,14 +126,15 @@ public class CreneauService {
              java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
              com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
 
-            writer.writeNext(new String[]{"id", "debut", "fin", "semaine_type"});
+            writer.writeNext(new String[]{"id", "debut", "fin", "semaine_type", "type_classe"});
 
             for (fr.manaken.plannif.model.Creneau c : dataFetcher.getCreneaux()) {
                 writer.writeNext(new String[]{
                         c.getId() != null ? c.getId().toString() : "",
                         c.getDebut() != null ? c.getDebut().toString() : "",
                         c.getFin() != null ? c.getFin().toString() : "",
-                        c.getSemaineType() != null ? c.getSemaineType().name() : ""
+                        c.getSemaineType() != null ? c.getSemaineType().name() : "",
+                        c.getTypeClasse() != null ? c.getTypeClasse() : ""
                 });
             }
             writer.flush();
