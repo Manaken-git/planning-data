@@ -39,8 +39,9 @@ public class EleveService {
             entity = new Eleve();
         }
         mapper.mergeWDTO(entity, dto);
-        if (classeId != null) {
-            entity.setClasse(dataFetcher.getClasse(Math.toIntExact(classeId)));
+        Long targetClasseId = classeId != null ? classeId : dto.classeId();
+        if (targetClasseId != null) {
+            entity.setClasse(dataFetcher.getClasse(Math.toIntExact(targetClasseId)));
         }
         return mapper.toDto(dataPusher.saveEleve(entity));
     }

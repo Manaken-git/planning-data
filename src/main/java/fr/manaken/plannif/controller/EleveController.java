@@ -28,8 +28,8 @@ public class EleveController {
     }
 
     /**
-     * Crée un élève. Le paramètre optionnel {@code classeId} permet d'associer
-     * directement l'élève à une classe (le DTO Eleve n'expose pas d'id de classe).
+     * Crée un élève. Le paramètre optionnel {@code classeId} ou le champ {@code dto.classeId} permet d'associer
+     * directement l'élève à une classe.
      */
     @PostMapping("/create")
     public EleveDTO createEleve(@RequestBody EleveDTO dto,

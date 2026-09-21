@@ -11,6 +11,7 @@ import org.mapstruct.NullValuePropertyMappingStrategy;
 @Mapper(componentModel = "spring")
 public interface EleveMapper {
 
+    @Mapping(target = "classeId", source = "classe.id")
     EleveDTO toDto(Eleve eleve);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
