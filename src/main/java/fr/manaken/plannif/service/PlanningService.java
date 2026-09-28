@@ -92,7 +92,14 @@ public class PlanningService {
                 }
 
                 seance.setDebut(sDto.debut());
-                seance.setFin(sDto.fin());
+                if (sDto.fin() != null) {
+                    seance.setFin(sDto.fin());
+                } else if (sDto.debut() != null) {
+                    int duration = (sDto.type() != null && sDto.type().equalsIgnoreCase("TP")) ? 90 : 60;
+                    seance.setFin(sDto.debut().plusMinutes(duration));
+                } else {
+                    seance.setFin(null);
+                }
 
                 if (sDto.type() != null) {
                     seance.setType(Seance.TypeSeance.valueOf(sDto.type().toUpperCase()));
