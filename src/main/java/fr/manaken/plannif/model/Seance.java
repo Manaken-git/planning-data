@@ -41,9 +41,6 @@ public class Seance {
     
     private Salle salle;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinColumn(name = "creneau_id")
-    private Creneau creneau;
 
     @ManyToOne
     @JoinColumn(name = "planning_id")

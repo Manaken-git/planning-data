@@ -1,14 +1,12 @@
 package fr.manaken.plannif.pusher;
 
 import fr.manaken.plannif.model.Classe;
-import fr.manaken.plannif.model.Creneau;
 import fr.manaken.plannif.model.Eleve;
 import fr.manaken.plannif.model.Matiere;
 import fr.manaken.plannif.model.Professeur;
 import fr.manaken.plannif.model.Salle;
 import fr.manaken.plannif.model.Seance;
 import fr.manaken.plannif.repository.ClasseRepository;
-import fr.manaken.plannif.repository.CreneauRepository;
 import fr.manaken.plannif.repository.EleveRepository;
 import fr.manaken.plannif.repository.MatiereRepository;
 import fr.manaken.plannif.repository.ProfesseurRepository;
@@ -32,7 +30,6 @@ public class DataPusher {
     private final MatiereRepository matiereRepository;
     private final EleveRepository eleveRepository;
     private final SeanceRepository seanceRepository;
-    private final CreneauRepository creneauRepository;
     private final MatiereClasseConfigRepository matiereClasseConfigRepository;
     private final VacancesRepository vacancesRepository;
     private final PlanningRepository planningRepository;
@@ -40,7 +37,6 @@ public class DataPusher {
     public DataPusher(ProfesseurRepository professeurRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
             EleveRepository eleveRepository, SeanceRepository seanceRepository,
-            CreneauRepository creneauRepository,
             MatiereClasseConfigRepository matiereClasseConfigRepository,
             VacancesRepository vacancesRepository,
             PlanningRepository planningRepository) {
@@ -50,7 +46,6 @@ public class DataPusher {
         this.matiereRepository = matiereRepository;
         this.eleveRepository = eleveRepository;
         this.seanceRepository = seanceRepository;
-        this.creneauRepository = creneauRepository;
         this.matiereClasseConfigRepository = matiereClasseConfigRepository;
         this.vacancesRepository = vacancesRepository;
         this.planningRepository = planningRepository;
@@ -110,14 +105,7 @@ public class DataPusher {
         seanceRepository.deleteById(id);
     }
 
-    // --- Creneau ---
-    public Creneau saveCreneau(@NonNull Creneau c) {
-        return creneauRepository.save(c);
-    }
 
-    public void deleteCreneau(@NonNull Integer id) {
-        creneauRepository.deleteById(id);
-    }
 
     // --- MatiereClasseConfig ---
     public MatiereClasseConfig saveMatiereClasseConfig(@NonNull MatiereClasseConfig c) {

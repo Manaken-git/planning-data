@@ -69,9 +69,8 @@ Le projet suit une variante propre de séparation CQRS / Data Layer :
 | **`Equipement`** | `t_equipement` | `id` (Long), `libelle` (String) | Référentiel des équipements |
 | **`EquipementSalle`**| `tj_equipements_salle`| `id` (Long) | - `salle` : `@ManyToOne` `Salle`<br>- `equipement` : `@ManyToOne` `Equipement` |
 | **`PlageHoraire`** | `t_plage_horaire` | `id` (Long), `libelle` (String) | Plage horaire préférée (ex. Matin, Après-midi) |
-| **`Creneau`** | `t_creneau` | `id` (Long), `debut` (LocalDateTime), `fin` (LocalDateTime), `semaineType` (SemaineType), `typeClasse` (String) | Enum `SemaineType` : `SEMAINE_1`, `SEMAINE_2`, `SEMAINE_3` |
 | **`MatiereClasseConfig`**| `t_matiere_classe_config` | `id` (Long), `dateDebut` (LocalDate), `dateFin` (LocalDate), `volumeHorairePeriode` (Long) | - `classe` : `@ManyToOne` `Classe`<br>- `matiere` : `@ManyToOne` `Matiere`<br>- Doit englober les périodes de présence associées |
-| **`Seance`** | `seance` | `id` (Long), `debut` (LocalDateTime), `fin` (LocalDateTime), `type` (TypeSeance) | Enum `TypeSeance` : `COURS`, `TP`, `EXAMEN`, `VIE_DE_CLASSE`<br>- `professeur` (ManyToOne)<br>- `classe` (ManyToOne)<br>- `matiere` (ManyToOne)<br>- `salle` (ManyToOne)<br>- `creneau` (ManyToOne, cascade PERSIST/MERGE)<br>- `planning` (ManyToOne) |
+| **`Seance`** | `seance` | `id` (Long), `debut` (LocalDateTime), `fin` (LocalDateTime), `type` (TypeSeance) | Enum `TypeSeance` : `COURS`, `TP`, `EXAMEN`, `VIE_DE_CLASSE`<br>- `professeur` (ManyToOne)<br>- `classe` (ManyToOne)<br>- `matiere` (ManyToOne)<br>- `salle` (ManyToOne)<br>- `planning` (ManyToOne) |
 | **`Planning`** | `t_planning` | `id` (Long), `nom` (String), `dateCreation` (LocalDateTime) | - `seances` : `@OneToMany` `Seance` (cascade PERSIST/MERGE) |
 | **`Vacances`** | `t_vacances` | `id` (Long), `nom` (String), `dateDebut` (LocalDate), `dateFin` (LocalDate) | Périodes de congés scolaires |
 
@@ -90,12 +89,11 @@ Le projet suit une variante propre de séparation CQRS / Data Layer :
 - **`EquipementDTO`** : `(Long id, String libelle)`
 - **`EquipementSalleDTO`** : `(Long id, SalleDTO salle, EquipementDTO equipement)`
 - **`PlageHoraireDTO`** : `(Long id, String libelle)`
-- **`CreneauDTO`** : `(Long id, LocalDateTime debut, LocalDateTime fin, SemaineType semaineType, String typeClasse)`
 - **`MatiereClasseConfigDTO`** : `(Long id, Long classeId, String classeNom, Long matiereId, String matiereNom, LocalDate dateDebut, LocalDate dateFin, Long volumeHorairePeriode)`
 - **`SeanceDTO`** : `(Long id, LocalDateTime debut, LocalDateTime fin, String professeurNomComplet, String classeNom, String matiereNom, String salleCode)`
-- **`SeanceSaveDTO`** : `(Long id, Long creneauId, Long professeurId, Long classeId, Long matiereId, Long salleId, String type)`
+- **`SeanceSaveDTO`** : `(Long id, Long professeurId, Long classeId, Long matiereId, Long salleId, String type, LocalDateTime debut, LocalDateTime fin)`
 - **`PlanningDTO`** : `(Long id, String nom, LocalDateTime dateCreation, List<SeanceDTO> seances)`
-- **`PlanningSaveDTO`** : `(Long id, String nom, LocalDateTime dateCreation, List<CreneauDTO> creneaux, List<SeanceSaveDTO> seances)`
+- **`PlanningSaveDTO`** : `(Long id, String nom, LocalDateTime dateCreation, List<SeanceSaveDTO> seances)`
 - **`VacancesDTO`** : `(Long id, String nom, LocalDate dateDebut, LocalDate dateFin)`
 
 ---
@@ -138,23 +136,19 @@ Le projet suit une variante propre de séparation CQRS / Data Layer :
 - `GET /seances/list` : Séances où `planning_id IS NULL`.
 - `POST /seances/create` / `PUT /seances/update` (params optionnels: `professeurId`, `classeId`, `matiereId`, `salleId`).
 - `DELETE /seances/delete/{id}` : Suppression séance.
-- `POST /seances/import` / `GET /seances/export` (`id`, `professeurId`, `classeId`, `matiereId`, `salleId`, `debut`, `fin`, `creneauId`, `type`).
+- `POST /seances/import` / `GET /seances/export` (`id`, `professeurId`, `classeId`, `matiereId`, `salleId`, `debut`, `fin`, `type`).
 
-### 5.7 Créneaux (`/creneaux`)
-- `GET /creneaux/list`, `POST /creneaux/create`, `PUT /creneaux/update`, `DELETE /creneaux/delete/{id}`.
-- `POST /creneaux/import` / `GET /creneaux/export` (`id`, `debut`, `fin`, `semaine_type`, `type_classe`).
-
-### 5.8 Configurations Matière-Classe (`/configs`)
+### 5.7 Configurations Matière-Classe (`/configs`)
 - `GET /configs/list`, `POST /configs/create`, `PUT /configs/update`, `DELETE /configs/delete/{id}`.
 - `POST /configs/import` / `GET /configs/export` (`id`, `classeId`, `matiereId`, `dateDebut`, `dateFin`, `volumeHorairePeriode`).
 
-### 5.9 Plannings (`/plannings`)
+### 5.8 Plannings (`/plannings`)
 - `GET /plannings/list` : Liste des plannings sauvegardés.
 - `GET /plannings/{id}` : Détail d'un planning avec ses séances.
-- `POST /plannings/save` : Sauvegarde complète d'un planning (`PlanningSaveDTO`). Déduplique/persiste les créneaux et associe les séances au planning.
+- `POST /plannings/save` : Sauvegarde complète d'un planning (`PlanningSaveDTO`). Associe directement les séances avec dates de début et fin au planning.
 - `DELETE /plannings/delete/{id}` : Supprime un planning et cascade sur ses séances.
 
-### 5.10 Vacances (`/vacances`)
+### 5.9 Vacances (`/vacances`)
 - `GET /vacances/list`, `POST /vacances/create`, `PUT /vacances/update`, `DELETE /vacances/delete/{id}`.
 
 ---

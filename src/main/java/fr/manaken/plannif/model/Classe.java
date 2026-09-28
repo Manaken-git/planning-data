@@ -54,8 +54,8 @@ public class Classe {
         java.time.LocalDate repriseDate = (lastVacances != null) ? lastVacances.getDateFin().plusDays(1) : dateDebutPresence;
 
         for (Seance s : seances) {
-            if (s.getType() == Seance.TypeSeance.VIE_DE_CLASSE && s.getCreneau() != null) {
-                java.time.LocalDate dateSeance = s.getCreneau().getDebut().toLocalDate();
+            if (s.getType() == Seance.TypeSeance.VIE_DE_CLASSE && s.getDebut() != null) {
+                java.time.LocalDate dateSeance = s.getDebut().toLocalDate();
                 if (!dateSeance.isBefore(repriseDate) && !dateSeance.isAfter(lastFriday)) {
                     return false;
                 }

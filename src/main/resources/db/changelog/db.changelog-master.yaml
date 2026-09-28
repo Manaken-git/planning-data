@@ -641,3 +641,40 @@ databaseChangeLog:
               - column:
                   name: type_classe
                   type: VARCHAR(50)
+
+  - changeSet:
+      id: 32-drop-fk
+      author: manaken
+      preConditions:
+        - onFail: MARK_RAN
+        - foreignKeyConstraintExists:
+            foreignKeyTableName: seance
+            foreignKeyName: fk_creneau_seance
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: seance
+            constraintName: fk_creneau_seance
+
+  - changeSet:
+      id: 32-drop-column
+      author: manaken
+      preConditions:
+        - onFail: MARK_RAN
+        - columnExists:
+            tableName: seance
+            columnName: creneau_id
+      changes:
+        - dropColumn:
+            tableName: seance
+            columnName: creneau_id
+
+  - changeSet:
+      id: 32-drop-table
+      author: manaken
+      preConditions:
+        - onFail: MARK_RAN
+        - tableExists:
+            tableName: t_creneau
+      changes:
+        - dropTable:
+            tableName: t_creneau

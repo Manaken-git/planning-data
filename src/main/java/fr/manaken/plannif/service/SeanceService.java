@@ -68,7 +68,7 @@ public class SeanceService {
 
             int idIndex = -1, debutIndex = -1, finIndex = -1;
             int profIdIndex = -1, classeIdIndex = -1, matiereIdIndex = -1, salleIdIndex = -1;
-            int creneauIdIndex = -1, typeIndex = -1;
+            int typeIndex = -1;
 
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
@@ -80,7 +80,6 @@ public class SeanceService {
                     case "\uFEFFclasseid", "\uFEFFclasse_id", "classeid", "classe_id" -> classeIdIndex = i;
                     case "\uFEFFmatiereid", "\uFEFFmatiere_id", "\uFEFFmatièreid", "\uFEFFmatière_id", "matiereid", "matiere_id", "matièreid", "matière_id" -> matiereIdIndex = i;
                     case "\uFEFFsalleid", "\uFEFFsalle_id", "salleid", "salle_id" -> salleIdIndex = i;
-                    case "\uFEFFcreneauid", "\uFEFFcreneau_id", "\uFEFFcréneauid", "\uFEFFcréneau_id", "creneauid", "creneau_id", "créneauid", "créneau_id" -> creneauIdIndex = i;
                     case "\uFEFFtype", "type" -> typeIndex = i;
                 }
             }
@@ -152,13 +151,7 @@ public class SeanceService {
                     s.setFin(parseDateTime(line[finIndex].trim()));
                 }
 
-                if (creneauIdIndex != -1 && creneauIdIndex < line.length && !line[creneauIdIndex].trim().isEmpty()) {
-                    Long creneauId = Long.parseLong(line[creneauIdIndex].trim());
-                    if (!dataFetcher.existsCreneau(Math.toIntExact(creneauId))) {
-                        throw new IllegalArgumentException("Le créneau avec l'ID " + creneauId + " est introuvable.");
-                    }
-                    s.setCreneau(dataFetcher.getCreneau(Math.toIntExact(creneauId)));
-                }
+
 
                 if (typeIndex != -1 && typeIndex < line.length && !line[typeIndex].trim().isEmpty()) {
                     s.setType(Seance.TypeSeance.valueOf(line[typeIndex].trim().toUpperCase()));
@@ -176,7 +169,7 @@ public class SeanceService {
              java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
              com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
 
-            writer.writeNext(new String[]{"id", "professeurId", "classeId", "matiereId", "salleId", "debut", "fin", "creneauId", "type"});
+            writer.writeNext(new String[]{"id", "professeurId", "classeId", "matiereId", "salleId", "debut", "fin", "type"});
 
             for (fr.manaken.plannif.model.Seance s : dataFetcher.getSeances()) {
                 writer.writeNext(new String[]{
@@ -187,7 +180,6 @@ public class SeanceService {
                         s.getSalle() != null && s.getSalle().getId() != null ? s.getSalle().getId().toString() : "",
                         s.getDebut() != null ? s.getDebut().toString() : "",
                         s.getFin() != null ? s.getFin().toString() : "",
-                        s.getCreneau() != null && s.getCreneau().getId() != null ? s.getCreneau().getId().toString() : "",
                         s.getType() != null ? s.getType().name() : ""
                 });
             }

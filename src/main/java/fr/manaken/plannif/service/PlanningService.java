@@ -3,21 +3,17 @@ package fr.manaken.plannif.service;
 import fr.manaken.plannif.dto.PlanningDTO;
 import fr.manaken.plannif.dto.PlanningSaveDTO;
 import fr.manaken.plannif.dto.SeanceSaveDTO;
-import fr.manaken.plannif.dto.CreneauDTO;
 import fr.manaken.plannif.fetcher.DataFetcher;
 import fr.manaken.plannif.mapper.PlanningMapper;
 import fr.manaken.plannif.model.Planning;
 import fr.manaken.plannif.model.Seance;
-import fr.manaken.plannif.model.Creneau;
 import fr.manaken.plannif.pusher.DataPusher;
-import fr.manaken.plannif.repository.CreneauRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,13 +22,11 @@ public class PlanningService {
     private final DataFetcher dataFetcher;
     private final DataPusher dataPusher;
     private final PlanningMapper mapper;
-    private final CreneauRepository creneauRepository;
 
-    public PlanningService(DataFetcher dataFetcher, DataPusher dataPusher, PlanningMapper mapper, CreneauRepository creneauRepository) {
+    public PlanningService(DataFetcher dataFetcher, DataPusher dataPusher, PlanningMapper mapper) {
         this.dataFetcher = dataFetcher;
         this.dataPusher = dataPusher;
         this.mapper = mapper;
-        this.creneauRepository = creneauRepository;
     }
 
     public List<PlanningDTO> getPlannings() {
@@ -58,28 +52,6 @@ public class PlanningService {
         }
         entity.setNom(dto.nom());
         entity.setDateCreation(dto.dateCreation() != null ? dto.dateCreation() : LocalDateTime.now());
-
-        // First, persist the creneaux and map their temp IDs to database objects (with generated IDs)
-        java.util.Map<Long, Creneau> tempIdToDbCreneauMap = new java.util.HashMap<>();
-        if (dto.creneaux() != null) {
-            for (CreneauDTO cDto : dto.creneaux()) {
-                Optional<Creneau> existingOpt = creneauRepository.findByDebutAndFinAndSemaineTypeAndTypeClasse(
-                        cDto.debut(), cDto.fin(), cDto.semaineType(), cDto.typeClasse()
-                );
-                Creneau creneau;
-                if (existingOpt.isPresent()) {
-                    creneau = existingOpt.get();
-                } else {
-                    creneau = new Creneau();
-                    creneau.setDebut(cDto.debut());
-                    creneau.setFin(cDto.fin());
-                    creneau.setSemaineType(cDto.semaineType());
-                    creneau.setTypeClasse(cDto.typeClasse());
-                    creneau = dataPusher.saveCreneau(creneau);
-                }
-                tempIdToDbCreneauMap.put(cDto.id(), creneau);
-            }
-        }
 
         // Save planning first
         entity = dataPusher.savePlanning(entity);
@@ -119,25 +91,8 @@ public class PlanningService {
                     seance.setSalle(null);
                 }
 
-                if (sDto.creneauId() != null) {
-                    Creneau creneau = tempIdToDbCreneauMap.get(sDto.creneauId());
-                    if (creneau == null && dataFetcher.existsCreneau(Math.toIntExact(sDto.creneauId()))) {
-                        creneau = dataFetcher.getCreneau(Math.toIntExact(sDto.creneauId()));
-                    }
-                    if (creneau != null) {
-                        seance.setCreneau(creneau);
-                        seance.setDebut(creneau.getDebut());
-                        seance.setFin(creneau.getFin());
-                    } else {
-                        seance.setCreneau(null);
-                        seance.setDebut(null);
-                        seance.setFin(null);
-                    }
-                } else {
-                    seance.setCreneau(null);
-                    seance.setDebut(null);
-                    seance.setFin(null);
-                }
+                seance.setDebut(sDto.debut());
+                seance.setFin(sDto.fin());
 
                 if (sDto.type() != null) {
                     seance.setType(Seance.TypeSeance.valueOf(sDto.type().toUpperCase()));
@@ -170,4 +125,3 @@ public class PlanningService {
         dataPusher.deletePlanning(Math.toIntExact(id));
     }
 }
-

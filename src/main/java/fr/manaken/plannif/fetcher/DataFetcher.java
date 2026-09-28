@@ -1,14 +1,12 @@
 package fr.manaken.plannif.fetcher;
 
 import fr.manaken.plannif.model.Classe;
-import fr.manaken.plannif.model.Creneau;
 import fr.manaken.plannif.model.Eleve;
 import fr.manaken.plannif.model.Matiere;
 import fr.manaken.plannif.model.Professeur;
 import fr.manaken.plannif.model.Salle;
 import fr.manaken.plannif.model.Seance;
 import fr.manaken.plannif.repository.ClasseRepository;
-import fr.manaken.plannif.repository.CreneauRepository;
 import fr.manaken.plannif.repository.EleveRepository;
 import fr.manaken.plannif.repository.MatiereRepository;
 import fr.manaken.plannif.repository.ProfesseurRepository;
@@ -33,7 +31,6 @@ public class DataFetcher {
     private final SalleRepository salleRepository;
     private final ClasseRepository classeRepository;
     private final MatiereRepository matiereRepository;
-    private final CreneauRepository creneauRepository;
     private final MatiereClasseConfigRepository matiereClasseConfigRepository;
     private final VacancesRepository vacancesRepository;
     private final PlanningRepository planningRepository;
@@ -41,7 +38,6 @@ public class DataFetcher {
     public DataFetcher(ProfesseurRepository professeurRepository, SeanceRepository seanceRepository,
             EleveRepository eleveRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
-            CreneauRepository creneauRepository,
             MatiereClasseConfigRepository matiereClasseConfigRepository,
             VacancesRepository vacancesRepository,
             PlanningRepository planningRepository) {
@@ -51,7 +47,6 @@ public class DataFetcher {
         this.salleRepository = salleRepository;
         this.classeRepository = classeRepository;
         this.matiereRepository = matiereRepository;
-        this.creneauRepository = creneauRepository;
         this.matiereClasseConfigRepository = matiereClasseConfigRepository;
         this.vacancesRepository = vacancesRepository;
         this.planningRepository = planningRepository;
@@ -121,15 +116,6 @@ public class DataFetcher {
         return seanceRepository.getReferenceById(id);
     }
 
-    // --- Creneau ---
-    public List<Creneau> getCreneaux() {
-        return creneauRepository.findAll();
-    }
-
-    @SuppressWarnings("null")
-    public Creneau getCreneau(Integer id) {
-        return creneauRepository.getReferenceById(id);
-    }
 
     // --- MatiereClasseConfig ---
     public List<MatiereClasseConfig> getMatiereClasseConfigs() {
@@ -166,9 +152,6 @@ public class DataFetcher {
         return seanceRepository.existsById(id);
     }
 
-    public boolean existsCreneau(Integer id) {
-        return creneauRepository.existsById(id);
-    }
 
     public boolean existsMatiereClasseConfig(Integer id) {
         return matiereClasseConfigRepository.existsById(id);
