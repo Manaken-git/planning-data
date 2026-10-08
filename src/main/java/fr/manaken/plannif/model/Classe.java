@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.EqualsAndHashCode;
 
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,6 +22,20 @@ public class Classe {
     private Long id;
 
     private String nom;
+
+    private Integer effectif;
+
+    private LocalTime heureDebutMin;
+
+    private LocalTime heureFinMax;
+
+    private Integer maxHeuresParJour;
+
+    private LocalTime pauseDejeunerDebutMin;
+
+    private LocalTime pauseDejeunerFinMax;
+
+    private Integer pauseDejeunerDureeMin;
 
     @OneToMany(mappedBy = "classe")
     private Set<Seance> seances = new HashSet<>();

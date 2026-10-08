@@ -22,4 +22,6 @@ public class DistanceSalle {
     private Salle salle2;
 
     private Long distance;
+
+    private Integer tempsTransitionMinutes;
 }

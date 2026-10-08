@@ -58,43 +58,45 @@ Le projet suit une séparation CQRS / Data Layer :
 
 | Entité JPA | Table BDD | Attributs Clés & Types | Relations & Détails |
 |---|---|---|---|
-| **`Classe`** | `classe` | `id` (Long), `nom` (String) | - `presences` : `@OneToMany` `ClassePresence` (cascade `ALL`, `orphanRemoval`)<br>- `eleves` : `@OneToMany` `Eleve`<br>- `seances` : `@OneToMany` `Seance`<br>- Méthode `needsVieDeClasse(presence, allVacances)` |
+| **`Classe`** | `classe` | `id` (Long), `nom` (String), `effectif` (Integer), `heureDebutMin` (LocalTime), `heureFinMax` (LocalTime), `maxHeuresParJour` (Integer), `pauseDejeunerDebutMin` (LocalTime), `pauseDejeunerFinMax` (LocalTime), `pauseDejeunerDureeMin` (Integer) | - `presences` : `@OneToMany` `ClassePresence` (cascade `ALL`, `orphanRemoval`)<br>- `eleves` : `@OneToMany` `Eleve`<br>- `seances` : `@OneToMany` `Seance`<br>- Méthode `needsVieDeClasse(presence, allVacances)` |
 | **`ClassePresence`** | `t_classe_presence` | `id` (Long), `dateDebut` (LocalDate), `dateFin` (LocalDate) | - `classe` : `@ManyToOne` `Classe` (nullable=false)<br>- Validé pour des durées de 1, 2 ou 3 sem (5-7j, 12-14j, 19-21j) |
 | **`Eleve`** | `eleve` | `id` (Long), `nom` (String), `prenom` (String) | - `classe` : `@ManyToOne` `Classe` (`@JoinColumn(name="classe_id")`) |
-| **`Professeur`** | `professeur` | `id` (Long), `nom` (String), `prenom` (String), `email` (String), `nb_heures` (BigDecimal), `maxHeuresParJour` (BigDecimal), `maxHeuresParSemaine` (BigDecimal), `maxHeuresParSeance` (BigDecimal) | - `plageHorairePreferee` : `@ManyToOne` `PlageHoraire`<br>- `daysOff` : `@OneToMany` `ProfesseurDayOff` (FetchType.EAGER)<br>- `matieres` : `@ManyToMany` via table `tj_professeur_matiere`<br>- `seances` : `@OneToMany` `Seance` |
-| **`ProfesseurDayOff`** | `t_professeur_dayoff` | `id` (Long), `dayOfWeek` (Integer: 0=Lun, 1=Mar, ..., 4=Ven) | - `professeur` : `@ManyToOne` `Professeur` |
+| **`Professeur`** | `professeur` | `id` (Long), `nom` (String), `prenom` (String), `email` (String), `nb_heures` (BigDecimal), `maxHeuresParJour` (BigDecimal), `maxHeuresParSemaine` (BigDecimal), `maxHeuresParSeance` (BigDecimal), `pauseDejeunerDureeMin` (Integer) | - `plageHorairePreferee` : `@ManyToOne` `PlageHoraire`<br>- `daysOff` : `@OneToMany` `ProfesseurDayOff` (FetchType.EAGER)<br>- `matieres` : `@ManyToMany` via table `tj_professeur_matiere`<br>- `seances` : `@OneToMany` `Seance` |
+| **`ProfesseurDayOff`** | `t_professeur_dayoff` | `id` (Long), `dayOfWeek` (Integer: 0=Lun, ..., 4=Ven), `demiJournee` (DemiJournee: JOURNEE_ENTIERE, MATIN, APRES_MIDI), `heureDebut` (LocalTime), `heureFin` (LocalTime) | - `professeur` : `@ManyToOne` `Professeur` |
 | **`Matiere`** | `matiere` | `id` (Long), `nom` (String) | - `seances` : `@OneToMany` `Seance` |
-| **`Salle`** | `salle` | `id` (Long), `code` (String, unique), `capacite` (Integer), `type` (String) | - `seances` : `@OneToMany` `Seance` |
-| **`DistanceSalle`** | `tj_distance_salle` | `id` (Long), `distance` (Long) | - `salle1` : `@ManyToOne` `Salle`<br>- `salle2` : `@ManyToOne` `Salle` |
+| **`Salle`** | `salle` | `id` (Long), `code` (String, unique), `capacite` (Integer), `type` (String), `batiment` (String), `etage` (Integer) | - `seances` : `@OneToMany` `Seance` |
+| **`DistanceSalle`** | `tj_distance_salle` | `id` (Long), `distance` (Long), `tempsTransitionMinutes` (Integer) | - `salle1` : `@ManyToOne` `Salle`<br>- `salle2` : `@ManyToOne` `Salle` |
 | **`Equipement`** | `t_equipement` | `id` (Long), `libelle` (String) | Référentiel des équipements |
 | **`EquipementSalle`**| `tj_equipements_salle`| `id` (Long) | - `salle` : `@ManyToOne` `Salle`<br>- `equipement` : `@ManyToOne` `Equipement` |
 | **`PlageHoraire`** | `t_plage_horaire` | `id` (Long), `libelle` (String) | Plage horaire préférée (ex. Matin, Après-midi) |
-| **`MatiereClasseConfig`**| `t_matiere_classe_config` | `id` (Long), `dateDebut` (LocalDate), `dateFin` (LocalDate), `volumeHorairePeriode` (Long) | - `classe` : `@ManyToOne` `Classe`<br>- `matiere` : `@ManyToOne` `Matiere`<br>- Doit englober les périodes de présence associées |
-| **`Seance`** | `seance` | `id` (Long), `debut` (LocalDateTime), `fin` (LocalDateTime), `type` (TypeSeance) | Enum `TypeSeance` : `COURS`, `TP`, `EXAMEN`, `VIE_DE_CLASSE`<br>- `professeur` (ManyToOne)<br>- `classe` (ManyToOne)<br>- `matiere` (ManyToOne)<br>- `salle` (ManyToOne)<br>- `planning` (ManyToOne) |
+| **`MatiereClasseConfig`**| `t_matiere_classe_config` | `id` (Long), `dateDebut` (LocalDate), `dateFin` (LocalDate), `volumeHorairePeriode` (Long), `typeSalleRequis` (String), `dureeCoursMinutes` (Integer), `dureeTpMinutes` (Integer), `forteChargeCognitive` (Boolean), `autoriserBlocDeuxHeures` (Boolean) | - `classe` : `@ManyToOne` `Classe`<br>- `matiere` : `@ManyToOne` `Matiere`<br>- `equipementsRequis` : `@ManyToMany` via table `tj_matiere_classe_config_equipement`<br>- Doit englober les périodes de présence associées |
+| **`Seance`** | `seance` | `id` (Long), `debut` (LocalDateTime), `fin` (LocalDateTime), `type` (TypeSeance), `groupe` (String), `alignementCode` (String) | Enum `TypeSeance` : `COURS`, `TP`, `EXAMEN`, `VIE_DE_CLASSE`<br>- `professeur` (ManyToOne)<br>- `classe` (ManyToOne)<br>- `matiere` (ManyToOne)<br>- `salle` (ManyToOne)<br>- `planning` (ManyToOne) |
 | **`Planning`** | `t_planning` | `id` (Long), `nom` (String), `dateCreation` (LocalDateTime) | - `seances` : `@OneToMany` `Seance` (cascade PERSIST/MERGE) |
 | **`Vacances`** | `t_vacances` | `id` (Long), `nom` (String), `dateDebut` (LocalDate), `dateFin` (LocalDate) | Périodes de congés scolaires |
+| **`ScoreConstraintConfig`** | `t_constraint_configuration` | `id` (Long), `nom` (String), `isDefault` (Boolean), pondérations pour 15 règles Timefold (Integer) | Configuration dynamique des scores Timefold |
 
 ---
 
 ## 4. 📦 DTOs (Records) & Correspondances
 
-- **`ClasseDTO`** : `(Long id, String nom, Set<SeanceDTO> seances, Set<EleveDTO> eleves, List<ClassePresenceDTO> presences)`
+- **`ClasseDTO`** : `(Long id, String nom, Integer effectif, LocalTime heureDebutMin, LocalTime heureFinMax, Integer maxHeuresParJour, LocalTime pauseDejeunerDebutMin, LocalTime pauseDejeunerFinMax, Integer pauseDejeunerDureeMin, Set<SeanceDTO> seances, Set<EleveDTO> eleves, List<ClassePresenceDTO> presences)`
 - **`ClassePresenceDTO`** : `(Long id, Long classeId, String classeNom, LocalDate dateDebut, LocalDate dateFin)`
 - **`EleveDTO`** : `(Long id, String nom, String prenom, Long classeId)`
-- **`ProfesseurDTO`** : `(Long id, String nom, String prenom, String email, BigDecimal nb_heures, BigDecimal maxHeuresParJour, BigDecimal maxHeuresParSemaine, BigDecimal maxHeuresParSeance, PlageHoraireDTO plageHorairePreferee, Set<MatiereDTO> matieres, Set<SeanceDTO> seances, List<ProfesseurDayOffDTO> daysOff)`
-- **`ProfesseurDayOffDTO`** : `(Long id, ProfesseurDTO professeur, Integer dayOfWeek)`
+- **`ProfesseurDTO`** : `(Long id, String nom, String prenom, String email, BigDecimal nb_heures, BigDecimal maxHeuresParJour, BigDecimal maxHeuresParSemaine, BigDecimal maxHeuresParSeance, Integer pauseDejeunerDureeMin, PlageHoraireDTO plageHorairePreferee, Set<SeanceDTO> seances, List<ProfesseurDayOffDTO> daysOff, Set<MatiereDTO> matieres)`
+- **`ProfesseurDayOffDTO`** : `(Long id, ProfesseurDTO professeur, Integer dayOfWeek, String demiJournee, LocalTime heureDebut, LocalTime heureFin)`
 - **`MatiereDTO`** : `(Long id, String nom, Set<SeanceDTO> seances)`
-- **`SalleDTO`** : `(Long id, String code, Integer capacite, String type, Set<SeanceDTO> seances)`
-- **`DistanceSalleDTO`** : `(Long id, SalleDTO salle1, SalleDTO salle2, Long distance)`
+- **`SalleDTO`** : `(Long id, String code, Integer capacite, String type, String batiment, Integer etage, Set<SeanceDTO> seances)`
+- **`DistanceSalleDTO`** : `(Long id, SalleDTO salle1, SalleDTO salle2, Long distance, Integer tempsTransitionMinutes)`
 - **`EquipementDTO`** : `(Long id, String libelle)`
 - **`EquipementSalleDTO`** : `(Long id, SalleDTO salle, EquipementDTO equipement)`
 - **`PlageHoraireDTO`** : `(Long id, String libelle)`
-- **`MatiereClasseConfigDTO`** : `(Long id, Long classeId, String classeNom, Long matiereId, String matiereNom, LocalDate dateDebut, LocalDate dateFin, Long volumeHorairePeriode)`
-- **`SeanceDTO`** : `(Long id, LocalDateTime debut, LocalDateTime fin, String professeurNomComplet, String classeNom, String matiereNom, String salleCode)`
-- **`SeanceSaveDTO`** : `(Long id, Long professeurId, Long classeId, Long matiereId, Long salleId, String type, LocalDateTime debut, LocalDateTime fin)`
+- **`MatiereClasseConfigDTO`** : `(Long id, Long classeId, String classeNom, Long matiereId, String matiereNom, LocalDate dateDebut, LocalDate dateFin, Long volumeHorairePeriode, String typeSalleRequis, Integer dureeCoursMinutes, Integer dureeTpMinutes, Boolean forteChargeCognitive, Boolean autoriserBlocDeuxHeures, Set<EquipementDTO> equipementsRequis)`
+- **`SeanceDTO`** : `(Long id, LocalDateTime debut, LocalDateTime fin, String professeurNomComplet, String classeNom, String matiereNom, String salleCode, String type, String groupe, String alignementCode)`
+- **`SeanceSaveDTO`** : `(Long id, Long professeurId, Long classeId, Long matiereId, Long salleId, String type, LocalDateTime debut, LocalDateTime fin, String groupe, String alignementCode)`
 - **`PlanningDTO`** : `(Long id, String nom, LocalDateTime dateCreation, List<SeanceDTO> seances)`
 - **`PlanningSaveDTO`** : `(Long id, String nom, LocalDateTime dateCreation, List<SeanceSaveDTO> seances)`
 - **`VacancesDTO`** : `(Long id, String nom, LocalDate dateDebut, LocalDate dateFin)`
+- **`ScoreConstraintConfigDTO`** : `(Long id, String nom, Boolean isDefault, Integer roomConflictWeight, ...)`
 
 ---
 
@@ -140,7 +142,7 @@ Le projet suit une séparation CQRS / Data Layer :
 
 ### 5.7 Configurations Matière-Classe (`/configs`)
 - `GET /configs/list`, `POST /configs/create`, `PUT /configs/update`, `DELETE /configs/delete/{id}`.
-- `POST /configs/import` / `GET /configs/export` (`id`, `classeId`, `matiereId`, `dateDebut`, `dateFin`, `volumeHorairePeriode`).
+- `POST /configs/import` / `GET /configs/export` (`id`, `classeId`, `matiereId`, `dateDebut`, `dateFin`, `volumeHorairePeriode`, `typeSalleRequis`, `dureeCoursMinutes`, `dureeTpMinutes`, `forteChargeCognitive`, `autoriserBlocDeuxHeures`).
 
 ### 5.8 Plannings (`/plannings`)
 - `GET /plannings/list` : Liste des plannings sauvegardés.
@@ -150,6 +152,13 @@ Le projet suit une séparation CQRS / Data Layer :
 
 ### 5.9 Vacances (`/vacances`)
 - `GET /vacances/list`, `POST /vacances/create`, `PUT /vacances/update`, `DELETE /vacances/delete/{id}`.
+
+### 5.10 Configurations de Score Timefold (`/constraint-configs`)
+- `GET /constraint-configs/list` : Liste des configurations de pondération.
+- `GET /constraint-configs/default` : Récupère la configuration par défaut pour le solveur.
+- `GET /constraint-configs/{id}` : Détail d'une configuration.
+- `POST /constraint-configs/save` : Crée ou modifie une configuration de poids.
+- `DELETE /constraint-configs/delete/{id}` : Supprime une configuration.
 
 ---
 

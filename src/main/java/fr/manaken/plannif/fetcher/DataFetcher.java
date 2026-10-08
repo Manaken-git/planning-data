@@ -18,9 +18,14 @@ import fr.manaken.plannif.model.Vacances;
 import fr.manaken.plannif.repository.VacancesRepository;
 import fr.manaken.plannif.repository.PlanningRepository;
 import fr.manaken.plannif.model.Planning;
+import fr.manaken.plannif.model.ScoreConstraintConfig;
+import fr.manaken.plannif.repository.ScoreConstraintConfigRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import fr.manaken.plannif.model.Equipement;
+import fr.manaken.plannif.repository.EquipementRepository;
+import java.util.Optional;
 
 @Service
 public class DataFetcher {
@@ -34,13 +39,17 @@ public class DataFetcher {
     private final MatiereClasseConfigRepository matiereClasseConfigRepository;
     private final VacancesRepository vacancesRepository;
     private final PlanningRepository planningRepository;
+    private final ScoreConstraintConfigRepository scoreConstraintConfigRepository;
+    private final EquipementRepository equipementRepository;
 
     public DataFetcher(ProfesseurRepository professeurRepository, SeanceRepository seanceRepository,
             EleveRepository eleveRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
             MatiereClasseConfigRepository matiereClasseConfigRepository,
             VacancesRepository vacancesRepository,
-            PlanningRepository planningRepository) {
+            PlanningRepository planningRepository,
+            ScoreConstraintConfigRepository scoreConstraintConfigRepository,
+            EquipementRepository equipementRepository) {
         this.professeurRepository = professeurRepository;
         this.seanceRepository = seanceRepository;
         this.eleveRepository = eleveRepository;
@@ -50,6 +59,8 @@ public class DataFetcher {
         this.matiereClasseConfigRepository = matiereClasseConfigRepository;
         this.vacancesRepository = vacancesRepository;
         this.planningRepository = planningRepository;
+        this.scoreConstraintConfigRepository = scoreConstraintConfigRepository;
+        this.equipementRepository = equipementRepository;
     }
 
     // --- Professeur ---
@@ -122,6 +133,10 @@ public class DataFetcher {
         return matiereClasseConfigRepository.findAll();
     }
 
+    public List<MatiereClasseConfig> getMatiereClasseConfigsByClasseAndMatiere(Long classeId, Long matiereId) {
+        return matiereClasseConfigRepository.findByClasseIdAndMatiereId(classeId, matiereId);
+    }
+
     @SuppressWarnings("null")
     public MatiereClasseConfig getMatiereClasseConfig(Integer id) {
         return matiereClasseConfigRepository.getReferenceById(id);
@@ -183,6 +198,36 @@ public class DataFetcher {
 
     public boolean existsPlanning(Integer id) {
         return planningRepository.existsById((long) id);
+    }
+
+    // --- ScoreConstraintConfig ---
+    public List<ScoreConstraintConfig> getConstraintConfigs() {
+        return scoreConstraintConfigRepository.findAll();
+    }
+
+    public ScoreConstraintConfig getConstraintConfig(Integer id) {
+        return scoreConstraintConfigRepository.getReferenceById(id);
+    }
+
+    public Optional<ScoreConstraintConfig> getDefaultConstraintConfig() {
+        return scoreConstraintConfigRepository.findByIsDefaultTrue();
+    }
+
+    public boolean existsConstraintConfig(Integer id) {
+        return scoreConstraintConfigRepository.existsById(id);
+    }
+
+    // --- Equipement ---
+    public List<Equipement> getEquipements() {
+        return equipementRepository.findAll();
+    }
+
+    public Equipement getEquipement(Integer id) {
+        return equipementRepository.getReferenceById((long) id);
+    }
+
+    public boolean existsEquipement(Integer id) {
+        return equipementRepository.existsById((long) id);
     }
 }
 

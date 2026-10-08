@@ -29,6 +29,7 @@ public class Professeur {
     private BigDecimal maxHeuresParJour;
     private BigDecimal maxHeuresParSemaine;
     private BigDecimal maxHeuresParSeance;
+    private Integer pauseDejeunerDureeMin;
 
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "plage_horaire_preferee_id", referencedColumnName = "id")

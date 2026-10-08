@@ -43,6 +43,13 @@ public class SeanceService {
         Seance mapped = mapper.toEntity(dto);
         entity.setDebut(mapped.getDebut());
         entity.setFin(mapped.getFin());
+        entity.setGroupe(mapped.getGroupe());
+        entity.setAlignementCode(mapped.getAlignementCode());
+        if (dto.type() != null) {
+            try {
+                entity.setType(Seance.TypeSeance.valueOf(dto.type().toUpperCase()));
+            } catch (IllegalArgumentException ignored) {}
+        }
         if (professeurId != null) entity.setProfesseur(dataFetcher.getProfesseur(Math.toIntExact(professeurId)));
         if (classeId != null)     entity.setClasse(dataFetcher.getClasse(Math.toIntExact(classeId)));
         if (matiereId != null)    entity.setMatiere(dataFetcher.getMatiere(Math.toIntExact(matiereId)));
@@ -68,7 +75,7 @@ public class SeanceService {
 
             int idIndex = -1, debutIndex = -1, finIndex = -1;
             int profIdIndex = -1, classeIdIndex = -1, matiereIdIndex = -1, salleIdIndex = -1;
-            int typeIndex = -1;
+            int typeIndex = -1, groupeIndex = -1, alignementIndex = -1;
 
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
@@ -81,6 +88,8 @@ public class SeanceService {
                     case "\uFEFFmatiereid", "\uFEFFmatiere_id", "\uFEFFmatièreid", "\uFEFFmatière_id", "matiereid", "matiere_id", "matièreid", "matière_id" -> matiereIdIndex = i;
                     case "\uFEFFsalleid", "\uFEFFsalle_id", "salleid", "salle_id" -> salleIdIndex = i;
                     case "\uFEFFtype", "type" -> typeIndex = i;
+                    case "\uFEFFgroupe", "groupe" -> groupeIndex = i;
+                    case "\uFEFFalignementcode", "\uFEFFalignement_code", "alignementcode", "alignement_code", "alignement" -> alignementIndex = i;
                 }
             }
 
@@ -151,10 +160,17 @@ public class SeanceService {
                     s.setFin(parseDateTime(line[finIndex].trim()));
                 }
 
-
-
                 if (typeIndex != -1 && typeIndex < line.length && !line[typeIndex].trim().isEmpty()) {
-                    s.setType(Seance.TypeSeance.valueOf(line[typeIndex].trim().toUpperCase()));
+                    try {
+                        s.setType(Seance.TypeSeance.valueOf(line[typeIndex].trim().toUpperCase()));
+                    } catch (IllegalArgumentException ignored) {}
+                }
+
+                if (groupeIndex != -1 && groupeIndex < line.length && !line[groupeIndex].trim().isEmpty()) {
+                    s.setGroupe(line[groupeIndex].trim());
+                }
+                if (alignementIndex != -1 && alignementIndex < line.length && !line[alignementIndex].trim().isEmpty()) {
+                    s.setAlignementCode(line[alignementIndex].trim());
                 }
 
                 dataPusher.saveSeance(s);
@@ -169,7 +185,7 @@ public class SeanceService {
              java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
              com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
 
-            writer.writeNext(new String[]{"id", "professeurId", "classeId", "matiereId", "salleId", "debut", "fin", "type"});
+            writer.writeNext(new String[]{"id", "professeurId", "classeId", "matiereId", "salleId", "debut", "fin", "type", "groupe", "alignementCode"});
 
             for (fr.manaken.plannif.model.Seance s : dataFetcher.getSeances()) {
                 writer.writeNext(new String[]{
@@ -180,7 +196,9 @@ public class SeanceService {
                         s.getSalle() != null && s.getSalle().getId() != null ? s.getSalle().getId().toString() : "",
                         s.getDebut() != null ? s.getDebut().toString() : "",
                         s.getFin() != null ? s.getFin().toString() : "",
-                        s.getType() != null ? s.getType().name() : ""
+                        s.getType() != null ? s.getType().name() : "",
+                        s.getGroupe() != null ? s.getGroupe() : "",
+                        s.getAlignementCode() != null ? s.getAlignementCode() : ""
                 });
             }
             writer.flush();

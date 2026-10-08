@@ -23,6 +23,8 @@ public class Salle {
     private Integer capacite;
 
     private String type; // Nouveau champ
+    private String batiment;
+    private Integer etage;
 
     @OneToMany(mappedBy = "salle")
     private Set<Seance> seances = new HashSet<>();

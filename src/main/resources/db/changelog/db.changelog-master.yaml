@@ -677,4 +677,222 @@ databaseChangeLog:
             tableName: t_creneau
       changes:
         - dropTable:
-            tableName: t_creneau
+            tableName: t_creneau
+
+  - changeSet:
+      id: 33-matiere-classe-config-extensions
+      author: manaken
+      changes:
+        - addColumn:
+            tableName: t_matiere_classe_config
+            columns:
+              - column:
+                  name: type_salle_requis
+                  type: VARCHAR(50)
+              - column:
+                  name: duree_cours_minutes
+                  type: INT
+              - column:
+                  name: duree_tp_minutes
+                  type: INT
+              - column:
+                  name: forte_charge_cognitive
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: autoriser_bloc_deux_heures
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+        - createTable:
+            tableName: tj_matiere_classe_config_equipement
+            columns:
+              - column:
+                  name: config_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_tj_mat_cfg_eq_config
+                    referencedTableName: t_matiere_classe_config
+                    referencedColumnNames: id
+              - column:
+                  name: equipement_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_tj_mat_cfg_eq_equipement
+                    referencedTableName: t_equipement
+                    referencedColumnNames: id
+        - addPrimaryKey:
+            tableName: tj_matiere_classe_config_equipement
+            columnNames: config_id, equipement_id
+            constraintName: pk_tj_matiere_classe_config_equipement
+
+  - changeSet:
+      id: 34-classe-extensions
+      author: manaken
+      changes:
+        - addColumn:
+            tableName: classe
+            columns:
+              - column:
+                  name: effectif
+                  type: INT
+              - column:
+                  name: heure_debut_min
+                  type: TIME
+              - column:
+                  name: heure_fin_max
+                  type: TIME
+              - column:
+                  name: max_heures_par_jour
+                  type: INT
+              - column:
+                  name: pause_dejeuner_debut_min
+                  type: TIME
+              - column:
+                  name: pause_dejeuner_fin_max
+                  type: TIME
+              - column:
+                  name: pause_dejeuner_duree_min
+                  type: INT
+
+  - changeSet:
+      id: 35-seance-extensions
+      author: manaken
+      changes:
+        - addColumn:
+            tableName: seance
+            columns:
+              - column:
+                  name: groupe
+                  type: VARCHAR(50)
+              - column:
+                  name: alignement_code
+                  type: VARCHAR(50)
+
+  - changeSet:
+      id: 36-salle-and-distance-extensions
+      author: manaken
+      changes:
+        - addColumn:
+            tableName: salle
+            columns:
+              - column:
+                  name: batiment
+                  type: VARCHAR(50)
+              - column:
+                  name: etage
+                  type: INT
+        - addColumn:
+            tableName: tj_distance_salle
+            columns:
+              - column:
+                  name: temps_transition_minutes
+                  type: INT
+
+  - changeSet:
+      id: 37-professeur-and-dayoff-extensions
+      author: manaken
+      changes:
+        - addColumn:
+            tableName: professeur
+            columns:
+              - column:
+                  name: pause_dejeuner_duree_min
+                  type: INT
+        - addColumn:
+            tableName: t_professeur_dayoff
+            columns:
+              - column:
+                  name: demi_journee
+                  type: VARCHAR(20)
+                  defaultValue: "JOURNEE_ENTIERE"
+              - column:
+                  name: heure_debut
+                  type: TIME
+              - column:
+                  name: heure_fin
+                  type: TIME
+
+  - changeSet:
+      id: 38-score-constraint-configuration
+      author: manaken
+      changes:
+        - createTable:
+            tableName: t_constraint_configuration
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT AUTO_INCREMENT
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: nom
+                  type: VARCHAR(100)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: is_default
+                  type: BOOLEAN
+                  defaultValueBoolean: false
+              - column:
+                  name: room_conflict_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: teacher_conflict_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: student_group_conflict_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: teacher_day_off_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: teacher_max_hours_per_day_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: teacher_max_hours_per_week_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: teacher_max_gap_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: seance_duration_match_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: student_lunch_break_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: teacher_lunch_break_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: student_daily_span_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: student_gap_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: travel_distance_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: cognitive_load_morning_weight
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: two_hour_block_weight
+                  type: INT
+                  defaultValueNumeric: 1
+

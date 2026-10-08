@@ -35,6 +35,10 @@ public class ProfesseurService {
             pBDD = new Professeur();
         }
         mapper.mergeWDTO(pBDD, p);
+        if (pBDD.getDaysOff() != null) {
+            final Professeur finalPBDD = pBDD;
+            pBDD.getDaysOff().forEach(dayOff -> dayOff.setProfesseur(finalPBDD));
+        }
         return mapper.toDto(dataPusher.saveProfesseur(pBDD));
     }
 
@@ -56,6 +60,7 @@ public class ProfesseurService {
 
             int idIndex = -1, nomIndex = -1, prenomIndex = -1, emailIndex = -1;
             int nbHeuresIndex = -1, maxHJourIndex = -1, maxHSemaineIndex = -1, maxHSeanceIndex = -1;
+            int pauseDejeunerIndex = -1;
 
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
@@ -68,6 +73,7 @@ public class ProfesseurService {
                     case "\uFEFFmaxheuresparjour", "\uFEFFmax_heures_par_jour", "maxheuresparjour", "max_heures_par_jour" -> maxHJourIndex = i;
                     case "\uFEFFmaxheuresparsemaine", "\uFEFFmax_heures_par_semaine", "maxheuresparsemaine", "max_heures_par_semaine" -> maxHSemaineIndex = i;
                     case "\uFEFFmaxheuresparseance", "\uFEFFmax_heures_par_seance", "maxheuresparseance", "max_heures_par_seance" -> maxHSeanceIndex = i;
+                    case "\uFEFFpausedejeunerdureemin", "\uFEFFpause_dejeuner_duree_min", "pausedejeunerdureemin", "pause_dejeuner_duree_min", "pausedejeuner" -> pauseDejeunerIndex = i;
                 }
             }
 
@@ -121,6 +127,9 @@ public class ProfesseurService {
                 if (maxHSeanceIndex != -1 && maxHSeanceIndex < line.length && !line[maxHSeanceIndex].trim().isEmpty()) {
                     p.setMaxHeuresParSeance(new java.math.BigDecimal(line[maxHSeanceIndex].trim()));
                 }
+                if (pauseDejeunerIndex != -1 && pauseDejeunerIndex < line.length && !line[pauseDejeunerIndex].trim().isEmpty()) {
+                    p.setPauseDejeunerDureeMin(Integer.parseInt(line[pauseDejeunerIndex].trim()));
+                }
 
                 dataPusher.saveProfesseur(p);
                 count++;
@@ -134,7 +143,10 @@ public class ProfesseurService {
              java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
              com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
 
-            writer.writeNext(new String[]{"id", "nom", "prenom", "email", "nb_heures", "maxheuresparjour", "maxheuresparsemaine", "maxheuresparseance"});
+            writer.writeNext(new String[]{
+                    "id", "nom", "prenom", "email", "nb_heures",
+                    "maxheuresparjour", "maxheuresparsemaine", "maxheuresparseance", "pauseDejeunerDureeMin"
+            });
 
             for (fr.manaken.plannif.model.Professeur p : dataFetcher.getProfesseurs()) {
                 writer.writeNext(new String[]{
@@ -145,7 +157,8 @@ public class ProfesseurService {
                         p.getNb_heures() != null ? p.getNb_heures().toString() : "",
                         p.getMaxHeuresParJour() != null ? p.getMaxHeuresParJour().toString() : "",
                         p.getMaxHeuresParSemaine() != null ? p.getMaxHeuresParSemaine().toString() : "",
-                        p.getMaxHeuresParSeance() != null ? p.getMaxHeuresParSeance().toString() : ""
+                        p.getMaxHeuresParSeance() != null ? p.getMaxHeuresParSeance().toString() : "",
+                        p.getPauseDejeunerDureeMin() != null ? p.getPauseDejeunerDureeMin().toString() : ""
                 });
             }
             writer.flush();

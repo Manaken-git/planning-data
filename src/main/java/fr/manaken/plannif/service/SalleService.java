@@ -55,6 +55,7 @@ public class SalleService {
             }
 
             int idIndex = -1, codeIndex = -1, capaciteIndex = -1, typeIndex = -1;
+            int batimentIndex = -1, etageIndex = -1;
 
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
@@ -63,6 +64,8 @@ public class SalleService {
                     case "\uFEFFcode", "code" -> codeIndex = i;
                     case "\uFEFFcapacite", "\uFEFFcapacité", "capacite", "capacité" -> capaciteIndex = i;
                     case "\uFEFFtype", "type" -> typeIndex = i;
+                    case "\uFEFFbatiment", "\uFEFFbâtiment", "batiment", "bâtiment" -> batimentIndex = i;
+                    case "\uFEFFetage", "\uFEFFétage", "etage", "étage" -> etageIndex = i;
                 }
             }
 
@@ -105,6 +108,12 @@ public class SalleService {
                 if (typeIndex != -1 && typeIndex < line.length) {
                     s.setType(line[typeIndex].trim());
                 }
+                if (batimentIndex != -1 && batimentIndex < line.length) {
+                    s.setBatiment(line[batimentIndex].trim());
+                }
+                if (etageIndex != -1 && etageIndex < line.length && !line[etageIndex].trim().isEmpty()) {
+                    s.setEtage(Integer.parseInt(line[etageIndex].trim()));
+                }
 
                 dataPusher.saveSalle(s);
                 count++;
@@ -118,14 +127,16 @@ public class SalleService {
              java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
              com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
 
-            writer.writeNext(new String[]{"id", "code", "capacite", "type"});
+            writer.writeNext(new String[]{"id", "code", "capacite", "type", "batiment", "etage"});
 
             for (fr.manaken.plannif.model.Salle s : dataFetcher.getSalles()) {
                 writer.writeNext(new String[]{
                         s.getId() != null ? s.getId().toString() : "",
                         s.getCode() != null ? s.getCode() : "",
                         s.getCapacite() != null ? s.getCapacite().toString() : "",
-                        s.getType() != null ? s.getType() : ""
+                        s.getType() != null ? s.getType() : "",
+                        s.getBatiment() != null ? s.getBatiment() : "",
+                        s.getEtage() != null ? s.getEtage().toString() : ""
                 });
             }
             writer.flush();

@@ -46,6 +46,15 @@ public class MatiereClasseConfigService {
             entity.setMatiere(dataFetcher.getMatiere(Math.toIntExact(dto.matiereId())));
         }
 
+        if (dto.equipementsRequis() != null) {
+            entity.getEquipementsRequis().clear();
+            for (var eqDto : dto.equipementsRequis()) {
+                if (eqDto.id() != null && dataFetcher.existsEquipement(Math.toIntExact(eqDto.id()))) {
+                    entity.getEquipementsRequis().add(dataFetcher.getEquipement(Math.toIntExact(eqDto.id())));
+                }
+            }
+        }
+
         validateConfigDatesAgainstPresences(entity);
         
         return mapper.toDto(dataPusher.saveMatiereClasseConfig(entity));
@@ -69,6 +78,8 @@ public class MatiereClasseConfigService {
 
             int idIndex = -1, classeIdIndex = -1, matiereIdIndex = -1;
             int dateDebutIndex = -1, dateFinIndex = -1, volumeIndex = -1;
+            int typeSalleIndex = -1, dureeCoursIndex = -1, dureeTpIndex = -1;
+            int cognitiveIndex = -1, bloc2hIndex = -1;
 
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
@@ -79,6 +90,11 @@ public class MatiereClasseConfigService {
                     case "\uFEFFdatedebut","datedebut", "date_debut" -> dateDebutIndex = i;
                     case "\uFEFFdatefin", "datefin",   "date_fin" -> dateFinIndex = i;
                     case "\uFEFFvolumehoraireperiode", "volumehoraireperiode",    "volume_horaire_periode" -> volumeIndex = i;
+                    case "\uFEFFtypesallerequis", "\uFEFFtype_salle_requis", "typesallerequis", "type_salle_requis", "typesalle" -> typeSalleIndex = i;
+                    case "\uFEFFdureecoursminutes", "\uFEFFduree_cours_minutes", "dureecoursminutes", "duree_cours_minutes" -> dureeCoursIndex = i;
+                    case "\uFEFFdureetpminutes", "\uFEFFduree_tp_minutes", "dureetpminutes", "duree_tp_minutes" -> dureeTpIndex = i;
+                    case "\uFEFFfortechargecognitive", "\uFEFFforte_charge_cognitive", "fortechargecognitive", "forte_charge_cognitive" -> cognitiveIndex = i;
+                    case "\uFEFFautoriserblocdeuxheures", "\uFEFFautoriser_bloc_deux_heures", "autoriserblocdeuxheures", "autoriser_bloc_deux_heures" -> bloc2hIndex = i;
                 }
             }
 
@@ -140,6 +156,21 @@ public class MatiereClasseConfigService {
                 if (volumeIndex != -1 && volumeIndex < line.length && !line[volumeIndex].trim().isEmpty()) {
                     config.setVolumeHorairePeriode(Long.parseLong(line[volumeIndex].trim()));
                 }
+                if (typeSalleIndex != -1 && typeSalleIndex < line.length && !line[typeSalleIndex].trim().isEmpty()) {
+                    config.setTypeSalleRequis(line[typeSalleIndex].trim());
+                }
+                if (dureeCoursIndex != -1 && dureeCoursIndex < line.length && !line[dureeCoursIndex].trim().isEmpty()) {
+                    config.setDureeCoursMinutes(Integer.parseInt(line[dureeCoursIndex].trim()));
+                }
+                if (dureeTpIndex != -1 && dureeTpIndex < line.length && !line[dureeTpIndex].trim().isEmpty()) {
+                    config.setDureeTpMinutes(Integer.parseInt(line[dureeTpIndex].trim()));
+                }
+                if (cognitiveIndex != -1 && cognitiveIndex < line.length && !line[cognitiveIndex].trim().isEmpty()) {
+                    config.setForteChargeCognitive(Boolean.parseBoolean(line[cognitiveIndex].trim()));
+                }
+                if (bloc2hIndex != -1 && bloc2hIndex < line.length && !line[bloc2hIndex].trim().isEmpty()) {
+                    config.setAutoriserBlocDeuxHeures(Boolean.parseBoolean(line[bloc2hIndex].trim()));
+                }
 
                 validateConfigDatesAgainstPresences(config);
 
@@ -155,7 +186,10 @@ public class MatiereClasseConfigService {
              java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
              com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
 
-            writer.writeNext(new String[]{"id", "classeId", "matiereId", "dateDebut", "dateFin", "volumeHorairePeriode"});
+            writer.writeNext(new String[]{
+                    "id", "classeId", "matiereId", "dateDebut", "dateFin", "volumeHorairePeriode",
+                    "typeSalleRequis", "dureeCoursMinutes", "dureeTpMinutes", "forteChargeCognitive", "autoriserBlocDeuxHeures"
+            });
 
             for (fr.manaken.plannif.model.MatiereClasseConfig config : dataFetcher.getMatiereClasseConfigs()) {
                 writer.writeNext(new String[]{
@@ -164,7 +198,12 @@ public class MatiereClasseConfigService {
                         config.getMatiere() != null && config.getMatiere().getId() != null ? config.getMatiere().getId().toString() : "",
                         config.getDateDebut() != null ? config.getDateDebut().toString() : "",
                         config.getDateFin() != null ? config.getDateFin().toString() : "",
-                        config.getVolumeHorairePeriode() != null ? config.getVolumeHorairePeriode().toString() : ""
+                        config.getVolumeHorairePeriode() != null ? config.getVolumeHorairePeriode().toString() : "",
+                        config.getTypeSalleRequis() != null ? config.getTypeSalleRequis() : "",
+                        config.getDureeCoursMinutes() != null ? config.getDureeCoursMinutes().toString() : "",
+                        config.getDureeTpMinutes() != null ? config.getDureeTpMinutes().toString() : "",
+                        config.getForteChargeCognitive() != null ? config.getForteChargeCognitive().toString() : "false",
+                        config.getAutoriserBlocDeuxHeures() != null ? config.getAutoriserBlocDeuxHeures().toString() : "false"
                 });
             }
             writer.flush();

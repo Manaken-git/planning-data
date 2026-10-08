@@ -95,7 +95,25 @@ public class PlanningService {
                 if (sDto.fin() != null) {
                     seance.setFin(sDto.fin());
                 } else if (sDto.debut() != null) {
-                    int duration = (sDto.type() != null && sDto.type().equalsIgnoreCase("TP")) ? 90 : 60;
+                    int duration = 60;
+                    boolean isTp = sDto.type() != null && sDto.type().equalsIgnoreCase("TP");
+                    fr.manaken.plannif.model.MatiereClasseConfig config = null;
+                    if (sDto.classeId() != null && sDto.matiereId() != null) {
+                        List<fr.manaken.plannif.model.MatiereClasseConfig> configs = dataFetcher.getMatiereClasseConfigsByClasseAndMatiere(sDto.classeId(), sDto.matiereId());
+                        if (configs != null && !configs.isEmpty()) {
+                            config = configs.get(0);
+                        }
+                    }
+
+                    if (isTp) {
+                        duration = (config != null && config.getDureeTpMinutes() != null)
+                                ? config.getDureeTpMinutes()
+                                : 90;
+                    } else {
+                        duration = (config != null && config.getDureeCoursMinutes() != null)
+                                ? config.getDureeCoursMinutes()
+                                : 60;
+                    }
                     seance.setFin(sDto.debut().plusMinutes(duration));
                 } else {
                     seance.setFin(null);
@@ -106,6 +124,9 @@ public class PlanningService {
                 } else {
                     seance.setType(null);
                 }
+
+                seance.setGroupe(sDto.groupe());
+                seance.setAlignementCode(sDto.alignementCode());
 
                 seance.setPlanning(entity);
                 seance = dataPusher.saveSeance(seance);

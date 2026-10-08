@@ -12,5 +12,11 @@ public record SeanceSaveDTO(
         Long salleId,
         String type,
         LocalDateTime debut,
-        LocalDateTime fin
-) {}
+        LocalDateTime fin,
+        String groupe,
+        String alignementCode
+) {
+    public SeanceSaveDTO(Long id, Long professeurId, Long classeId, Long matiereId, Long salleId, String type, LocalDateTime debut, LocalDateTime fin) {
+        this(id, professeurId, classeId, matiereId, salleId, type, debut, fin, null, null);
+    }
+}

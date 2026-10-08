@@ -49,6 +49,10 @@ public class Seance {
     @Enumerated(EnumType.STRING)
     private TypeSeance type;
 
+    private String groupe;
+
+    private String alignementCode;
+
     public enum TypeSeance {
         COURS, TP, EXAMEN, VIE_DE_CLASSE
     }

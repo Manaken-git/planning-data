@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = { EquipementMapper.class })
 public interface MatiereClasseConfigMapper {
 
     @Mapping(target = "classeId", source = "classe.id")

@@ -83,6 +83,13 @@ public class ClasseService {
             int idIndex = -1;
             int nomIndex = -1;
             int presencesIndex = -1;
+            int effectifIndex = -1;
+            int heureDebutMinIndex = -1;
+            int heureFinMaxIndex = -1;
+            int maxHeuresParJourIndex = -1;
+            int pauseDebutIndex = -1;
+            int pauseFinIndex = -1;
+            int pauseDureeIndex = -1;
 
             for (int i = 0; i < header.length; i++) {
                 String h = header[i].trim().toLowerCase();
@@ -90,6 +97,13 @@ public class ClasseService {
                     case "\uFEFFid", "id" -> idIndex = i;
                     case "\uFEFFnom", "nom" -> nomIndex = i;
                     case "\uFEFFpresences", "\uFEFFprésences", "presences", "présences", "périodes", "periodes" -> presencesIndex = i;
+                    case "\uFEFFeffectif", "effectif" -> effectifIndex = i;
+                    case "\uFEFFheuredebutmin", "\uFEFFheure_debut_min", "heuredebutmin", "heure_debut_min" -> heureDebutMinIndex = i;
+                    case "\uFEFFheurefinmax", "\uFEFFheure_fin_max", "heurefinmax", "heure_fin_max" -> heureFinMaxIndex = i;
+                    case "\uFEFFmaxheuresparjour", "\uFEFFmax_heures_par_jour", "maxheuresparjour", "max_heures_par_jour" -> maxHeuresParJourIndex = i;
+                    case "\uFEFFpausedejeunerdebutmin", "\uFEFFpause_dejeuner_debut_min", "pausedejeunerdebutmin", "pause_dejeuner_debut_min" -> pauseDebutIndex = i;
+                    case "\uFEFFpausedejeunerfinmax", "\uFEFFpause_dejeuner_fin_max", "pausedejeunerfinmax", "pause_dejeuner_fin_max" -> pauseFinIndex = i;
+                    case "\uFEFFpausedejeunerdureemin", "\uFEFFpause_dejeuner_duree_min", "pausedejeunerdureemin", "pause_dejeuner_duree_min" -> pauseDureeIndex = i;
                 }
             }
 
@@ -127,6 +141,28 @@ public class ClasseService {
                     }
                 }
                 c.setNom(nom);
+
+                if (effectifIndex != -1 && effectifIndex < line.length && !line[effectifIndex].trim().isEmpty()) {
+                    c.setEffectif(Integer.parseInt(line[effectifIndex].trim()));
+                }
+                if (heureDebutMinIndex != -1 && heureDebutMinIndex < line.length && !line[heureDebutMinIndex].trim().isEmpty()) {
+                    c.setHeureDebutMin(java.time.LocalTime.parse(line[heureDebutMinIndex].trim()));
+                }
+                if (heureFinMaxIndex != -1 && heureFinMaxIndex < line.length && !line[heureFinMaxIndex].trim().isEmpty()) {
+                    c.setHeureFinMax(java.time.LocalTime.parse(line[heureFinMaxIndex].trim()));
+                }
+                if (maxHeuresParJourIndex != -1 && maxHeuresParJourIndex < line.length && !line[maxHeuresParJourIndex].trim().isEmpty()) {
+                    c.setMaxHeuresParJour(Integer.parseInt(line[maxHeuresParJourIndex].trim()));
+                }
+                if (pauseDebutIndex != -1 && pauseDebutIndex < line.length && !line[pauseDebutIndex].trim().isEmpty()) {
+                    c.setPauseDejeunerDebutMin(java.time.LocalTime.parse(line[pauseDebutIndex].trim()));
+                }
+                if (pauseFinIndex != -1 && pauseFinIndex < line.length && !line[pauseFinIndex].trim().isEmpty()) {
+                    c.setPauseDejeunerFinMax(java.time.LocalTime.parse(line[pauseFinIndex].trim()));
+                }
+                if (pauseDureeIndex != -1 && pauseDureeIndex < line.length && !line[pauseDureeIndex].trim().isEmpty()) {
+                    c.setPauseDejeunerDureeMin(Integer.parseInt(line[pauseDureeIndex].trim()));
+                }
 
                 if (presencesIndex != -1 && presencesIndex < line.length) {
                     String presencesStr = line[presencesIndex].trim();
@@ -169,7 +205,10 @@ public class ClasseService {
              java.io.OutputStreamWriter osw = new java.io.OutputStreamWriter(out, java.nio.charset.StandardCharsets.UTF_8);
              com.opencsv.CSVWriter writer = new com.opencsv.CSVWriter(osw)) {
 
-            writer.writeNext(new String[]{"id", "nom", "presences"});
+            writer.writeNext(new String[]{
+                    "id", "nom", "effectif", "heureDebutMin", "heureFinMax", "maxHeuresParJour",
+                    "pauseDejeunerDebutMin", "pauseDejeunerFinMax", "pauseDejeunerDureeMin", "presences"
+            });
 
             for (fr.manaken.plannif.model.Classe c : dataFetcher.getClasses()) {
                 String presencesStr = "";
@@ -182,6 +221,13 @@ public class ClasseService {
                 writer.writeNext(new String[]{
                         c.getId() != null ? c.getId().toString() : "",
                         c.getNom() != null ? c.getNom() : "",
+                        c.getEffectif() != null ? c.getEffectif().toString() : "",
+                        c.getHeureDebutMin() != null ? c.getHeureDebutMin().toString() : "",
+                        c.getHeureFinMax() != null ? c.getHeureFinMax().toString() : "",
+                        c.getMaxHeuresParJour() != null ? c.getMaxHeuresParJour().toString() : "",
+                        c.getPauseDejeunerDebutMin() != null ? c.getPauseDejeunerDebutMin().toString() : "",
+                        c.getPauseDejeunerFinMax() != null ? c.getPauseDejeunerFinMax().toString() : "",
+                        c.getPauseDejeunerDureeMin() != null ? c.getPauseDejeunerDureeMin().toString() : "",
                         presencesStr
                 });
             }

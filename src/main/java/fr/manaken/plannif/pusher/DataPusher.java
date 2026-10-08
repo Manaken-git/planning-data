@@ -18,6 +18,10 @@ import fr.manaken.plannif.model.Vacances;
 import fr.manaken.plannif.repository.VacancesRepository;
 import fr.manaken.plannif.repository.PlanningRepository;
 import fr.manaken.plannif.model.Planning;
+import fr.manaken.plannif.model.ScoreConstraintConfig;
+import fr.manaken.plannif.repository.ScoreConstraintConfigRepository;
+import fr.manaken.plannif.model.Equipement;
+import fr.manaken.plannif.repository.EquipementRepository;
 import lombok.NonNull;
 
 import org.springframework.stereotype.Service;
@@ -33,13 +37,17 @@ public class DataPusher {
     private final MatiereClasseConfigRepository matiereClasseConfigRepository;
     private final VacancesRepository vacancesRepository;
     private final PlanningRepository planningRepository;
+    private final ScoreConstraintConfigRepository scoreConstraintConfigRepository;
+    private final EquipementRepository equipementRepository;
 
     public DataPusher(ProfesseurRepository professeurRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
             EleveRepository eleveRepository, SeanceRepository seanceRepository,
             MatiereClasseConfigRepository matiereClasseConfigRepository,
             VacancesRepository vacancesRepository,
-            PlanningRepository planningRepository) {
+            PlanningRepository planningRepository,
+            ScoreConstraintConfigRepository scoreConstraintConfigRepository,
+            EquipementRepository equipementRepository) {
         this.professeurRepository = professeurRepository;
         this.salleRepository = salleRepository;
         this.classeRepository = classeRepository;
@@ -49,6 +57,8 @@ public class DataPusher {
         this.matiereClasseConfigRepository = matiereClasseConfigRepository;
         this.vacancesRepository = vacancesRepository;
         this.planningRepository = planningRepository;
+        this.scoreConstraintConfigRepository = scoreConstraintConfigRepository;
+        this.equipementRepository = equipementRepository;
     }
 
     // --- Professeur ---
@@ -132,5 +142,23 @@ public class DataPusher {
 
     public void deletePlanning(@NonNull Integer id) {
         planningRepository.deleteById((long) id);
+    }
+
+    // --- ScoreConstraintConfig ---
+    public ScoreConstraintConfig saveConstraintConfig(@NonNull ScoreConstraintConfig config) {
+        return scoreConstraintConfigRepository.save(config);
+    }
+
+    public void deleteConstraintConfig(@NonNull Integer id) {
+        scoreConstraintConfigRepository.deleteById(id);
+    }
+
+    // --- Equipement ---
+    public Equipement saveEquipement(@NonNull Equipement e) {
+        return equipementRepository.save(e);
+    }
+
+    public void deleteEquipement(@NonNull Integer id) {
+        equipementRepository.deleteById((long) id);
     }
 }

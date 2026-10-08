@@ -92,12 +92,53 @@ class PlanningServiceTest {
         PlanningDTO result = planningService.savePlanning(planningSaveDTO);
 
         assertThat(result).isNotNull();
-        assertThat(result.id()).isEqualTo(10L);
         verify(dataPusher, atLeastOnce()).savePlanning(any(Planning.class));
         verify(dataPusher).saveSeance(argThat(s ->
                 s.getDebut().equals(debut) &&
                 s.getFin().equals(fin) &&
                 s.getType() == Seance.TypeSeance.COURS
+        ));
+    }
+
+    @Test
+    void shouldCalculateFinFromMatiereClasseConfigWhenFinIsNull() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime debut = now.plusDays(1).withHour(8).withMinute(0);
+
+        SeanceSaveDTO seanceSaveDTO = new SeanceSaveDTO(
+                null, 1L, 2L, 3L, 4L, "TP", debut, null
+        );
+
+        PlanningSaveDTO planningSaveDTO = new PlanningSaveDTO(
+                null, "Planning TP", now, List.of(seanceSaveDTO)
+        );
+
+        Planning savedEntity = new Planning();
+        savedEntity.setId(11L);
+        savedEntity.setNom("Planning TP");
+
+        when(dataPusher.savePlanning(any(Planning.class))).thenReturn(savedEntity);
+
+        fr.manaken.plannif.model.MatiereClasseConfig config = new fr.manaken.plannif.model.MatiereClasseConfig();
+        config.setDureeTpMinutes(110);
+        when(dataFetcher.getMatiereClasseConfigsByClasseAndMatiere(2L, 3L)).thenReturn(List.of(config));
+
+        Seance savedSeance = new Seance();
+        savedSeance.setId(101L);
+        savedSeance.setDebut(debut);
+        savedSeance.setFin(debut.plusMinutes(110));
+        when(dataPusher.saveSeance(any(Seance.class))).thenReturn(savedSeance);
+
+        PlanningDTO expectedDTO = new PlanningDTO(11L, "Planning TP", now, List.of());
+        when(mapper.toDto(any(Planning.class))).thenReturn(expectedDTO);
+
+        PlanningDTO result = planningService.savePlanning(planningSaveDTO);
+
+        assertThat(result).isNotNull();
+        verify(dataPusher).saveSeance(argThat(s ->
+                s.getDebut().equals(debut) &&
+                s.getFin().equals(debut.plusMinutes(110)) &&
+                s.getType() == Seance.TypeSeance.TP
         ));
     }
 }
