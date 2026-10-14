@@ -4,7 +4,7 @@ import fr.manaken.plannif.dto.PlanningDTO;
 import fr.manaken.plannif.model.Planning;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring", uses = {SeanceMapper.class})
+@Mapper(componentModel = "spring", uses = {SeanceMapper.class, SeanceNonPlanifieeMapper.class})
 public interface PlanningMapper {
     PlanningDTO toDto(Planning planning);
 }

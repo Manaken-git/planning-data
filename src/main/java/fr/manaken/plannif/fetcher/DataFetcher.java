@@ -20,6 +20,8 @@ import fr.manaken.plannif.repository.PlanningRepository;
 import fr.manaken.plannif.model.Planning;
 import fr.manaken.plannif.model.ScoreConstraintConfig;
 import fr.manaken.plannif.repository.ScoreConstraintConfigRepository;
+import fr.manaken.plannif.model.SeanceNonPlanifiee;
+import fr.manaken.plannif.repository.SeanceNonPlanifieeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,6 +43,7 @@ public class DataFetcher {
     private final PlanningRepository planningRepository;
     private final ScoreConstraintConfigRepository scoreConstraintConfigRepository;
     private final EquipementRepository equipementRepository;
+    private final SeanceNonPlanifieeRepository seanceNonPlanifieeRepository;
 
     public DataFetcher(ProfesseurRepository professeurRepository, SeanceRepository seanceRepository,
             EleveRepository eleveRepository, SalleRepository salleRepository,
@@ -49,7 +52,8 @@ public class DataFetcher {
             VacancesRepository vacancesRepository,
             PlanningRepository planningRepository,
             ScoreConstraintConfigRepository scoreConstraintConfigRepository,
-            EquipementRepository equipementRepository) {
+            EquipementRepository equipementRepository,
+            SeanceNonPlanifieeRepository seanceNonPlanifieeRepository) {
         this.professeurRepository = professeurRepository;
         this.seanceRepository = seanceRepository;
         this.eleveRepository = eleveRepository;
@@ -61,6 +65,7 @@ public class DataFetcher {
         this.planningRepository = planningRepository;
         this.scoreConstraintConfigRepository = scoreConstraintConfigRepository;
         this.equipementRepository = equipementRepository;
+        this.seanceNonPlanifieeRepository = seanceNonPlanifieeRepository;
     }
 
     // --- Professeur ---
@@ -228,6 +233,19 @@ public class DataFetcher {
 
     public boolean existsEquipement(Integer id) {
         return equipementRepository.existsById((long) id);
+    }
+
+    // --- SeanceNonPlanifiee ---
+    public List<SeanceNonPlanifiee> getSeancesNonPlanifieesByPlanningId(Long planningId) {
+        return seanceNonPlanifieeRepository.findByPlanningId(planningId);
+    }
+
+    public SeanceNonPlanifiee getSeanceNonPlanifiee(Long id) {
+        return seanceNonPlanifieeRepository.getReferenceById(id);
+    }
+
+    public boolean existsSeanceNonPlanifiee(Long id) {
+        return seanceNonPlanifieeRepository.existsById(id);
     }
 }
 

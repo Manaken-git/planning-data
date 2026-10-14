@@ -2,6 +2,7 @@ package fr.manaken.plannif.controller;
 
 import fr.manaken.plannif.dto.PlanningDTO;
 import fr.manaken.plannif.dto.PlanningSaveDTO;
+import fr.manaken.plannif.dto.SeanceNonPlanifieeDTO;
 import fr.manaken.plannif.service.PlanningService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +32,11 @@ public class PlanningController {
     @PostMapping("/save")
     public PlanningDTO savePlanning(@RequestBody PlanningSaveDTO dto) {
         return planningService.savePlanning(dto);
+    }
+
+    @GetMapping("/{id}/seances-non-planifiees")
+    public List<SeanceNonPlanifieeDTO> getSeancesNonPlanifiees(@PathVariable Long id) {
+        return planningService.getSeancesNonPlanifiees(id);
     }
 
     @DeleteMapping("/delete/{id}")

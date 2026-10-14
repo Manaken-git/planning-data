@@ -895,4 +895,74 @@ databaseChangeLog:
                   name: two_hour_block_weight
                   type: INT
                   defaultValueNumeric: 1
+
+  - changeSet:
+      id: 39-seance-non-planifiee
+      author: manaken
+      changes:
+        - createTable:
+            tableName: t_seance_non_planifiee
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT AUTO_INCREMENT
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: planning_id
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+                    foreignKeyName: fk_snp_planning
+                    referencedTableName: t_planning
+                    referencedColumnNames: id
+              - column:
+                  name: classe_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_snp_classe
+                    referencedTableName: classe
+                    referencedColumnNames: id
+              - column:
+                  name: matiere_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_snp_matiere
+                    referencedTableName: matiere
+                    referencedColumnNames: id
+              - column:
+                  name: professeur_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_snp_professeur
+                    referencedTableName: professeur
+                    referencedColumnNames: id
+              - column:
+                  name: salle_id
+                  type: BIGINT
+                  constraints:
+                    foreignKeyName: fk_snp_salle
+                    referencedTableName: salle
+                    referencedColumnNames: id
+              - column:
+                  name: debut
+                  type: DATETIME
+              - column:
+                  name: fin
+                  type: DATETIME
+              - column:
+                  name: type
+                  type: VARCHAR(50)
+              - column:
+                  name: groupe
+                  type: VARCHAR(50)
+              - column:
+                  name: alignement_code
+                  type: VARCHAR(50)
+              - column:
+                  name: motif_echec
+                  type: VARCHAR(255)
+              - column:
+                  name: date_creation
+                  type: DATETIME
 

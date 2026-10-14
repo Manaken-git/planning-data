@@ -71,7 +71,8 @@ Le projet suit une variante propre de séparation CQRS / Data Layer :
 | **`PlageHoraire`** | `t_plage_horaire` | `id` (Long), `libelle` (String) | Plage horaire préférée (ex. Matin, Après-midi) |
 | **`MatiereClasseConfig`**| `t_matiere_classe_config` | `id` (Long), `dateDebut` (LocalDate), `dateFin` (LocalDate), `volumeHorairePeriode` (Long), `typeSalleRequis` (String), `dureeCoursMinutes` (Integer), `dureeTpMinutes` (Integer), `forteChargeCognitive` (Boolean), `autoriserBlocDeuxHeures` (Boolean) | - `classe` : `@ManyToOne` `Classe`<br>- `matiere` : `@ManyToOne` `Matiere`<br>- `equipementsRequis` : `@ManyToMany` via table `tj_matiere_classe_config_equipement`<br>- Doit englober les périodes de présence associées |
 | **`Seance`** | `seance` | `id` (Long), `debut` (LocalDateTime), `fin` (LocalDateTime), `type` (TypeSeance), `groupe` (String), `alignementCode` (String) | Enum `TypeSeance` : `COURS`, `TP`, `EXAMEN`, `VIE_DE_CLASSE`<br>- `professeur` (ManyToOne)<br>- `classe` (ManyToOne)<br>- `matiere` (ManyToOne)<br>- `salle` (ManyToOne)<br>- `planning` (ManyToOne) |
-| **`Planning`** | `t_planning` | `id` (Long), `nom` (String), `dateCreation` (LocalDateTime) | - `seances` : `@OneToMany` `Seance` (cascade PERSIST/MERGE) |
+| **`SeanceNonPlanifiee`** | `t_seance_non_planifiee` | `id` (Long), `debut` (LocalDateTime), `fin` (LocalDateTime), `type` (TypeSeance), `groupe` (String), `alignementCode` (String), `motifEchec` (String), `dateCreation` (LocalDateTime) | Séances n'ayant pu être planifiées ou incomplètes (ex: absence de prof, salle, créneau). Relations ManyToOne vers `professeur`, `classe`, `matiere`, `salle`, `planning`. |
+| **`Planning`** | `t_planning` | `id` (Long), `nom` (String), `dateCreation` (LocalDateTime) | - `seances` : `@OneToMany` `Seance` (cascade PERSIST/MERGE)<br>- `seancesNonPlanifiees` : `@OneToMany` `SeanceNonPlanifiee` (cascade PERSIST/MERGE) |
 | **`Vacances`** | `t_vacances` | `id` (Long), `nom` (String), `dateDebut` (LocalDate), `dateFin` (LocalDate) | Périodes de congés scolaires |
 | **`ScoreConstraintConfig`** | `t_constraint_configuration` | `id` (Long), `nom` (String), `isDefault` (Boolean), pondérations pour 15 règles Timefold (Integer) | Configuration dynamique des scores Timefold |
 
@@ -93,7 +94,8 @@ Le projet suit une variante propre de séparation CQRS / Data Layer :
 - **`MatiereClasseConfigDTO`** : `(Long id, Long classeId, String classeNom, Long matiereId, String matiereNom, LocalDate dateDebut, LocalDate dateFin, Long volumeHorairePeriode, String typeSalleRequis, Integer dureeCoursMinutes, Integer dureeTpMinutes, Boolean forteChargeCognitive, Boolean autoriserBlocDeuxHeures, Set<EquipementDTO> equipementsRequis)`
 - **`SeanceDTO`** : `(Long id, LocalDateTime debut, LocalDateTime fin, String professeurNomComplet, String classeNom, String matiereNom, String salleCode, String type, String groupe, String alignementCode)`
 - **`SeanceSaveDTO`** : `(Long id, Long professeurId, Long classeId, Long matiereId, Long salleId, String type, LocalDateTime debut, LocalDateTime fin, String groupe, String alignementCode)`
-- **`PlanningDTO`** : `(Long id, String nom, LocalDateTime dateCreation, List<SeanceDTO> seances)`
+- **`SeanceNonPlanifieeDTO`** : `(Long id, LocalDateTime debut, LocalDateTime fin, String professeurNomComplet, String classeNom, String matiereNom, String salleCode, String type, String groupe, String alignementCode, String motifEchec)`
+- **`PlanningDTO`** : `(Long id, String nom, LocalDateTime dateCreation, List<SeanceDTO> seances, List<SeanceNonPlanifieeDTO> seancesNonPlanifiees)`
 - **`PlanningSaveDTO`** : `(Long id, String nom, LocalDateTime dateCreation, List<SeanceSaveDTO> seances)`
 - **`VacancesDTO`** : `(Long id, String nom, LocalDate dateDebut, LocalDate dateFin)`
 - **`ScoreConstraintConfigDTO`** : `(Long id, String nom, Boolean isDefault, Integer roomConflictWeight, ...)`
@@ -146,9 +148,10 @@ Le projet suit une variante propre de séparation CQRS / Data Layer :
 
 ### 5.8 Plannings (`/plannings`)
 - `GET /plannings/list` : Liste des plannings sauvegardés.
-- `GET /plannings/{id}` : Détail d'un planning avec ses séances.
-- `POST /plannings/save` : Sauvegarde complète d'un planning (`PlanningSaveDTO`). Associe directement les séances avec dates de début et fin au planning.
-- `DELETE /plannings/delete/{id}` : Supprime un planning et cascade sur ses séances.
+- `GET /plannings/{id}` : Détail d'un planning avec ses séances et ses séances non planifiées.
+- `GET /plannings/{id}/seances-non-planifiees` : Liste spécifique des séances non planifiées d'un planning.
+- `POST /plannings/save` : Sauvegarde complète d'un planning (`PlanningSaveDTO`). Sépare automatiquement les séances valides (table `seance`) et les séances incomplètes/en échec (table `t_seance_non_planifiee` avec `motifEchec`).
+- `DELETE /plannings/delete/{id}` : Supprime un planning et cascade sur ses séances et séances non planifiées.
 
 ### 5.9 Vacances (`/vacances`)
 - `GET /vacances/list`, `POST /vacances/create`, `PUT /vacances/update`, `DELETE /vacances/delete/{id}`.

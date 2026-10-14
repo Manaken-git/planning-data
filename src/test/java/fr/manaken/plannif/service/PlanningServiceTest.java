@@ -37,6 +37,9 @@ class PlanningServiceTest {
     @Mock
     private PlanningMapper mapper;
 
+    @Mock
+    private fr.manaken.plannif.mapper.SeanceNonPlanifieeMapper seanceNonPlanifieeMapper;
+
     @InjectMocks
     private PlanningService planningService;
 
@@ -140,5 +143,76 @@ class PlanningServiceTest {
                 s.getFin().equals(debut.plusMinutes(110)) &&
                 s.getType() == Seance.TypeSeance.TP
         ));
+    }
+
+    @Test
+    void shouldSavePlanningWithSeanceNonPlanifieeWhenTeacherAndRoomMissing() {
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime debut = now.plusDays(1).withHour(8).withMinute(0);
+        LocalDateTime fin = now.plusDays(1).withHour(10).withMinute(0);
+
+        // Absence de professeur (null) et salle (null)
+        SeanceSaveDTO seanceIncomplete = new SeanceSaveDTO(
+                null, null, 2L, 3L, null, "COURS", debut, fin
+        );
+
+        PlanningSaveDTO planningSaveDTO = new PlanningSaveDTO(
+                null, "Planning Partiel", now, List.of(seanceIncomplete)
+        );
+
+        Planning savedEntity = new Planning();
+        savedEntity.setId(20L);
+        savedEntity.setNom("Planning Partiel");
+
+        when(dataPusher.savePlanning(any(Planning.class))).thenReturn(savedEntity);
+
+        Classe classe = new Classe();
+        classe.setId(2L);
+        Matiere matiere = new Matiere();
+        matiere.setId(3L);
+
+        when(dataFetcher.getClasse(2)).thenReturn(classe);
+        when(dataFetcher.getMatiere(3)).thenReturn(matiere);
+
+        fr.manaken.plannif.model.SeanceNonPlanifiee savedSnp = new fr.manaken.plannif.model.SeanceNonPlanifiee();
+        savedSnp.setId(50L);
+        savedSnp.setMotifEchec("PROFESSEUR_MANQUANT, SALLE_MANQUANTE");
+
+        when(dataPusher.saveSeanceNonPlanifiee(any(fr.manaken.plannif.model.SeanceNonPlanifiee.class))).thenReturn(savedSnp);
+
+        PlanningDTO expectedDTO = new PlanningDTO(20L, "Planning Partiel", now, List.of());
+        when(mapper.toDto(any(Planning.class))).thenReturn(expectedDTO);
+
+        PlanningDTO result = planningService.savePlanning(planningSaveDTO);
+
+        assertThat(result).isNotNull();
+        // Doit appeler saveSeanceNonPlanifiee et NON saveSeance
+        verify(dataPusher, never()).saveSeance(any());
+        verify(dataPusher).saveSeanceNonPlanifiee(argThat(snp ->
+                snp.getMotifEchec().contains("PROFESSEUR_MANQUANT") &&
+                snp.getMotifEchec().contains("SALLE_MANQUANTE") &&
+                snp.getClasse().equals(classe) &&
+                snp.getMatiere().equals(matiere)
+        ));
+    }
+
+    @Test
+    void shouldDeletePlanningAndItsUnplannedSeances() {
+        Long planningId = 15L;
+        when(dataFetcher.existsPlanning(15)).thenReturn(true);
+
+        Planning planning = new Planning();
+        planning.setId(planningId);
+        Seance seance = new Seance();
+        seance.setId(101L);
+        planning.setSeances(List.of(seance));
+
+        when(dataFetcher.getPlanning(15)).thenReturn(planning);
+
+        planningService.deletePlanning(planningId);
+
+        verify(dataPusher).deleteSeance(101);
+        verify(dataPusher).deleteSeancesNonPlanifieesByPlanningId(planningId);
+        verify(dataPusher).deletePlanning(15);
     }
 }

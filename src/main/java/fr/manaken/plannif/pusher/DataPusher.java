@@ -22,6 +22,8 @@ import fr.manaken.plannif.model.ScoreConstraintConfig;
 import fr.manaken.plannif.repository.ScoreConstraintConfigRepository;
 import fr.manaken.plannif.model.Equipement;
 import fr.manaken.plannif.repository.EquipementRepository;
+import fr.manaken.plannif.model.SeanceNonPlanifiee;
+import fr.manaken.plannif.repository.SeanceNonPlanifieeRepository;
 import lombok.NonNull;
 
 import org.springframework.stereotype.Service;
@@ -39,6 +41,7 @@ public class DataPusher {
     private final PlanningRepository planningRepository;
     private final ScoreConstraintConfigRepository scoreConstraintConfigRepository;
     private final EquipementRepository equipementRepository;
+    private final SeanceNonPlanifieeRepository seanceNonPlanifieeRepository;
 
     public DataPusher(ProfesseurRepository professeurRepository, SalleRepository salleRepository,
             ClasseRepository classeRepository, MatiereRepository matiereRepository,
@@ -47,7 +50,8 @@ public class DataPusher {
             VacancesRepository vacancesRepository,
             PlanningRepository planningRepository,
             ScoreConstraintConfigRepository scoreConstraintConfigRepository,
-            EquipementRepository equipementRepository) {
+            EquipementRepository equipementRepository,
+            SeanceNonPlanifieeRepository seanceNonPlanifieeRepository) {
         this.professeurRepository = professeurRepository;
         this.salleRepository = salleRepository;
         this.classeRepository = classeRepository;
@@ -59,6 +63,7 @@ public class DataPusher {
         this.planningRepository = planningRepository;
         this.scoreConstraintConfigRepository = scoreConstraintConfigRepository;
         this.equipementRepository = equipementRepository;
+        this.seanceNonPlanifieeRepository = seanceNonPlanifieeRepository;
     }
 
     // --- Professeur ---
@@ -160,5 +165,18 @@ public class DataPusher {
 
     public void deleteEquipement(@NonNull Integer id) {
         equipementRepository.deleteById((long) id);
+    }
+
+    // --- SeanceNonPlanifiee ---
+    public SeanceNonPlanifiee saveSeanceNonPlanifiee(@NonNull SeanceNonPlanifiee s) {
+        return seanceNonPlanifieeRepository.save(s);
+    }
+
+    public void deleteSeanceNonPlanifiee(@NonNull Long id) {
+        seanceNonPlanifieeRepository.deleteById(id);
+    }
+
+    public void deleteSeancesNonPlanifieesByPlanningId(@NonNull Long planningId) {
+        seanceNonPlanifieeRepository.deleteByPlanningId(planningId);
     }
 }

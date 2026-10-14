@@ -28,4 +28,7 @@ public class Planning {
 
     @OneToMany(mappedBy = "planning", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Seance> seances = new ArrayList<>();
+
+    @OneToMany(mappedBy = "planning", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<SeanceNonPlanifiee> seancesNonPlanifiees = new ArrayList<>();
 }

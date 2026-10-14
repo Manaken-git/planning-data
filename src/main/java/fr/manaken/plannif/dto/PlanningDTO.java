@@ -7,5 +7,10 @@ public record PlanningDTO(
         Long id,
         String nom,
         LocalDateTime dateCreation,
-        List<SeanceDTO> seances
-) {}
+        List<SeanceDTO> seances,
+        List<SeanceNonPlanifieeDTO> seancesNonPlanifiees
+) {
+    public PlanningDTO(Long id, String nom, LocalDateTime dateCreation, List<SeanceDTO> seances) {
+        this(id, nom, dateCreation, seances, List.of());
+    }
+}
