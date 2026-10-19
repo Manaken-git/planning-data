@@ -41,6 +41,15 @@ public class ClasseService {
             validatePresences(entity.getPresences());
             entity.getPresences().forEach(p -> p.setClasse(entity));
         }
+
+        if (entity.getReferents() != null) {
+            entity.getReferents().forEach(r -> {
+                r.setClasse(entity);
+                if (r.getProfesseur() != null && r.getProfesseur().getId() != null) {
+                    r.setProfesseur(dataFetcher.getProfesseur(Math.toIntExact(r.getProfesseur().getId())));
+                }
+            });
+        }
         
         return mapper.toDto(dataPusher.saveClasse(entity));
     }
@@ -247,4 +256,5 @@ public class ClasseService {
         }
     }
 }
+
 

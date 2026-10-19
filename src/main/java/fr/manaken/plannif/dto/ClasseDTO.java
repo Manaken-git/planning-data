@@ -16,9 +16,14 @@ public record ClasseDTO(
         Integer pauseDejeunerDureeMin,
         Set<SeanceDTO> seances,
         Set<EleveDTO> eleves,
-        List<ClassePresenceDTO> presences
+        List<ClassePresenceDTO> presences,
+        List<ClasseReferentDTO> referents
 ) {
     public ClasseDTO(Long id, String nom, Set<SeanceDTO> seances, Set<EleveDTO> eleves, List<ClassePresenceDTO> presences) {
-        this(id, nom, null, null, null, null, null, null, null, seances, eleves, presences);
+        this(id, nom, null, null, null, null, null, null, null, seances, eleves, presences, null);
+    }
+
+    public ClasseDTO(Long id, String nom, Set<SeanceDTO> seances, Set<EleveDTO> eleves, List<ClassePresenceDTO> presences, List<ClasseReferentDTO> referents) {
+        this(id, nom, null, null, null, null, null, null, null, seances, eleves, presences, referents);
     }
 }

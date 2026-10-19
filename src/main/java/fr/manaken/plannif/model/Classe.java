@@ -46,6 +46,9 @@ public class Classe {
     @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ClassePresence> presences = new java.util.ArrayList<>();
 
+    @OneToMany(mappedBy = "classe", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ClasseReferent> referents = new java.util.ArrayList<>();
+
     public boolean needsVieDeClasse(ClassePresence presence, java.util.List<Vacances> allVacances) {
         java.time.LocalDate lastFriday = presence.getDateFin();
         while (lastFriday.getDayOfWeek() != java.time.DayOfWeek.FRIDAY) {
