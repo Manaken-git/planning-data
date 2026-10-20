@@ -201,17 +201,9 @@ class PlanningServiceTest {
         Long planningId = 15L;
         when(dataFetcher.existsPlanning(15)).thenReturn(true);
 
-        Planning planning = new Planning();
-        planning.setId(planningId);
-        Seance seance = new Seance();
-        seance.setId(101L);
-        planning.setSeances(List.of(seance));
-
-        when(dataFetcher.getPlanning(15)).thenReturn(planning);
-
         planningService.deletePlanning(planningId);
 
-        verify(dataPusher).deleteSeance(101);
+        verify(dataPusher).deleteSeancesByPlanningId(planningId);
         verify(dataPusher).deleteSeancesNonPlanifieesByPlanningId(planningId);
         verify(dataPusher).deletePlanning(15);
     }

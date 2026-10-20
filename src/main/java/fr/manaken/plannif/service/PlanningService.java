@@ -208,11 +208,7 @@ public class PlanningService {
         if (!dataFetcher.existsPlanning(Math.toIntExact(id))) {
             throw new IllegalArgumentException("Planning avec l'ID " + id + " introuvable.");
         }
-        Planning planning = dataFetcher.getPlanning(Math.toIntExact(id));
-        List<Seance> seances = new ArrayList<>(planning.getSeances());
-        for (Seance seance : seances) {
-            dataPusher.deleteSeance(Math.toIntExact(seance.getId()));
-        }
+        dataPusher.deleteSeancesByPlanningId(id);
         dataPusher.deleteSeancesNonPlanifieesByPlanningId(id);
         dataPusher.deletePlanning(Math.toIntExact(id));
     }

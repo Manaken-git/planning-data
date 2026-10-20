@@ -117,7 +117,11 @@ public class DataPusher {
     }
 
     public void deleteSeance(@NonNull Integer id) {
-        seanceRepository.deleteById(id);
+        seanceRepository.deleteById((long) id);
+    }
+
+    public void deleteSeancesByPlanningId(@NonNull Long planningId) {
+        seanceRepository.deleteByPlanningId(planningId);
     }
 
 

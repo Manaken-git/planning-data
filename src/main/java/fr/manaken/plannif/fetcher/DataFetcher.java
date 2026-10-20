@@ -129,7 +129,7 @@ public class DataFetcher {
 
     @SuppressWarnings("null")
     public Seance getSeance(Integer id) {
-        return seanceRepository.getReferenceById(id);
+        return seanceRepository.getReferenceById((long) id);
     }
 
 
@@ -169,7 +169,7 @@ public class DataFetcher {
     }
 
     public boolean existsSeance(Integer id) {
-        return seanceRepository.existsById(id);
+        return seanceRepository.existsById((long) id);
     }
 
 

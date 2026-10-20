@@ -26,9 +26,9 @@ public class Planning {
     @Column(name = "date_creation")
     private LocalDateTime dateCreation;
 
-    @OneToMany(mappedBy = "planning", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "planning", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Seance> seances = new ArrayList<>();
 
-    @OneToMany(mappedBy = "planning", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @OneToMany(mappedBy = "planning", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeanceNonPlanifiee> seancesNonPlanifiees = new ArrayList<>();
 }

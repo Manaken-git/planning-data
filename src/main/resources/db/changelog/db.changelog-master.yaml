@@ -1004,4 +1004,30 @@ databaseChangeLog:
             tableName: t_classe_referent
             columnNames: classe_id, professeur_id
             constraintName: uq_classe_professeur_referent
+
+  - changeSet:
+      id: 41-cascade-delete-planning
+      author: manaken
+      changes:
+        - dropForeignKeyConstraint:
+            baseTableName: seance
+            constraintName: fk_seance_planning
+        - addForeignKeyConstraint:
+            baseTableName: seance
+            baseColumnNames: planning_id
+            constraintName: fk_seance_planning
+            referencedTableName: t_planning
+            referencedColumnNames: id
+            onDelete: CASCADE
+        - dropForeignKeyConstraint:
+            baseTableName: t_seance_non_planifiee
+            constraintName: fk_snp_planning
+        - addForeignKeyConstraint:
+            baseTableName: t_seance_non_planifiee
+            baseColumnNames: planning_id
+            constraintName: fk_snp_planning
+            referencedTableName: t_planning
+            referencedColumnNames: id
+            onDelete: CASCADE
+
 
