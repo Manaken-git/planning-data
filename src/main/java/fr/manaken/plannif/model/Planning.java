@@ -31,4 +31,26 @@ public class Planning {
 
     @OneToMany(mappedBy = "planning", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeanceNonPlanifiee> seancesNonPlanifiees = new ArrayList<>();
+
+    public void setSeances(List<Seance> seances) {
+        if (this.seances == null) {
+            this.seances = new ArrayList<>();
+        } else {
+            this.seances.clear();
+        }
+        if (seances != null) {
+            this.seances.addAll(seances);
+        }
+    }
+
+    public void setSeancesNonPlanifiees(List<SeanceNonPlanifiee> seancesNonPlanifiees) {
+        if (this.seancesNonPlanifiees == null) {
+            this.seancesNonPlanifiees = new ArrayList<>();
+        } else {
+            this.seancesNonPlanifiees.clear();
+        }
+        if (seancesNonPlanifiees != null) {
+            this.seancesNonPlanifiees.addAll(seancesNonPlanifiees);
+        }
+    }
 }

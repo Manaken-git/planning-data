@@ -61,7 +61,6 @@ public class PlanningService {
         Planning entity;
         if (dto.id() != null && dto.id() > 0 && dataFetcher.existsPlanning(Math.toIntExact(dto.id()))) {
             entity = dataFetcher.getPlanning(Math.toIntExact(dto.id()));
-            dataPusher.deleteSeancesNonPlanifieesByPlanningId(entity.getId());
         } else {
             entity = new Planning();
         }
