@@ -61,6 +61,12 @@
             <artifactId>mariadb-java-client</artifactId>
             <version>3.5.6</version>
         </dependency>
+        <!-- H2 Database for local portable mode -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
         <!-- MapStruct -->
         <dependency>
             <groupId>org.mapstruct</groupId>
@@ -93,6 +99,25 @@
             <groupId>com.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>5.9</version>
+        </dependency>
+
+        <!-- Timefold Solver Core -->
+        <dependency>
+            <groupId>ai.timefold.solver</groupId>
+            <artifactId>timefold-solver-core</artifactId>
+            <version>1.27.0</version>
+        </dependency>
+        <!-- OpenPDF for fast PDF Generation -->
+        <dependency>
+            <groupId>com.github.librepdf</groupId>
+            <artifactId>openpdf</artifactId>
+            <version>2.0.3</version>
+        </dependency>
+        <dependency>
+            <groupId>ai.timefold.solver</groupId>
+            <artifactId>timefold-solver-test</artifactId>
+            <version>1.27.0</version>
+            <scope>test</scope>
         </dependency>
 	</dependencies>
 

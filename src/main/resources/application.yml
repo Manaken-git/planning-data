@@ -3,28 +3,37 @@ spring:
     name: plannif-data
 
   datasource:
-    url: jdbc:mariadb://localhost:3306/planning_ecole_full
-    username: root
-    password: root
-    driver-class-name: org.mariadb.jdbc.Driver
-    jpa:
+    url: jdbc:h2:file:./data/planning;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE;MODE=MariaDB
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    properties:
       hibernate:
-        ddl-auto: none
-      properties:
-        hibernate:
-          dialect: org.hibernate.dialect.MariaDBDialect
-          format_sql: true
-          show_sql: true
-    logging:
-      level:
-        org.hibernate.SQL: ERROR
+        format_sql: true
+        show_sql: false
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
   liquibase:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 server:
-  port: 8081
-  servlet:
-    context-path: /planning-data
+  port: 8080
+
+planning:
+  teaching-weeks: 36
+  standard-session-duration-hours: 2.0
+  solver:
+    spent-limit-seconds: 120
+    unimproved-spent-limit-seconds: 20
+    environment-mode: NON_REPRODUCIBLE
 
 logging:
   level:

@@ -1,0 +1,115 @@
+package fr.manaken.plannif.solver.business;
+
+import ai.timefold.solver.core.api.domain.solution.PlanningEntityCollectionProperty;
+import ai.timefold.solver.core.api.domain.solution.PlanningScore;
+import ai.timefold.solver.core.api.domain.solution.PlanningSolution;
+import ai.timefold.solver.core.api.domain.solution.ProblemFactCollectionProperty;
+import ai.timefold.solver.core.api.domain.valuerange.ValueRangeProvider;
+import ai.timefold.solver.core.api.score.buildin.hardsoft.HardSoftScore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import fr.manaken.plannif.solver.model.Salle;
+import fr.manaken.plannif.solver.model.Seance;
+import fr.manaken.plannif.solver.model.Professeur;
+import fr.manaken.plannif.solver.model.Classe;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import ai.timefold.solver.core.api.domain.solution.ConstraintWeightOverrides;
+import java.util.Map;
+
+@PlanningSolution
+@Getter
+@Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Planning {
+
+    private Long id;
+    private String nom;
+    private LocalDateTime dateCreation;
+
+    private ConstraintWeightOverrides<HardSoftScore> constraintWeightOverrides = ConstraintWeightOverrides.none();
+
+    @PlanningEntityCollectionProperty
+    private List<Seance> seances = new java.util.ArrayList<>();
+
+    @ValueRangeProvider(id = "dateDebutRange")
+    @ProblemFactCollectionProperty
+    private List<LocalDateTime> datesDebutPossibles = new java.util.ArrayList<>();
+
+    @ValueRangeProvider(id = "salleRange")
+    @ProblemFactCollectionProperty
+    private List<Salle> salles = new java.util.ArrayList<>();
+
+    @ValueRangeProvider(id = "professeurRange")
+    @ProblemFactCollectionProperty
+    private List<Professeur> professeurs = new java.util.ArrayList<>();
+
+    @ProblemFactCollectionProperty
+    private List<Classe> classes = new java.util.ArrayList<>();
+
+    @ProblemFactCollectionProperty
+    private List<fr.manaken.plannif.solver.model.Matiere> matieres = new java.util.ArrayList<>();
+
+    @ProblemFactCollectionProperty
+    private List<fr.manaken.plannif.solver.model.ProfesseurDayOff> professeurDayOffs = new java.util.ArrayList<>();
+
+    @ProblemFactCollectionProperty
+    private List<fr.manaken.plannif.solver.model.ClassePresence> classePresences = new java.util.ArrayList<>();
+
+    @ProblemFactCollectionProperty
+    private List<fr.manaken.plannif.solver.model.MatiereClasseConfig> matiereClasseConfigs = new java.util.ArrayList<>();
+
+    @ProblemFactCollectionProperty
+    private List<fr.manaken.plannif.solver.model.Vacances> vacances = new java.util.ArrayList<>();
+
+    @ProblemFactCollectionProperty
+    private List<fr.manaken.plannif.solver.model.ProfesseurIndisponibilite> professeurIndisponibilites = new java.util.ArrayList<>();
+
+    @ProblemFactCollectionProperty
+    private List<fr.manaken.plannif.solver.model.DistanceSalle> distanceSalles = new java.util.ArrayList<>();
+
+    @PlanningScore
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    private HardSoftScore score;
+
+    public void setDatesDebutPossibles(List<LocalDateTime> datesDebutPossibles) {
+        this.datesDebutPossibles = datesDebutPossibles;
+        distributeDatesToSeances();
+    }
+
+    public void setSeances(List<Seance> seances) {
+        this.seances = seances;
+        distributeDatesToSeances();
+    }
+
+    private void distributeDatesToSeances() {
+        if (this.seances != null && this.datesDebutPossibles != null && !this.datesDebutPossibles.isEmpty()) {
+            for (Seance s : this.seances) {
+                if (s.getDatesDebutPossibles() == null || s.getDatesDebutPossibles().isEmpty()) {
+                    s.setDatesDebutPossibles(new java.util.ArrayList<>(this.datesDebutPossibles));
+                }
+            }
+        }
+    }
+
+    @JsonProperty("creneaux")
+    public void setCreneauxFromJson(List<Map<String, Object>> creneauxJson) {
+        if (creneauxJson != null) {
+            for (Map<String, Object> map : creneauxJson) {
+                Object debutObj = map.get("debut");
+                if (debutObj instanceof String str) {
+                    try {
+                        LocalDateTime dt = LocalDateTime.parse(str);
+                        if (!this.datesDebutPossibles.contains(dt)) {
+                            this.datesDebutPossibles.add(dt);
+                        }
+                    } catch (Exception ignored) {}
+                }
+            }
+            distributeDatesToSeances();
+        }
+    }
+}

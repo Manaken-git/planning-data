@@ -1,0 +1,1811 @@
+{
+  "meta": {
+    "name": "Plannif'Edu — jeu de données de démonstration",
+    "version": 4,
+    "referenceWeek": "2026-08-17",
+    "description": "Données locales utilisées lorsque VITE_USE_MOCK_DATA=true."
+  },
+  "professeurs": [
+    {
+      "id": 1,
+      "nom": "Martin",
+      "prenom": "Claire",
+      "email": "claire.martin@plannif-edu.test",
+      "nb_heures": 210,
+      "maxHeuresParJour": 6,
+      "maxHeuresParSemaine": 18,
+      "maxHeuresParSeance": 3,
+      "plageHorairePreferee": {
+        "id": 1,
+        "libelle": "Matin"
+      },
+      "daysOff": [
+        {
+          "id": 1,
+          "jourSemaine": 5,
+          "dayOfWeek": 5,
+          "demiJournee": "JOURNEE_ENTIERE"
+        }
+      ],
+      "matieres": [
+        {
+          "id": 1,
+          "nom": "Mathématiques"
+        },
+        {
+          "id": 8,
+          "nom": "Algorithmique"
+        }
+      ],
+      "seances": [],
+      "pauseDejeunerRequise": true,
+      "batimentPrincipal": "Bâtiment A",
+      "indisponibilites": [
+        {
+          "id": 1,
+          "jourSemaine": 5,
+          "plage": "JOURNEE",
+          "motif": "Temps partiel"
+        }
+      ],
+      "pauseDejeunerDureeMin": 60
+    },
+    {
+      "id": 2,
+      "nom": "Bernard",
+      "prenom": "Lucas",
+      "email": "lucas.bernard@plannif-edu.test",
+      "nb_heures": 180,
+      "maxHeuresParJour": 6,
+      "maxHeuresParSemaine": 16,
+      "maxHeuresParSeance": 2,
+      "plageHorairePreferee": {
+        "id": 2,
+        "libelle": "Après-midi"
+      },
+      "daysOff": [
+        {
+          "id": 2,
+          "jourSemaine": 2,
+          "dayOfWeek": 2,
+          "demiJournee": "JOURNEE_ENTIERE"
+        }
+      ],
+      "matieres": [
+        {
+          "id": 3,
+          "nom": "Développement Web"
+        },
+        {
+          "id": 4,
+          "nom": "Bases de données"
+        }
+      ],
+      "seances": [],
+      "pauseDejeunerRequise": true,
+      "batimentPrincipal": "Bâtiment B",
+      "indisponibilites": [
+        {
+          "id": 2,
+          "jourSemaine": 2,
+          "plage": "JOURNEE",
+          "motif": "Recherche"
+        },
+        {
+          "id": 3,
+          "jourSemaine": 4,
+          "plage": "MATIN",
+          "motif": "Vœu horaire"
+        }
+      ],
+      "pauseDejeunerDureeMin": 60
+    },
+    {
+      "id": 3,
+      "nom": "Robert",
+      "prenom": "Sophie",
+      "email": "sophie.robert@plannif-edu.test",
+      "nb_heures": 160,
+      "maxHeuresParJour": 5,
+      "maxHeuresParSemaine": 15,
+      "maxHeuresParSeance": 2,
+      "plageHorairePreferee": {
+        "id": 3,
+        "libelle": "Matin"
+      },
+      "daysOff": [
+        {
+          "id": 3,
+          "jourSemaine": 3,
+          "dayOfWeek": 3,
+          "demiJournee": "JOURNEE_ENTIERE"
+        }
+      ],
+      "matieres": [
+        {
+          "id": 2,
+          "nom": "Français"
+        },
+        {
+          "id": 5,
+          "nom": "Anglais"
+        }
+      ],
+      "seances": [],
+      "pauseDejeunerRequise": true,
+      "batimentPrincipal": "Bâtiment A",
+      "indisponibilites": [
+        {
+          "id": 4,
+          "jourSemaine": 3,
+          "plage": "JOURNEE",
+          "motif": "Jour libéré"
+        }
+      ],
+      "pauseDejeunerDureeMin": 60
+    },
+    {
+      "id": 4,
+      "nom": "Petit",
+      "prenom": "Nicolas",
+      "email": "nicolas.petit@plannif-edu.test",
+      "nb_heures": 195,
+      "maxHeuresParJour": 7,
+      "maxHeuresParSemaine": 20,
+      "maxHeuresParSeance": 3,
+      "plageHorairePreferee": {
+        "id": 4,
+        "libelle": "Indifférent"
+      },
+      "daysOff": [],
+      "matieres": [
+        {
+          "id": 6,
+          "nom": "Cybersécurité"
+        },
+        {
+          "id": 4,
+          "nom": "Bases de données"
+        }
+      ],
+      "seances": [],
+      "pauseDejeunerRequise": true,
+      "batimentPrincipal": "Bâtiment B",
+      "indisponibilites": [
+        {
+          "id": 5,
+          "jourSemaine": 1,
+          "plage": "MATIN",
+          "motif": "Réunion département"
+        }
+      ],
+      "pauseDejeunerDureeMin": 60
+    },
+    {
+      "id": 5,
+      "nom": "Dubois",
+      "prenom": "Emma",
+      "email": "emma.dubois@plannif-edu.test",
+      "nb_heures": 145,
+      "maxHeuresParJour": 5,
+      "maxHeuresParSemaine": 14,
+      "maxHeuresParSeance": 2,
+      "plageHorairePreferee": {
+        "id": 5,
+        "libelle": "Après-midi"
+      },
+      "daysOff": [
+        {
+          "id": 4,
+          "jourSemaine": 1,
+          "dayOfWeek": 1,
+          "demiJournee": "JOURNEE_ENTIERE"
+        }
+      ],
+      "matieres": [
+        {
+          "id": 7,
+          "nom": "Culture économique"
+        },
+        {
+          "id": 5,
+          "nom": "Anglais"
+        }
+      ],
+      "seances": [],
+      "pauseDejeunerRequise": true,
+      "batimentPrincipal": "Bâtiment A",
+      "indisponibilites": [
+        {
+          "id": 6,
+          "jourSemaine": 1,
+          "plage": "JOURNEE",
+          "motif": "Jour libéré"
+        }
+      ],
+      "pauseDejeunerDureeMin": 60
+    },
+    {
+      "id": 6,
+      "nom": "Moreau",
+      "prenom": "Thomas",
+      "email": "thomas.moreau@plannif-edu.test",
+      "nb_heures": 220,
+      "maxHeuresParJour": 7,
+      "maxHeuresParSemaine": 21,
+      "maxHeuresParSeance": 3,
+      "plageHorairePreferee": {
+        "id": 6,
+        "libelle": "Matin"
+      },
+      "daysOff": [],
+      "matieres": [
+        {
+          "id": 3,
+          "nom": "Développement Web"
+        },
+        {
+          "id": 8,
+          "nom": "Algorithmique"
+        }
+      ],
+      "seances": [],
+      "pauseDejeunerRequise": true,
+      "batimentPrincipal": "Bâtiment B",
+      "indisponibilites": [
+        {
+          "id": 7,
+          "jourSemaine": 3,
+          "plage": "APRES_MIDI",
+          "motif": "Formation"
+        }
+      ],
+      "pauseDejeunerDureeMin": 60
+    }
+  ],
+  "classes": [
+    {
+      "id": 1,
+      "nom": "BTS SIO 1 - SLAM",
+      "presences": [
+        {
+          "id": 1,
+          "dateDebut": "2026-09-01",
+          "dateFin": "2026-12-18"
+        },
+        {
+          "id": 2,
+          "dateDebut": "2027-01-04",
+          "dateFin": "2027-06-30"
+        }
+      ],
+      "effectif": 30,
+      "groupes": [
+        {
+          "id": 1,
+          "nom": "Groupe A",
+          "effectif": 15
+        },
+        {
+          "id": 2,
+          "nom": "Groupe B",
+          "effectif": 15
+        }
+      ],
+      "heureDebutMin": "08:00",
+      "heureFinMax": "18:00",
+      "maxHeuresParJour": 7,
+      "dureePauseDejeunerMin": 90,
+      "pauseDejeunerDureeMin": 90,
+      "pauseDejeunerDebutMin": "11:30",
+      "pauseDejeunerFinMax": "14:00"
+    },
+    {
+      "id": 2,
+      "nom": "BTS SIO 2 - SLAM",
+      "presences": [
+        {
+          "id": 3,
+          "dateDebut": "2026-09-01",
+          "dateFin": "2026-12-18"
+        },
+        {
+          "id": 4,
+          "dateDebut": "2027-01-04",
+          "dateFin": "2027-05-28"
+        }
+      ],
+      "effectif": 28,
+      "groupes": [
+        {
+          "id": 1,
+          "nom": "Groupe A",
+          "effectif": 14
+        },
+        {
+          "id": 2,
+          "nom": "Groupe B",
+          "effectif": 14
+        }
+      ],
+      "heureDebutMin": "08:00",
+      "heureFinMax": "18:00",
+      "maxHeuresParJour": 7,
+      "dureePauseDejeunerMin": 90,
+      "pauseDejeunerDureeMin": 90,
+      "pauseDejeunerDebutMin": "11:30",
+      "pauseDejeunerFinMax": "14:00"
+    },
+    {
+      "id": 3,
+      "nom": "BTS SIO 1 - SISR",
+      "presences": [
+        {
+          "id": 5,
+          "dateDebut": "2026-09-01",
+          "dateFin": "2027-06-30"
+        }
+      ],
+      "effectif": 26,
+      "groupes": [
+        {
+          "id": 1,
+          "nom": "Groupe A",
+          "effectif": 13
+        },
+        {
+          "id": 2,
+          "nom": "Groupe B",
+          "effectif": 13
+        }
+      ],
+      "heureDebutMin": "08:00",
+      "heureFinMax": "18:00",
+      "maxHeuresParJour": 7,
+      "dureePauseDejeunerMin": 90,
+      "pauseDejeunerDureeMin": 90,
+      "pauseDejeunerDebutMin": "11:30",
+      "pauseDejeunerFinMax": "14:00"
+    },
+    {
+      "id": 4,
+      "nom": "BUT Informatique 1",
+      "presences": [
+        {
+          "id": 6,
+          "dateDebut": "2026-09-01",
+          "dateFin": "2027-06-30"
+        }
+      ],
+      "effectif": 32,
+      "groupes": [
+        {
+          "id": 1,
+          "nom": "Groupe A",
+          "effectif": 16
+        },
+        {
+          "id": 2,
+          "nom": "Groupe B",
+          "effectif": 16
+        }
+      ],
+      "heureDebutMin": "08:00",
+      "heureFinMax": "18:00",
+      "maxHeuresParJour": 7,
+      "dureePauseDejeunerMin": 90,
+      "pauseDejeunerDureeMin": 90,
+      "pauseDejeunerDebutMin": "11:30",
+      "pauseDejeunerFinMax": "14:00"
+    },
+    {
+      "id": 5,
+      "nom": "Licence Pro Web",
+      "presences": [
+        {
+          "id": 7,
+          "dateDebut": "2026-09-07",
+          "dateFin": "2027-05-31"
+        }
+      ],
+      "effectif": 24,
+      "groupes": [
+        {
+          "id": 1,
+          "nom": "Groupe A",
+          "effectif": 12
+        },
+        {
+          "id": 2,
+          "nom": "Groupe B",
+          "effectif": 12
+        }
+      ],
+      "heureDebutMin": "08:00",
+      "heureFinMax": "18:00",
+      "maxHeuresParJour": 7,
+      "dureePauseDejeunerMin": 90,
+      "pauseDejeunerDureeMin": 90,
+      "pauseDejeunerDebutMin": "11:30",
+      "pauseDejeunerFinMax": "14:00"
+    }
+  ],
+  "eleves": [
+    {
+      "id": 1,
+      "nom": "Lefèvre",
+      "prenom": "Alice",
+      "classeId": 1,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 2,
+      "nom": "Garcia",
+      "prenom": "Hugo",
+      "classeId": 1,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 3,
+      "nom": "Roux",
+      "prenom": "Lina",
+      "classeId": 1,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Allemand"
+      ]
+    },
+    {
+      "id": 4,
+      "nom": "Fournier",
+      "prenom": "Noah",
+      "classeId": 1,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 5,
+      "nom": "Girard",
+      "prenom": "Chloé",
+      "classeId": 2,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 6,
+      "nom": "Bonnet",
+      "prenom": "Louis",
+      "classeId": 2,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Allemand"
+      ]
+    },
+    {
+      "id": 7,
+      "nom": "Lambert",
+      "prenom": "Manon",
+      "classeId": 2,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 8,
+      "nom": "Fontaine",
+      "prenom": "Jules",
+      "classeId": 2,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 9,
+      "nom": "Chevalier",
+      "prenom": "Louise",
+      "classeId": 3,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Allemand"
+      ]
+    },
+    {
+      "id": 10,
+      "nom": "François",
+      "prenom": "Gabriel",
+      "classeId": 3,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 11,
+      "nom": "Legrand",
+      "prenom": "Ambre",
+      "classeId": 3,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 12,
+      "nom": "Garnier",
+      "prenom": "Arthur",
+      "classeId": 3,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Allemand"
+      ]
+    },
+    {
+      "id": 13,
+      "nom": "Faure",
+      "prenom": "Jade",
+      "classeId": 4,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 14,
+      "nom": "Andre",
+      "prenom": "Ethan",
+      "classeId": 4,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 15,
+      "nom": "Mercier",
+      "prenom": "Inès",
+      "classeId": 4,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Allemand"
+      ]
+    },
+    {
+      "id": 16,
+      "nom": "Blanc",
+      "prenom": "Maël",
+      "classeId": 4,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 17,
+      "nom": "Guerin",
+      "prenom": "Camille",
+      "classeId": 5,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 18,
+      "nom": "Boyer",
+      "prenom": "Nathan",
+      "classeId": 5,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Allemand"
+      ]
+    },
+    {
+      "id": 19,
+      "nom": "Perrin",
+      "prenom": "Zoé",
+      "classeId": 5,
+      "groupeNom": "Groupe A",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    },
+    {
+      "id": 20,
+      "nom": "Morin",
+      "prenom": "Léo",
+      "classeId": 5,
+      "groupeNom": "Groupe B",
+      "options": [
+        "LV2 Espagnol"
+      ]
+    }
+  ],
+  "matieres": [
+    {
+      "id": 1,
+      "nom": "Mathématiques"
+    },
+    {
+      "id": 2,
+      "nom": "Français"
+    },
+    {
+      "id": 3,
+      "nom": "Développement Web"
+    },
+    {
+      "id": 4,
+      "nom": "Bases de données"
+    },
+    {
+      "id": 5,
+      "nom": "Anglais"
+    },
+    {
+      "id": 6,
+      "nom": "Cybersécurité"
+    },
+    {
+      "id": 7,
+      "nom": "Culture économique"
+    },
+    {
+      "id": 8,
+      "nom": "Algorithmique"
+    }
+  ],
+  "salles": [
+    {
+      "id": 1,
+      "code": "A101",
+      "capacite": 32,
+      "type": "Cours",
+      "batiment": "Bâtiment A",
+      "equipements": [
+        "Vidéoprojecteur",
+        "Tableau blanc"
+      ]
+    },
+    {
+      "id": 2,
+      "code": "A204",
+      "capacite": 28,
+      "type": "Cours",
+      "batiment": "Bâtiment A",
+      "equipements": [
+        "Vidéoprojecteur"
+      ]
+    },
+    {
+      "id": 3,
+      "code": "B201",
+      "capacite": 24,
+      "type": "Informatique",
+      "batiment": "Bâtiment B",
+      "equipements": [
+        "Informatique",
+        "Vidéoprojecteur"
+      ]
+    },
+    {
+      "id": 4,
+      "code": "B202",
+      "capacite": 24,
+      "type": "Informatique",
+      "batiment": "Bâtiment B",
+      "equipements": [
+        "Informatique",
+        "Vidéoprojecteur"
+      ]
+    },
+    {
+      "id": 5,
+      "code": "LAB-1",
+      "capacite": 18,
+      "type": "TP",
+      "batiment": "Bâtiment Sciences",
+      "equipements": [
+        "Labo SVT/Physique",
+        "Paillasses"
+      ]
+    },
+    {
+      "id": 6,
+      "code": "AMPHI-A",
+      "capacite": 120,
+      "type": "Amphithéâtre",
+      "batiment": "Bâtiment Principal",
+      "equipements": [
+        "Sono",
+        "Vidéoprojecteur"
+      ]
+    },
+    {
+      "id": 7,
+      "code": "C103",
+      "capacite": 30,
+      "type": "Cours",
+      "batiment": "Bâtiment A",
+      "equipements": [
+        "Vidéoprojecteur"
+      ]
+    },
+    {
+      "id": 8,
+      "code": "CYBER-1",
+      "capacite": 20,
+      "type": "TP",
+      "batiment": "Bâtiment B",
+      "equipements": [
+        "Informatique",
+        "Réseau dédié"
+      ]
+    }
+  ],
+  "creneaux": [
+    {
+      "id": 1,
+      "debut": "08:00:00",
+      "fin": "09:30:00"
+    },
+    {
+      "id": 2,
+      "debut": "09:30:00",
+      "fin": "11:00:00"
+    },
+    {
+      "id": 3,
+      "debut": "11:00:00",
+      "fin": "12:30:00"
+    },
+    {
+      "id": 4,
+      "debut": "13:00:00",
+      "fin": "14:30:00"
+    },
+    {
+      "id": 5,
+      "debut": "14:30:00",
+      "fin": "16:00:00"
+    },
+    {
+      "id": 6,
+      "debut": "08:00:00",
+      "fin": "10:00:00"
+    },
+    {
+      "id": 7,
+      "debut": "10:00:00",
+      "fin": "12:00:00"
+    },
+    {
+      "id": 8,
+      "debut": "13:00:00",
+      "fin": "15:00:00"
+    },
+    {
+      "id": 9,
+      "debut": "15:00:00",
+      "fin": "17:00:00"
+    }
+  ],
+  "configs": [
+    {
+      "id": 1,
+      "classeId": 1,
+      "classeNom": "BTS SIO 1 - SLAM",
+      "matiereId": 3,
+      "matiereNom": "Développement Web",
+      "dateDebut": "2026-09-01",
+      "dateFin": "2027-01-31",
+      "volumeHorairePeriode": 72,
+      "chargeCognitiveElevee": false,
+      "autoriserBlocDouble": true,
+      "dureeParDefautMinutes": 60,
+      "equipementsRequis": [
+        "Informatique"
+      ],
+      "typeSalleRequis": "Informatique",
+      "prioriteMatin": false,
+      "forteChargeCognitive": false,
+      "autoriserBlocDeuxHeures": true,
+      "dureeCoursMinutes": 60,
+      "dureeTpMinutes": 90
+    },
+    {
+      "id": 2,
+      "classeId": 1,
+      "classeNom": "BTS SIO 1 - SLAM",
+      "matiereId": 4,
+      "matiereNom": "Bases de données",
+      "dateDebut": "2026-09-01",
+      "dateFin": "2027-01-31",
+      "volumeHorairePeriode": 48,
+      "chargeCognitiveElevee": false,
+      "autoriserBlocDouble": false,
+      "dureeParDefautMinutes": 60,
+      "equipementsRequis": [
+        "Informatique"
+      ],
+      "typeSalleRequis": "Informatique",
+      "prioriteMatin": false,
+      "forteChargeCognitive": false,
+      "autoriserBlocDeuxHeures": false,
+      "dureeCoursMinutes": 60,
+      "dureeTpMinutes": 90
+    },
+    {
+      "id": 3,
+      "classeId": 1,
+      "classeNom": "BTS SIO 1 - SLAM",
+      "matiereId": 1,
+      "matiereNom": "Mathématiques",
+      "dateDebut": "2026-09-01",
+      "dateFin": "2027-06-30",
+      "volumeHorairePeriode": 56,
+      "chargeCognitiveElevee": true,
+      "autoriserBlocDouble": false,
+      "dureeParDefautMinutes": 60,
+      "equipementsRequis": [
+        "Vidéoprojecteur"
+      ],
+      "typeSalleRequis": "Cours",
+      "prioriteMatin": true,
+      "forteChargeCognitive": true,
+      "autoriserBlocDeuxHeures": false,
+      "dureeCoursMinutes": 60,
+      "dureeTpMinutes": 90
+    },
+    {
+      "id": 4,
+      "classeId": 2,
+      "classeNom": "BTS SIO 2 - SLAM",
+      "matiereId": 6,
+      "matiereNom": "Cybersécurité",
+      "dateDebut": "2026-09-01",
+      "dateFin": "2027-05-28",
+      "volumeHorairePeriode": 54,
+      "chargeCognitiveElevee": false,
+      "autoriserBlocDouble": false,
+      "dureeParDefautMinutes": 90,
+      "equipementsRequis": [
+        "Informatique"
+      ],
+      "typeSalleRequis": "TP",
+      "prioriteMatin": false,
+      "forteChargeCognitive": false,
+      "autoriserBlocDeuxHeures": false,
+      "dureeCoursMinutes": 90,
+      "dureeTpMinutes": 90
+    },
+    {
+      "id": 5,
+      "classeId": 2,
+      "classeNom": "BTS SIO 2 - SLAM",
+      "matiereId": 3,
+      "matiereNom": "Développement Web",
+      "dateDebut": "2026-09-01",
+      "dateFin": "2027-05-28",
+      "volumeHorairePeriode": 84,
+      "chargeCognitiveElevee": false,
+      "autoriserBlocDouble": true,
+      "dureeParDefautMinutes": 60,
+      "equipementsRequis": [
+        "Informatique"
+      ],
+      "typeSalleRequis": "Informatique",
+      "prioriteMatin": false,
+      "forteChargeCognitive": false,
+      "autoriserBlocDeuxHeures": true,
+      "dureeCoursMinutes": 60,
+      "dureeTpMinutes": 90
+    },
+    {
+      "id": 6,
+      "classeId": 3,
+      "classeNom": "BTS SIO 1 - SISR",
+      "matiereId": 6,
+      "matiereNom": "Cybersécurité",
+      "dateDebut": "2026-09-01",
+      "dateFin": "2027-06-30",
+      "volumeHorairePeriode": 76,
+      "chargeCognitiveElevee": false,
+      "autoriserBlocDouble": true,
+      "dureeParDefautMinutes": 90,
+      "equipementsRequis": [
+        "Informatique"
+      ],
+      "typeSalleRequis": "TP",
+      "prioriteMatin": false,
+      "forteChargeCognitive": false,
+      "autoriserBlocDeuxHeures": true,
+      "dureeCoursMinutes": 90,
+      "dureeTpMinutes": 90
+    },
+    {
+      "id": 7,
+      "classeId": 3,
+      "classeNom": "BTS SIO 1 - SISR",
+      "matiereId": 4,
+      "matiereNom": "Bases de données",
+      "dateDebut": "2026-09-01",
+      "dateFin": "2027-06-30",
+      "volumeHorairePeriode": 48,
+      "chargeCognitiveElevee": false,
+      "autoriserBlocDouble": false,
+      "dureeParDefautMinutes": 60,
+      "equipementsRequis": [
+        "Informatique"
+      ],
+      "typeSalleRequis": "Informatique",
+      "prioriteMatin": false,
+      "forteChargeCognitive": false,
+      "autoriserBlocDeuxHeures": false,
+      "dureeCoursMinutes": 60,
+      "dureeTpMinutes": 90
+    },
+    {
+      "id": 8,
+      "classeId": 4,
+      "classeNom": "BUT Informatique 1",
+      "matiereId": 8,
+      "matiereNom": "Algorithmique",
+      "dateDebut": "2026-09-01",
+      "dateFin": "2027-06-30",
+      "volumeHorairePeriode": 90,
+      "chargeCognitiveElevee": true,
+      "autoriserBlocDouble": true,
+      "dureeParDefautMinutes": 60,
+      "equipementsRequis": [
+        "Informatique"
+      ],
+      "typeSalleRequis": "Informatique",
+      "prioriteMatin": true,
+      "forteChargeCognitive": true,
+      "autoriserBlocDeuxHeures": true,
+      "dureeCoursMinutes": 60,
+      "dureeTpMinutes": 90
+    },
+    {
+      "id": 9,
+      "classeId": 4,
+      "classeNom": "BUT Informatique 1",
+      "matiereId": 1,
+      "matiereNom": "Mathématiques",
+      "dateDebut": "2026-09-01",
+      "dateFin": "2027-06-30",
+      "volumeHorairePeriode": 70,
+      "chargeCognitiveElevee": true,
+      "autoriserBlocDouble": true,
+      "dureeParDefautMinutes": 60,
+      "equipementsRequis": [
+        "Vidéoprojecteur"
+      ],
+      "typeSalleRequis": "Cours",
+      "prioriteMatin": true,
+      "forteChargeCognitive": true,
+      "autoriserBlocDeuxHeures": true,
+      "dureeCoursMinutes": 60,
+      "dureeTpMinutes": 90
+    },
+    {
+      "id": 10,
+      "classeId": 5,
+      "classeNom": "Licence Pro Web",
+      "matiereId": 3,
+      "matiereNom": "Développement Web",
+      "dateDebut": "2026-09-07",
+      "dateFin": "2027-05-31",
+      "volumeHorairePeriode": 110,
+      "chargeCognitiveElevee": false,
+      "autoriserBlocDouble": true,
+      "dureeParDefautMinutes": 60,
+      "equipementsRequis": [
+        "Informatique"
+      ],
+      "typeSalleRequis": "Informatique",
+      "prioriteMatin": false,
+      "forteChargeCognitive": false,
+      "autoriserBlocDeuxHeures": true,
+      "dureeCoursMinutes": 60,
+      "dureeTpMinutes": 90
+    }
+  ],
+  "seances": [
+    {
+      "id": 1,
+      "debut": "2026-08-17T08:00:00",
+      "fin": "2026-08-17T10:00:00",
+      "professeurId": 1,
+      "classeId": 1,
+      "matiereId": 1,
+      "salleId": 1,
+      "professeurNomComplet": "Claire Martin",
+      "classeNom": "BTS SIO 1 - SLAM",
+      "matiereNom": "Mathématiques",
+      "salleCode": "A101",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 2,
+      "debut": "2026-08-17T10:00:00",
+      "fin": "2026-08-17T12:00:00",
+      "professeurId": 2,
+      "classeId": 2,
+      "matiereId": 3,
+      "salleId": 3,
+      "professeurNomComplet": "Lucas Bernard",
+      "classeNom": "BTS SIO 2 - SLAM",
+      "matiereNom": "Développement Web",
+      "salleCode": "B201",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 3,
+      "debut": "2026-08-17T13:00:00",
+      "fin": "2026-08-17T15:00:00",
+      "professeurId": 4,
+      "classeId": 3,
+      "matiereId": 6,
+      "salleId": 8,
+      "professeurNomComplet": "Nicolas Petit",
+      "classeNom": "BTS SIO 1 - SISR",
+      "matiereNom": "Cybersécurité",
+      "salleCode": "CYBER-1",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 4,
+      "debut": "2026-08-18T08:00:00",
+      "fin": "2026-08-18T09:30:00",
+      "professeurId": 3,
+      "classeId": 1,
+      "matiereId": 2,
+      "salleId": 2,
+      "professeurNomComplet": "Sophie Robert",
+      "classeNom": "BTS SIO 1 - SLAM",
+      "matiereNom": "Français",
+      "salleCode": "A204",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 5,
+      "debut": "2026-08-18T09:30:00",
+      "fin": "2026-08-18T11:00:00",
+      "professeurId": 6,
+      "classeId": 4,
+      "matiereId": 8,
+      "salleId": 4,
+      "professeurNomComplet": "Thomas Moreau",
+      "classeNom": "BUT Informatique 1",
+      "matiereNom": "Algorithmique",
+      "salleCode": "B202",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 6,
+      "debut": "2026-08-18T13:00:00",
+      "fin": "2026-08-18T15:00:00",
+      "professeurId": 5,
+      "classeId": 2,
+      "matiereId": 7,
+      "salleId": 7,
+      "professeurNomComplet": "Emma Dubois",
+      "classeNom": "BTS SIO 2 - SLAM",
+      "matiereNom": "Culture économique",
+      "salleCode": "C103",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 7,
+      "debut": "2026-08-19T08:00:00",
+      "fin": "2026-08-19T10:00:00",
+      "professeurId": 2,
+      "classeId": 5,
+      "matiereId": 3,
+      "salleId": 3,
+      "professeurNomComplet": "Lucas Bernard",
+      "classeNom": "Licence Pro Web",
+      "matiereNom": "Développement Web",
+      "salleCode": "B201",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 8,
+      "debut": "2026-08-19T10:00:00",
+      "fin": "2026-08-19T12:00:00",
+      "professeurId": 1,
+      "classeId": 4,
+      "matiereId": 1,
+      "salleId": 6,
+      "professeurNomComplet": "Claire Martin",
+      "classeNom": "BUT Informatique 1",
+      "matiereNom": "Mathématiques",
+      "salleCode": "AMPHI-A",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 9,
+      "debut": "2026-08-20T08:00:00",
+      "fin": "2026-08-20T10:00:00",
+      "professeurId": 4,
+      "classeId": 2,
+      "matiereId": 4,
+      "salleId": 5,
+      "professeurNomComplet": "Nicolas Petit",
+      "classeNom": "BTS SIO 2 - SLAM",
+      "matiereNom": "Bases de données",
+      "salleCode": "LAB-1",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 10,
+      "debut": "2026-08-20T13:00:00",
+      "fin": "2026-08-20T15:00:00",
+      "professeurId": 6,
+      "classeId": 1,
+      "matiereId": 3,
+      "salleId": 4,
+      "professeurNomComplet": "Thomas Moreau",
+      "classeNom": "BTS SIO 1 - SLAM",
+      "matiereNom": "Développement Web",
+      "salleCode": "B202",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 11,
+      "debut": "2026-08-21T09:00:00",
+      "fin": "2026-08-21T11:00:00",
+      "professeurId": 3,
+      "classeId": 3,
+      "matiereId": 5,
+      "salleId": 1,
+      "professeurNomComplet": "Sophie Robert",
+      "classeNom": "BTS SIO 1 - SISR",
+      "matiereNom": "Anglais",
+      "salleCode": "A101",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 12,
+      "debut": "2026-08-21T13:00:00",
+      "fin": "2026-08-21T16:00:00",
+      "professeurId": 4,
+      "classeId": 3,
+      "matiereId": 6,
+      "salleId": 8,
+      "professeurNomComplet": "Nicolas Petit",
+      "classeNom": "BTS SIO 1 - SISR",
+      "matiereNom": "Cybersécurité",
+      "salleCode": "CYBER-1",
+      "type": "Cours",
+      "typeSeance": "Cours",
+      "groupe": null,
+      "groupeNom": null,
+      "alignementCode": null,
+      "alignementId": null
+    },
+    {
+      "id": 13,
+      "debut": "2026-08-19T13:00:00",
+      "fin": "2026-08-19T15:00:00",
+      "professeurId": 6,
+      "classeId": 1,
+      "matiereId": 3,
+      "salleId": 3,
+      "groupeNom": "Groupe A",
+      "typeSeance": "TP",
+      "alignementId": "ALIGN-TP-SLAM",
+      "professeurNomComplet": "Thomas Moreau",
+      "classeNom": "BTS SIO 1 - SLAM",
+      "matiereNom": "Développement Web",
+      "salleCode": "B201",
+      "type": "TP",
+      "groupe": "Groupe A",
+      "alignementCode": "ALIGN-TP-SLAM"
+    },
+    {
+      "id": 14,
+      "debut": "2026-08-19T13:00:00",
+      "fin": "2026-08-19T15:00:00",
+      "professeurId": 2,
+      "classeId": 1,
+      "matiereId": 4,
+      "salleId": 4,
+      "groupeNom": "Groupe B",
+      "typeSeance": "TP",
+      "alignementId": "ALIGN-TP-SLAM",
+      "professeurNomComplet": "Lucas Bernard",
+      "classeNom": "BTS SIO 1 - SLAM",
+      "matiereNom": "Bases de données",
+      "salleCode": "B202",
+      "type": "TP",
+      "groupe": "Groupe B",
+      "alignementCode": "ALIGN-TP-SLAM"
+    }
+  ],
+  "vacances": [
+    {
+      "id": 1,
+      "nom": "Toussaint 2026",
+      "dateDebut": "2026-10-17",
+      "dateFin": "2026-11-02"
+    },
+    {
+      "id": 2,
+      "nom": "Noël 2026",
+      "dateDebut": "2026-12-19",
+      "dateFin": "2027-01-04"
+    },
+    {
+      "id": 3,
+      "nom": "Vacances d'hiver 2027",
+      "dateDebut": "2027-02-13",
+      "dateFin": "2027-03-01"
+    },
+    {
+      "id": 4,
+      "nom": "Lundi de Pâques",
+      "dateDebut": "2027-03-29",
+      "dateFin": "2027-03-29"
+    }
+  ],
+  "plannings": [
+    {
+      "id": 1,
+      "nom": "Planning de rentrée — Version équilibrée",
+      "dateCreation": "2026-08-18T09:15:00",
+      "seances": [
+        {
+          "id": 1,
+          "debut": "2026-08-17T08:00:00",
+          "fin": "2026-08-17T10:00:00",
+          "professeurId": 1,
+          "classeId": 1,
+          "matiereId": 1,
+          "salleId": 1,
+          "professeurNomComplet": "Claire Martin",
+          "classeNom": "BTS SIO 1 - SLAM",
+          "matiereNom": "Mathématiques",
+          "salleCode": "A101"
+        },
+        {
+          "id": 2,
+          "debut": "2026-08-17T10:00:00",
+          "fin": "2026-08-17T12:00:00",
+          "professeurId": 2,
+          "classeId": 2,
+          "matiereId": 3,
+          "salleId": 3,
+          "professeurNomComplet": "Lucas Bernard",
+          "classeNom": "BTS SIO 2 - SLAM",
+          "matiereNom": "Développement Web",
+          "salleCode": "B201"
+        },
+        {
+          "id": 3,
+          "debut": "2026-08-17T13:00:00",
+          "fin": "2026-08-17T15:00:00",
+          "professeurId": 4,
+          "classeId": 3,
+          "matiereId": 6,
+          "salleId": 8,
+          "professeurNomComplet": "Nicolas Petit",
+          "classeNom": "BTS SIO 1 - SISR",
+          "matiereNom": "Cybersécurité",
+          "salleCode": "CYBER-1"
+        },
+        {
+          "id": 4,
+          "debut": "2026-08-18T08:00:00",
+          "fin": "2026-08-18T09:30:00",
+          "professeurId": 3,
+          "classeId": 1,
+          "matiereId": 2,
+          "salleId": 2,
+          "professeurNomComplet": "Sophie Robert",
+          "classeNom": "BTS SIO 1 - SLAM",
+          "matiereNom": "Français",
+          "salleCode": "A204"
+        },
+        {
+          "id": 5,
+          "debut": "2026-08-18T09:30:00",
+          "fin": "2026-08-18T11:00:00",
+          "professeurId": 6,
+          "classeId": 4,
+          "matiereId": 8,
+          "salleId": 4,
+          "professeurNomComplet": "Thomas Moreau",
+          "classeNom": "BUT Informatique 1",
+          "matiereNom": "Algorithmique",
+          "salleCode": "B202"
+        },
+        {
+          "id": 6,
+          "debut": "2026-08-18T13:00:00",
+          "fin": "2026-08-18T15:00:00",
+          "professeurId": 5,
+          "classeId": 2,
+          "matiereId": 7,
+          "salleId": 7,
+          "professeurNomComplet": "Emma Dubois",
+          "classeNom": "BTS SIO 2 - SLAM",
+          "matiereNom": "Culture économique",
+          "salleCode": "C103"
+        },
+        {
+          "id": 7,
+          "debut": "2026-08-19T08:00:00",
+          "fin": "2026-08-19T10:00:00",
+          "professeurId": 2,
+          "classeId": 5,
+          "matiereId": 3,
+          "salleId": 3,
+          "professeurNomComplet": "Lucas Bernard",
+          "classeNom": "Licence Pro Web",
+          "matiereNom": "Développement Web",
+          "salleCode": "B201"
+        },
+        {
+          "id": 8,
+          "debut": "2026-08-19T10:00:00",
+          "fin": "2026-08-19T12:00:00",
+          "professeurId": 1,
+          "classeId": 4,
+          "matiereId": 1,
+          "salleId": 6,
+          "professeurNomComplet": "Claire Martin",
+          "classeNom": "BUT Informatique 1",
+          "matiereNom": "Mathématiques",
+          "salleCode": "AMPHI-A"
+        },
+        {
+          "id": 9,
+          "debut": "2026-08-20T08:00:00",
+          "fin": "2026-08-20T10:00:00",
+          "professeurId": 4,
+          "classeId": 2,
+          "matiereId": 4,
+          "salleId": 5,
+          "professeurNomComplet": "Nicolas Petit",
+          "classeNom": "BTS SIO 2 - SLAM",
+          "matiereNom": "Bases de données",
+          "salleCode": "LAB-1"
+        },
+        {
+          "id": 10,
+          "debut": "2026-08-20T13:00:00",
+          "fin": "2026-08-20T15:00:00",
+          "professeurId": 6,
+          "classeId": 1,
+          "matiereId": 3,
+          "salleId": 4,
+          "professeurNomComplet": "Thomas Moreau",
+          "classeNom": "BTS SIO 1 - SLAM",
+          "matiereNom": "Développement Web",
+          "salleCode": "B202"
+        },
+        {
+          "id": 11,
+          "debut": "2026-08-21T09:00:00",
+          "fin": "2026-08-21T11:00:00",
+          "professeurId": 3,
+          "classeId": 3,
+          "matiereId": 5,
+          "salleId": 1,
+          "professeurNomComplet": "Sophie Robert",
+          "classeNom": "BTS SIO 1 - SISR",
+          "matiereNom": "Anglais",
+          "salleCode": "A101"
+        },
+        {
+          "id": 12,
+          "debut": "2026-08-21T13:00:00",
+          "fin": "2026-08-21T16:00:00",
+          "professeurId": 4,
+          "classeId": 3,
+          "matiereId": 6,
+          "salleId": 8,
+          "professeurNomComplet": "Nicolas Petit",
+          "classeNom": "BTS SIO 1 - SISR",
+          "matiereNom": "Cybersécurité",
+          "salleCode": "CYBER-1"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "nom": "Planning de rentrée — Variante B",
+      "dateCreation": "2026-08-18T10:42:00",
+      "seances": [
+        {
+          "id": 1,
+          "debut": "2026-08-17T08:00:00",
+          "fin": "2026-08-17T10:00:00",
+          "professeurId": 1,
+          "classeId": 1,
+          "matiereId": 1,
+          "salleId": 1,
+          "professeurNomComplet": "Claire Martin",
+          "classeNom": "BTS SIO 1 - SLAM",
+          "matiereNom": "Mathématiques",
+          "salleCode": "A101"
+        },
+        {
+          "id": 2,
+          "debut": "2026-08-17T10:30:00",
+          "fin": "2026-08-17T12:30:00",
+          "professeurId": 2,
+          "classeId": 2,
+          "matiereId": 3,
+          "salleId": 4,
+          "professeurNomComplet": "Lucas Bernard",
+          "classeNom": "BTS SIO 2 - SLAM",
+          "matiereNom": "Développement Web",
+          "salleCode": "B202"
+        },
+        {
+          "id": 3,
+          "debut": "2026-08-17T13:00:00",
+          "fin": "2026-08-17T15:00:00",
+          "professeurId": 4,
+          "classeId": 3,
+          "matiereId": 6,
+          "salleId": 8,
+          "professeurNomComplet": "Nicolas Petit",
+          "classeNom": "BTS SIO 1 - SISR",
+          "matiereNom": "Cybersécurité",
+          "salleCode": "CYBER-1"
+        },
+        {
+          "id": 4,
+          "debut": "2026-08-18T08:00:00",
+          "fin": "2026-08-18T09:30:00",
+          "professeurId": 3,
+          "classeId": 1,
+          "matiereId": 2,
+          "salleId": 2,
+          "professeurNomComplet": "Sophie Robert",
+          "classeNom": "BTS SIO 1 - SLAM",
+          "matiereNom": "Français",
+          "salleCode": "A204"
+        },
+        {
+          "id": 5,
+          "debut": "2026-08-18T09:30:00",
+          "fin": "2026-08-18T11:00:00",
+          "professeurId": 6,
+          "classeId": 4,
+          "matiereId": 8,
+          "salleId": 4,
+          "professeurNomComplet": "Thomas Moreau",
+          "classeNom": "BUT Informatique 1",
+          "matiereNom": "Algorithmique",
+          "salleCode": "B202"
+        },
+        {
+          "id": 6,
+          "debut": "2026-08-18T14:00:00",
+          "fin": "2026-08-18T16:00:00",
+          "professeurId": 5,
+          "classeId": 2,
+          "matiereId": 7,
+          "salleId": 7,
+          "professeurNomComplet": "Emma Dubois",
+          "classeNom": "BTS SIO 2 - SLAM",
+          "matiereNom": "Culture économique",
+          "salleCode": "C103"
+        },
+        {
+          "id": 7,
+          "debut": "2026-08-19T08:00:00",
+          "fin": "2026-08-19T10:00:00",
+          "professeurId": 2,
+          "classeId": 5,
+          "matiereId": 3,
+          "salleId": 3,
+          "professeurNomComplet": "Lucas Bernard",
+          "classeNom": "Licence Pro Web",
+          "matiereNom": "Développement Web",
+          "salleCode": "B201"
+        },
+        {
+          "id": 8,
+          "debut": "2026-08-19T10:00:00",
+          "fin": "2026-08-19T12:00:00",
+          "professeurId": 1,
+          "classeId": 4,
+          "matiereId": 1,
+          "salleId": 6,
+          "professeurNomComplet": "Claire Martin",
+          "classeNom": "BUT Informatique 1",
+          "matiereNom": "Mathématiques",
+          "salleCode": "AMPHI-A"
+        },
+        {
+          "id": 9,
+          "debut": "2026-08-20T08:00:00",
+          "fin": "2026-08-20T10:00:00",
+          "professeurId": 4,
+          "classeId": 2,
+          "matiereId": 4,
+          "salleId": 5,
+          "professeurNomComplet": "Nicolas Petit",
+          "classeNom": "BTS SIO 2 - SLAM",
+          "matiereNom": "Bases de données",
+          "salleCode": "LAB-1"
+        },
+        {
+          "id": 10,
+          "debut": "2026-08-20T13:00:00",
+          "fin": "2026-08-20T15:00:00",
+          "professeurId": 6,
+          "classeId": 1,
+          "matiereId": 3,
+          "salleId": 4,
+          "professeurNomComplet": "Thomas Moreau",
+          "classeNom": "BTS SIO 1 - SLAM",
+          "matiereNom": "Développement Web",
+          "salleCode": "B202"
+        },
+        {
+          "id": 11,
+          "debut": "2026-08-21T09:00:00",
+          "fin": "2026-08-21T11:00:00",
+          "professeurId": 3,
+          "classeId": 3,
+          "matiereId": 5,
+          "salleId": 1,
+          "professeurNomComplet": "Sophie Robert",
+          "classeNom": "BTS SIO 1 - SISR",
+          "matiereNom": "Anglais",
+          "salleCode": "A101"
+        },
+        {
+          "id": 12,
+          "debut": "2026-08-21T13:00:00",
+          "fin": "2026-08-21T16:00:00",
+          "professeurId": 4,
+          "classeId": 3,
+          "matiereId": 6,
+          "salleId": 8,
+          "professeurNomComplet": "Nicolas Petit",
+          "classeNom": "BTS SIO 1 - SISR",
+          "matiereNom": "Cybersécurité",
+          "salleCode": "CYBER-1"
+        }
+      ]
+    }
+  ],
+  "constraintsConfig": {
+    "id": 1,
+    "nom": "Configuration Lycée Standard",
+    "description": "Pondérations et contraintes pour l'emploi du temps lycée (Timefold)",
+    "constraints": [
+      {
+        "id": "roomConflict",
+        "label": "Conflit de salle",
+        "description": "Deux cours ne peuvent pas occuper la même salle au même moment",
+        "category": "ROOM",
+        "level": "HARD",
+        "weight": 1,
+        "isProportional": false,
+        "active": true
+      },
+      {
+        "id": "teacherConflict",
+        "label": "Conflit enseignant",
+        "description": "Un enseignant ne peut pas animer deux cours en simultané",
+        "category": "TEACHER",
+        "level": "HARD",
+        "weight": 1,
+        "isProportional": false,
+        "active": true
+      },
+      {
+        "id": "roomCapacity",
+        "label": "Capacité de la salle",
+        "description": "La capacité de la salle doit être supérieure ou égale à l'effectif de la classe ou du demi-groupe",
+        "category": "ROOM",
+        "level": "HARD",
+        "weight": 1,
+        "isProportional": true,
+        "unitLabel": "par place manquante",
+        "active": true
+      },
+      {
+        "id": "roomEquipmentMatch",
+        "label": "Équipements et adéquation de salle",
+        "description": "Vérifier que la salle dispose des équipements requis (Labo, Informatique, EPS)",
+        "category": "ROOM",
+        "level": "HARD",
+        "weight": 1,
+        "isProportional": false,
+        "active": true
+      },
+      {
+        "id": "studentLunchBreak",
+        "label": "Pause méridienne élèves (Repas)",
+        "description": "Garantir un créneau libre pour le déjeuner (au moins 1h30 entre 11h30 et 14h00)",
+        "category": "STUDENT",
+        "level": "SOFT",
+        "weight": 10,
+        "isProportional": true,
+        "unitLabel": "par 15 min manquantes",
+        "active": true
+      },
+      {
+        "id": "studentGaps",
+        "label": "Minimisation des trous élèves",
+        "description": "Pénaliser les heures creuses au milieu de la journée de la classe",
+        "category": "STUDENT",
+        "level": "SOFT",
+        "weight": 5,
+        "isProportional": true,
+        "unitLabel": "par heure creuse",
+        "active": true
+      },
+      {
+        "id": "studentMaxDailyHours",
+        "label": "Amplitude quotidienne des élèves",
+        "description": "Limiter le début au plus tôt (8h00), la fin au plus tard (18h00) et le nombre d'heures par jour",
+        "category": "STUDENT",
+        "level": "SOFT",
+        "weight": 8,
+        "isProportional": true,
+        "unitLabel": "par heure de dépassement",
+        "active": true
+      },
+      {
+        "id": "teacherLunchBreak",
+        "label": "Pause repas enseignant",
+        "description": "S'assurer qu'un enseignant présent toute la journée dispose d'un temps de déjeuner",
+        "category": "TEACHER",
+        "level": "SOFT",
+        "weight": 6,
+        "isProportional": false,
+        "active": true
+      },
+      {
+        "id": "teacherFineAvailabilities",
+        "label": "Indisponibilités par demi-journée/créneau",
+        "description": "Respecter les vœux et indisponibilités ciblées des professeurs",
+        "category": "TEACHER",
+        "level": "HARD",
+        "weight": 1,
+        "isProportional": false,
+        "active": true
+      },
+      {
+        "id": "teacherMaxHoursPerDay",
+        "label": "Dépassement horaire quotidien enseignant",
+        "description": "Pénalité dynamique proportionnelle aux minutes excédentaires",
+        "category": "TEACHER",
+        "level": "SOFT",
+        "weight": 3,
+        "isProportional": true,
+        "unitLabel": "par 15 min de dépassement",
+        "active": true
+      },
+      {
+        "id": "teacherMaxHoursPerWeek",
+        "label": "Dépassement horaire hebdomadaire enseignant",
+        "description": "Pénalité dynamique proportionnelle aux heures excédentaires",
+        "category": "TEACHER",
+        "level": "SOFT",
+        "weight": 4,
+        "isProportional": true,
+        "unitLabel": "par heure excédentaire",
+        "active": true
+      },
+      {
+        "id": "teacherConsecutiveRooms",
+        "label": "Déplacement / Changement de bâtiment",
+        "description": "Éviter d'enchaîner deux cours dans des bâtiments distants sans temps de transition",
+        "category": "TEACHER",
+        "level": "SOFT",
+        "weight": 4,
+        "isProportional": false,
+        "active": true
+      },
+      {
+        "id": "highCognitiveMorning",
+        "label": "Matières à forte charge cognitive le matin",
+        "description": "Favoriser le placement le matin pour les matières clés (Maths, Français)",
+        "category": "PEDAGOGY",
+        "level": "SOFT",
+        "weight": 2,
+        "isProportional": false,
+        "active": true
+      },
+      {
+        "id": "doubleBlockTwoHours",
+        "label": "Séquençage des cours (Blocs de 2h)",
+        "description": "Favoriser ou imposer des créneaux doubles pour les matières configurées",
+        "category": "PEDAGOGY",
+        "level": "SOFT",
+        "weight": 5,
+        "isProportional": false,
+        "active": true
+      },
+      {
+        "id": "seanceTypeDurationMatch",
+        "label": "Adéquation de durée selon le type",
+        "description": "Vérifier que la séance respecte la durée attendue paramétrée (ex. TP = 90 min configurable)",
+        "category": "PEDAGOGY",
+        "level": "HARD",
+        "weight": 1,
+        "isProportional": false,
+        "active": true
+      }
+    ]
+  }
+}
