@@ -13,12 +13,12 @@ cd /d "%DIR%"
 set JAVA_CMD=java
 if exist "%DIR%jre\bin\java.exe" (
     set JAVA_CMD="%DIR%jre\bin\java.exe"
-    echo [OK] Utilisation de la machine Java embarquee (cle USB).
+    echo [OK] Utilisation de la machine Java embarquee [cle USB].
 ) else (
     where java >nul 2>&1
     if errorlevel 1 (
         echo [ERREUR] Java n'a pas ete trouve sur ce poste !
-        echo Veuillez installer Java (JDK 21+) ou copier un dossier 'jre' dans ce repertoire.
+        echo Veuillez installer Java [JDK 21+] ou copier un dossier 'jre' dans ce repertoire.
         echo.
         pause
         exit /b 1

@@ -30,7 +30,23 @@
 		<java.version>25</java.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <lombok.version>1.18.42</lombok.version>
+        <npm.cmd>npm</npm.cmd>
+        <skipFrontend>false</skipFrontend>
     </properties>
+
+    <profiles>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>windows</family>
+                </os>
+            </activation>
+            <properties>
+                <npm.cmd>npm.cmd</npm.cmd>
+            </properties>
+        </profile>
+    </profiles>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -123,10 +139,72 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
+            <!-- 1. Compilation du frontend React / Vite (plannifVue) -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
+                <executions>
+                    <execution>
+                        <id>build-frontend</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <skip>${skipFrontend}</skip>
+                            <workingDirectory>${project.basedir}/../plannifVue</workingDirectory>
+                            <executable>${npm.cmd}</executable>
+                            <arguments>
+                                <argument>run</argument>
+                                <argument>build</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- 2. Copie des fichiers statiques du build React dans target/classes/static et src/main/resources/static -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.1</version>
+                <executions>
+                    <execution>
+                        <id>copy-dist-to-target-static</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.outputDirectory}/static</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/../plannifVue/dist</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-dist-to-src-static</id>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.basedir}/src/main/resources/static</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${project.basedir}/../plannifVue/dist</directory>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <!-- Annotation Processing for MapStruct -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -135,7 +213,6 @@
                 <configuration>
                     <source>25</source>
                     <target>25</target>
-
 
                     <annotationProcessorPaths>
                         <path>
@@ -155,6 +232,37 @@
                         </path>
                     </annotationProcessorPaths>
                 </configuration>
+            </plugin>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+            <!-- 3. Copie automatique du JAR final executable vers bundle/plannif-app.jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>copy-jar-to-bundle</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <echo message="================================================================" />
+                                <echo message="[BUNDLE] Copie du JAR executable vers bundle/plannif-app.jar..." />
+                                <echo message="================================================================" />
+                                <copy file="${project.build.directory}/${project.build.finalName}.jar"
+                                      tofile="${project.basedir}/bundle/plannif-app.jar"
+                                      overwrite="true" />
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 		</plugins>
 	</build>
