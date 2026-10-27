@@ -1,0 +1,114 @@
+package fr.manaken.plannif.solver.client.data;
+
+import fr.manaken.plannif.solver.client.data.dto.ClasseDto;
+import fr.manaken.plannif.solver.client.data.dto.CreneauDTO;
+import fr.manaken.plannif.solver.client.data.dto.EleveDto;
+import fr.manaken.plannif.solver.client.data.dto.MatiereDto;
+import fr.manaken.plannif.solver.client.data.dto.ProfesseurDto;
+import fr.manaken.plannif.solver.client.data.dto.SalleDto;
+import fr.manaken.plannif.solver.client.data.dto.SeanceDto;
+import fr.manaken.plannif.solver.client.data.dto.MatiereClasseConfigDto;
+import fr.manaken.plannif.solver.client.data.dto.VacancesDto;
+import fr.manaken.plannif.solver.client.data.dto.PlanningDto;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
+
+import java.util.List;
+
+@Service
+public class PlannifDataApiClient {
+
+    private final RestClient restClient;
+
+    public PlannifDataApiClient(RestClient plannifDataRestClient) {
+        this.restClient = plannifDataRestClient;
+    }
+
+    public List<SeanceDto> getSeances() {
+        return restClient.get()
+                .uri("/seances/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public List<ProfesseurDto> getProfesseurs() {
+        return restClient.get()
+                .uri("/profs/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public List<ClasseDto> getClasses() {
+
+        return restClient.get()
+                .uri("/classes/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public List<EleveDto> getEleves() {
+        return restClient.get()
+                .uri("/eleves/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public List<MatiereDto> getMatieres() {
+        return restClient.get()
+                .uri("/matieres/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public List<SalleDto> getSalles() {
+        return restClient.get()
+                .uri("/salles/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public List<CreneauDTO> getCreneaux() {
+        return restClient.get()
+                .uri("/creneaux/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public List<MatiereClasseConfigDto> getMatiereClasseConfigs() {
+        return restClient.get()
+                .uri("/configs/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public List<VacancesDto> getVacances() {
+        return restClient.get()
+                .uri("/vacances/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+
+    public PlanningDto savePlanning(PlanningDto dto) {
+        return restClient.post()
+                .uri("/plannings/save")
+                .body(dto)
+                .retrieve()
+                .body(PlanningDto.class);
+    }
+
+    public PlanningDto getPlanning(Long id) {
+        return restClient.get()
+                .uri("/plannings/" + id)
+                .retrieve()
+                .body(PlanningDto.class);
+    }
+
+    public List<PlanningDto> getPlannings() {
+        return restClient.get()
+                .uri("/plannings/list")
+                .retrieve()
+                .body(new ParameterizedTypeReference<>() {});
+    }
+}
+
